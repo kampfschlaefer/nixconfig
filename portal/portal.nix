@@ -7,6 +7,7 @@
       ./gitolite-container.nix
       ./testing-container.nix
       ./duply.nix
+      ./postfix-satelite.nix
     ];
 
   # Use the GRUB 2 boot loader.
@@ -85,7 +86,7 @@
     wget tcpdump nmap
     htop atop freeipmi lm_sensors psmisc
     vimNox byobu tmux python
-    gptfdisk parted hdparm smartmontools
+    gptfdisk parted hdparm
     git
     duply gnupg
   ];
@@ -102,13 +103,22 @@
   security.pam.enableSSHAgentAuth = true;
   security.pam.services.ssh.sshAgentAuth = true;
 
-  #services.cron.enable = true;
-  #services.cron.mailto = "root@starbase.arnoldarts.de";
+  services.fcron.enable = true;
+  #services.fcron.mailto = "root@starbase.arnoldarts.de";
   
   services.nfs.server = {
     enable = true;
     createMountPoints = true;
     exports = "/srv/nfs  192.168.0.0/24(rw,sync,fsid=0,crossmnt,no_subtree_check) 2001:470:1f0b:1033::/64(rw,sync,fsid=0,crossmnt,no_subtree_check)";
+  };
+
+  services.smartd = {
+    enable = true;
+    notifications = {
+      mail.enable = true;
+      mail.recipient = "arnold@arnoldarts.de";
+      #test = true;
+    };
   };
 
   #power.ups.enable = true;
