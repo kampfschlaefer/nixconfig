@@ -6,6 +6,7 @@
       #/etc/nixos/hardware-configuration.nix
       ./gitolite-container.nix
       ./testing-container.nix
+      ./duply.nix
     ];
 
   # Use the GRUB 2 boot loader.
@@ -60,6 +61,14 @@
     rejectPackets = true;
   };
 
+  #networking.defaultMailServer = {
+  #  directDelivery = true;
+  #  domain = "portal.arnoldarts.de";
+  #  hostName = "starbase.arnoldarts.de";
+  #  root = "arnold@starbase.arnoldarts.de";
+  #  #useTLS = true;
+  #};
+
   # Select internationalisation properties.
   i18n = {
     consoleFont = "Lat2-Terminus16";
@@ -73,7 +82,7 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    wget tcpdump
+    wget tcpdump nmap
     htop atop freeipmi lm_sensors psmisc
     vimNox byobu tmux python
     gptfdisk parted hdparm smartmontools
@@ -93,7 +102,8 @@
   security.pam.enableSSHAgentAuth = true;
   security.pam.services.ssh.sshAgentAuth = true;
 
-  services.cron.enable = true;
+  #services.cron.enable = true;
+  #services.cron.mailto = "root@starbase.arnoldarts.de";
   
   services.nfs.server = {
     enable = true;
