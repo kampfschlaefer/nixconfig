@@ -16,15 +16,27 @@
     localAddress6 = "2001:470:1f0b:1033::6d:7064/64";
 
     config = { config, pkgs, ... }: {
-      environment.systemPackages = with pkgs; [
+      /*environment.systemPackages = with pkgs; [
         mpd
-      ];
+      ];*/
 
       networking.firewall.enable = false;
 
       services.mpd = {
         enable = true;
         musicDirectory = "/media/music";
+        extraConfig = ''
+          audio_output {
+            type            "httpd"
+            name            "My HTTP Stream"
+            #encoder                "lame"          # optional, vorbis or lame
+            encoder         "vorbis"                # optional, vorbis or lame
+            port            "8000"
+            quality         "5.0"                   # do not define if bitrate is defined
+            #bitrate                "192"                   # do not define if quality is defined
+            #format         "48000:16:2"
+          }
+        '';
       };
     };
   };
