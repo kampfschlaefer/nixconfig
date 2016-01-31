@@ -8,6 +8,7 @@
   };
 
   containers.gitolite = {
+    autoStart = true;
     privateNetwork = true;
     localAddress = "192.168.10.2";
     hostAddress = "192.168.10.1";
