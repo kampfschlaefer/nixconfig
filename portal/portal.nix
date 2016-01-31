@@ -10,6 +10,11 @@
       ./postfix-satelite.nix
     ];
 
+  nix.nixPath = [
+    "/root/nixpkgs"
+    "nixos-config=/etc/nixos/configuration.nix"
+  ];
+
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -62,14 +67,6 @@
     rejectPackets = true;
   };
 
-  #networking.defaultMailServer = {
-  #  directDelivery = true;
-  #  domain = "portal.arnoldarts.de";
-  #  hostName = "starbase.arnoldarts.de";
-  #  root = "arnold@starbase.arnoldarts.de";
-  #  #useTLS = true;
-  #};
-
   # Select internationalisation properties.
   i18n = {
     consoleFont = "Lat2-Terminus16";
@@ -92,6 +89,11 @@
   ];
   environment.shellAliases = {
     vi = "vim";
+  };
+
+  programs.bash.enableCompletion = true;
+  environment.sessionVariables = {
+    EDITOR = "vim";
   };
 
   # List services that you want to enable:
