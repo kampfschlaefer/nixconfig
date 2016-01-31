@@ -4,8 +4,9 @@
   imports =
     [ # Include the results of the hardware scan.
       #/etc/nixos/hardware-configuration.nix
-      ./gitolite-container.nix
-      ./testing-container.nix
+      ./containers/gitolite.nix
+      ./containers/testing.nix
+      ./containers/mpd.nix
       ./duply.nix
       ./postfix-satelite.nix
     ];
@@ -107,7 +108,7 @@
 
   services.fcron.enable = true;
   #services.fcron.mailto = "root@starbase.arnoldarts.de";
-  
+
   services.nfs.server = {
     enable = true;
     createMountPoints = true;

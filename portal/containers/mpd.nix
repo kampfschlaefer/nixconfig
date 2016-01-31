@@ -8,6 +8,7 @@
   };
 
   containers.mpd = {
+    autoStart = true;
     privateNetwork = true;
     hostBridge = "lan";
     localAddress = "192.168.1.221";
