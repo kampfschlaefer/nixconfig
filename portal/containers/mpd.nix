@@ -47,6 +47,10 @@
           }
         '';
       };
+      systemd.services.mpd.postStart = ''
+        chown :${config.services.mpd.group} ${config.services.mpd.musicDirectory}
+        chmod 2664 ${config.services.mpd.musicDirectory}
+      '';
     };
   };
 }
