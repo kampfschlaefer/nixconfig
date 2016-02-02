@@ -16,9 +16,12 @@
     localAddress6 = "2001:470:1f0b:1033::6d:7064/64";
 
     config = { config, pkgs, ... }: {
-      /*environment.systemPackages = with pkgs; [
-        mpd
-      ];*/
+
+      imports = [
+        ../lib/users/arnold.nix
+      ];
+      users.users.arnold.home = "/media/music";
+      users.users.arnold.group = "mpd";
 
       networking.firewall.enable = false;
 
