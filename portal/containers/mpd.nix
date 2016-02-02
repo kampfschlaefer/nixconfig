@@ -25,6 +25,12 @@
 
       networking.firewall.enable = false;
 
+      services.openssh = {
+        enable = true;
+        allowSFTP = true;
+        startWhenNeeded = true;
+      };
+
       services.mpd = {
         enable = true;
         musicDirectory = "/media/music";
