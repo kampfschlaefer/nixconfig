@@ -38,16 +38,19 @@
           audio_output {
             type            "httpd"
             name            "My HTTP Stream"
-            #encoder                "lame"          # optional, vorbis or lame
             encoder         "vorbis"                # optional, vorbis or lame
             port            "8000"
             quality         "5.0"                   # do not define if bitrate is defined
-            #bitrate                "192"                   # do not define if quality is defined
-            #format         "48000:16:2"
+            #bitrate         "192"                   # do not define if quality is defined
+            #format          "48000:16:2"
           }
         '';
       };
       systemd.services.mpd.postStart = ''
+        if [ ! -d ${config.services.mpd.dataDir}/playlists ]; then
+          mkdir -p ${config.services.mpd.dataDir}/playlists && \
+            chown -R ${cfg.user}:${cfg.group} ${config.services.mpd.dataDir}
+        fi
         chown :${config.services.mpd.group} ${config.services.mpd.musicDirectory}
         chmod 2775 ${config.services.mpd.musicDirectory}
       '';
