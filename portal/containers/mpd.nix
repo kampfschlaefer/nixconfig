@@ -21,7 +21,7 @@
         ../../lib/users/arnold.nix
       ];
       users.users.arnold.home = "/media/music";
-      users.users.arnold.group = "mpd";
+      users.users.arnold.group = lib.mkOverride 10 "mpd";
 
       networking.firewall.enable = false;
 
