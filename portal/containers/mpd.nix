@@ -18,7 +18,7 @@
     config = { config, pkgs, ... }: {
 
       imports = [
-        ../lib/users/arnold.nix
+        ../../lib/users/arnold.nix
       ];
       users.users.arnold.home = "/media/music";
       users.users.arnold.group = "mpd";
