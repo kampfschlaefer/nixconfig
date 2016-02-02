@@ -48,8 +48,8 @@
       };
       systemd.services.mpd.postStart = ''
         if [ ! -d ${config.services.mpd.dataDir}/playlists ]; then
-          mkdir -p ${config.services.mpd.dataDir}/playlists && \
-            chown -R ${cfg.user}:${cfg.group} ${config.services.mpd.dataDir}
+          mkdir -p ${config.services.mpd.dataDir}/playlists
+          chown -R ${config.services.mpd.user}:${config.services.mpd.group} ${config.services.mpd.dataDir}
         fi
         chown :${config.services.mpd.group} ${config.services.mpd.musicDirectory}
         chmod 2775 ${config.services.mpd.musicDirectory}
