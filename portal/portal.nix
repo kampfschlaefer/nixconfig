@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
-{
+let
+  vgfilesystems = [ "audiofiles" "je_pictures" "misc-system" "videos" ];
+in {
   imports =
     [ # Include the results of the hardware scan.
       #/etc/nixos/hardware-configuration.nix
@@ -26,9 +28,11 @@
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sda";
 
+  boot.kernelModules = [ "dm-mirror" "dm-snapshot" ];
+
   fileSystems = {
     "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
-  };
+  } // builtins.listToAttrs( map (x: { name = "/srv/nfs/${x}"; value = { device = "/dev/portalgroup/${x}"; }; } ) vgfilesystems );
 
   networking.hostName = "portal"; # Define your hostname.
   networking.domain = "arnoldarts.de";
@@ -67,6 +71,8 @@
     enable = true;
     allowPing = true;
     rejectPackets = true;
+    allowedTCPPorts = [ 111 2049 4001 4002 ];
+    allowedUDPPorts = [ 111 2049 4001 4002 ];
   };
 
   # Select internationalisation properties.
@@ -113,6 +119,8 @@
   services.nfs.server = {
     enable = true;
     createMountPoints = true;
+    lockdPort = 4001;
+    mountdPort = 4002;
     exports = "/srv/nfs  192.168.0.0/24(rw,sync,fsid=0,crossmnt,no_subtree_check) 2001:470:1f0b:1033::/64(rw,sync,fsid=0,crossmnt,no_subtree_check)";
   };
 
