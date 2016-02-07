@@ -10,6 +10,7 @@ in {
       ./containers/gitolite.nix
       ./containers/testing.nix
       ./containers/mpd.nix
+      ./containers/cups.nix
       ./duply.nix
       ./postfix-satelite.nix
     ];
