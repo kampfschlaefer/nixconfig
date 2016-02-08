@@ -8,8 +8,8 @@
     zones = {
       "lan.arnoldarts.de." = {
         data = ''
-          $$ORIGIN lan.arnoldarts.de.
-          $$TTL 3600
+          \$ORIGIN lan.arnoldarts.de.
+          \$TTL 3600
           @ IN SOA portal.lan.arnoldarts.de. root.arnoldarts.de (
             100 ; serial
             300 ; refresh time
