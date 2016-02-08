@@ -6,7 +6,7 @@
     identity = "portal arnoldarts";
     interfaces = [ "::" "192.168.1.240" ];
     zones = {
-      lan.arnoldarts.de. = {
+      "lan.arnoldarts.de." = {
         data = ''
           $ORIGIN lan.arnoldarts.de.
           $TTL 3600
