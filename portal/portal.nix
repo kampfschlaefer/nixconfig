@@ -38,10 +38,10 @@ in {
   } // builtins.listToAttrs( map (x: { name = "/srv/nfs/${x}"; value = { device = "/dev/portalgroup/${x}"; }; } ) vgfilesystems );
 
   networking.hostName = "portal"; # Define your hostname.
-  networking.domain = "arnoldarts.de";
+  networking.domain = "lan.arnoldarts.de";
 
-  networking.nameservers = [ "192.168.1.250" "2001:470:1f0b:1033::1" "8.8.4.4" ];
-  networking.search = [ "arnoldarts.de" ];
+  networking.nameservers = [ "2001:470:1f0b:1033::706f:7274:616c" "192.168.1.240" "192.168.1.250" "2001:470:1f0b:1033::1" "8.8.4.4" ];
+  networking.search = [ "lan.arnoldarts.de" "arnoldarts.de" ];
 
   networking.enableIPv6 = true;
   networking.useDHCP = false;
@@ -74,8 +74,8 @@ in {
     enable = true;
     allowPing = true;
     rejectPackets = true;
-    allowedTCPPorts = [ 111 2049 4001 4002 ];
-    allowedUDPPorts = [ 111 2049 4001 4002 60001 ];
+    allowedTCPPorts = [ 53 111 2049 4001 4002 ];
+    allowedUDPPorts = [ 53 111 2049 4001 4002 60001 ];
   };
 
   # Select internationalisation properties.
