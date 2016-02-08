@@ -19,6 +19,9 @@
         listenAddresses = [ "*:631" ];
         defaultShared = true;
         browsing = true;
+        extraConf = ''
+          ServerAlias *
+        '';
       };
     };
   };
