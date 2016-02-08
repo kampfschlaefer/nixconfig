@@ -18,7 +18,7 @@
             600 ; negative caching time
             )
 
-          @ IN NS portal.lan.arnoldarts.de.
+          @ IN NS portal.arnoldarts.de.
 
           starbase IN A 192.168.1.250
           starbase IN AAAA 2001:470:1f0b:1033::1
