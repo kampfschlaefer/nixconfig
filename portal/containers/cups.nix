@@ -26,6 +26,22 @@
           ServerAlias *
           <Location />
             Order allow,deny
+            Allow localhost
+            Allow from 192.168.1.0/24
+            Allow from [2001:470:1f0b:1033::]/64
+          </Location>
+          <Location /admin>
+            Order allow,deny
+            Allow from localhost
+            Allow from 192.168.1.0/24
+            Allow from [2001:470:1f0b:1033::]/64
+          </Location>
+
+          <Location /admin/conf>
+            AuthType Basic
+            Require user @SYSTEM
+            Order allow,deny
+            Allow from localhost
             Allow from 192.168.1.0/24
             Allow from [2001:470:1f0b:1033::]/64
           </Location>
