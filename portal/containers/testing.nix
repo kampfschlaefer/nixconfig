@@ -16,5 +16,18 @@
       };
     };
   };
+
+  containers.testdhcp = {
+    privateNetwork = true;
+    hostBridge = "lan";
+    config = { config, pkgs, ... }: {
+      services.openssh.enable = true;
+      networking.firewall.enable = true;
+      networking.firewall.allowPing = true;
+      networking.interfaces.eth0 = {
+        useDHCP = true;
+      };
+    };
+  };
 }
 
