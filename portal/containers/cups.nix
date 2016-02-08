@@ -26,9 +26,14 @@
         listenAddresses = [ "*:631" ];
         defaultShared = true;
         browsing = true;
+        browsedConf
         extraConf = ''
           ServerAlias *
+
+          BrowseLocalProtocols all
+
           DefaultEncryption Never
+
           <Location />
             Order allow,deny
             Allow localhost
