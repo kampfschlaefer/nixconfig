@@ -27,7 +27,7 @@
           <Location />
             Order allow,deny
             Allow from 192.168.1.0/24
-            Allow from 2001:470:1f0b:1033::/64
+            Allow from 2001:470:1f0b:1033::0/64
           </Location>
         '';
       };
