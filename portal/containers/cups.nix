@@ -26,7 +26,6 @@
         listenAddresses = [ "*:631" ];
         defaultShared = true;
         browsing = true;
-        browsedConf
         extraConf = ''
           ServerAlias *
 
