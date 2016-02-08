@@ -4,7 +4,7 @@
   services.nsd = {
     enable = true;
     identity = "portal arnoldarts";
-    interfaces = [ "::" "192.168.1.240" ];
+    interfaces = [ "::" "192.168.1.240" "::1" "127.0.0.1" ];
     zones = {
       "lan.arnoldarts.de." = {
         data = ''
