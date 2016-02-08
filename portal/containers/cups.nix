@@ -10,6 +10,7 @@
     localAddress6 = "2001:470:1f0b:1033::6375:7073/64";
 
     config = { config, pkgs, ... }: {
+      networking.domain = "lan.arnoldarts.de";
       networking.firewall.allowPing = true;
       networking.firewall.allowedTCPPorts = [ 631 ];
 

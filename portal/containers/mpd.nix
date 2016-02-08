@@ -23,6 +23,7 @@
       # users.users.arnold.home = "/media/music";
       users.users.arnold.group = lib.mkOverride 10 "mpd";
 
+      networking.domain = "lan.arnoldarts.de";
       networking.firewall.enable = false;
 
       services.openssh = {

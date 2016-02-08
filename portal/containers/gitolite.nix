@@ -13,6 +13,7 @@
     localAddress = "192.168.10.2";
     hostAddress = "192.168.10.1";
     config = { config, pkgs, ... }: {
+      networking.domain = "lan.arnoldarts.de";
       networking.firewall.enable = false;
       services.openssh.enable = true;
       services.gitolite = {
