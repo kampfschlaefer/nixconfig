@@ -26,7 +26,7 @@
     script = "duply portaldisk backup";
     startAt = "*-*-* 2:10:00";
   };
-  systemd.services.duplyportal = {
+  systemd.services.duplyportal-purge = {
     path = [ pkgs.bash pkgs.duply pkgs.duplicity ];
     serviceConfig = {
       User = "root";
