@@ -8,6 +8,10 @@
     hostBridge = "lan";
 
     config = { config, pkgs, ... }: {
+      imports = [
+        ../../lib/users/arnold.nix
+      ];
+
       networking.domain = "lan.arnoldarts.de";
       networking.interfaces.eth0 = {
         useDHCP = false;
@@ -40,7 +44,7 @@
 
           <Location /admin/conf>
             AuthType Basic
-            Require user @SYSTEM
+            Require group users
             Order allow,deny
             Allow from localhost
             Allow from 192.168.1.0/24
