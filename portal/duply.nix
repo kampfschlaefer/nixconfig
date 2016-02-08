@@ -36,7 +36,7 @@
       SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     };
     script = "duply portaldisk purge --force && duply portaldisk purgeFull --force";
-    startAt = "*-*-1 1:05:00";
+    startAt = "monthly";
   };
 
 
@@ -50,6 +50,6 @@
       SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     };
     script = "duply amazon backup";
-    startAt = "*-*-*/2 2:10:00";
+    startAt = "*-*-1/3 2:10:00";
   };
 }
