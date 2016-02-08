@@ -13,6 +13,7 @@ in {
       ./containers/cups.nix
       ./duply.nix
       ./postfix-satelite.nix
+      ./nsd.nix
     ];
 
   nix.nixPath = [
