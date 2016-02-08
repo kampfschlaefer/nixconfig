@@ -24,7 +24,7 @@
         browsing = true;
         extraConf = ''
           ServerAlias *
-          Encryption Never
+          DefaultEncryption Never
           <Location />
             Order allow,deny
             Allow localhost
