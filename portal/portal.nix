@@ -16,7 +16,7 @@ in {
     ];
 
   nix.nixPath = [
-    "/root/nixpkgs"
+    "/etc/nixos/nixconfig/nixpkgs"
     "nixos-config=/etc/nixos/configuration.nix"
   ];
 
