@@ -44,7 +44,7 @@
 
           <Location /admin/conf>
             AuthType Basic
-            Require group users
+            Require user @SYSTEM @users arnold
             Order allow,deny
             Allow from localhost
             Allow from 192.168.1.0/24
