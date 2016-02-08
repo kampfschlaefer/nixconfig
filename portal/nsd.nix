@@ -18,11 +18,15 @@
             600 ; negative caching time
             )
 
+          @ IN NS portal
+
           starbase IN A 192.168.1.250
           starbase IN AAAA 2001:470:1f0b:1033::1
 
           portal IN A 192.168.1.240
           portal IN AAAA 2001:470:1f0b:1033::706f:7274:616c
+
+          nfs IN CNAME portal
         '';
       };
     };
