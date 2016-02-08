@@ -26,7 +26,13 @@
           portal IN A 192.168.1.240
           portal IN AAAA 2001:470:1f0b:1033::706f:7274:616c
 
-          nfs IN CNAME portal
+          nfs IN CNAME portal.lan.arnoldarts.de.
+
+          mpd IN A 192.168.1.221
+          mpd IN AAAA 2001:470:1f0b:1033::6d:7064
+
+          cups IN A 192.168.1.222
+          cups IN AAAA 2001:470:1f0b:1033::6375:7073
         '';
       };
     };
