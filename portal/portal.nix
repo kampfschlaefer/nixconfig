@@ -40,7 +40,13 @@ in {
   networking.hostName = "portal"; # Define your hostname.
   networking.domain = "lan.arnoldarts.de";
 
-  networking.nameservers = [ "2001:470:1f0b:1033::706f:7274:616c" "192.168.1.240" "192.168.1.250" "2001:470:1f0b:1033::1" "8.8.4.4" ];
+  networking.nameservers = [
+    "2001:470:1f0b:1033::1"
+    "192.168.1.250"
+    "2001:470:1f0b:1033::706f:7274:616c"
+    "192.168.1.240"
+    "8.8.4.4"
+  ];
   networking.search = [ "lan.arnoldarts.de" "arnoldarts.de" ];
 
   networking.enableIPv6 = true;
