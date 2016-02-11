@@ -82,6 +82,13 @@ in {
     rejectPackets = true;
     allowedTCPPorts = [ 111 2049 4001 4002 ];
     allowedUDPPorts = [ 111 2049 4001 4002 60001 ];
+    rules = [
+      {
+        fromInterface = "lan";
+        toInterface = "ve-gitolite";
+        target = "ACCEPT";
+      }
+    ];
   };
 
   # Select internationalisation properties.
