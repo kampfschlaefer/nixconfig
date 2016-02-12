@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
+with lib;
+
 let
   addresses = [
     { name = "mpd"; a = "192.168.1.221"; aaaa = "2001:470:1f0b:1033::6d:7064"; }
