@@ -26,7 +26,8 @@
       };
       networking.firewall = {
         allowPing = true;
-        /*allowedTCPPorts = [ 631 ];*/
+        rejectPackets = true;
+        logRefusedPackets = true;
         extraPackages = [ pkgs.procps ];
         extraCommands = ''
           sysctl net.ipv4.conf.all.forwarding=1
