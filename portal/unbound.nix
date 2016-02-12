@@ -4,17 +4,31 @@ with lib;
 
 let
   addresses = [
-    { name = "mpd"; a = "192.168.1.221"; aaaa = "2001:470:1f0b:1033::6d:7064"; }
+    { name = "portal";   a = "192.168.1.240"; aaaa = "2001:470:1f0b:1033::706f:7274:616c"; }
+    { name = "mpd";      a = "192.168.1.221"; aaaa = "2001:470:1f0b:1033::6d:7064"; }
+    { name = "cups";     a = "192.168.1.222"; aaaa = "2001:470:1f0b:1033::6375:7073"; }
+    { name = "gitolite"; a = "192.168.10.2"; }
+
+    { name = "starbase"; a = "192.168.1.250"; aaaa = "2001:470:1f0b:1033::1"; }
+    { name = "seafile";  a = "192.168.1.250"; aaaa = "2001:470:1f0b:1033::5ea:f11e"; }
+
+    { name = "laserjet"; a = "192.168.1.10"; }
+    { name = "fonera";   a = "192.168.1.20"; }
+    { name = "openwrt";  a = "192.168.1.251"; }
+    { name = "tenda";    a = "192.168.1.252"; }
+    #{ name = "hp";       a = "192.168.1.253"; }
+    { name = "tp";       a = "192.168.1.254"; }
   ];
+
   localdata = concatMapStrings (addr:
     ''
       ${optionalString (addr ? "a") ''
-        local-data: "${addr.name}.lan.arnoldarts.de. IN A ${addr.a}"
-        local-data-ptr: "${addr.a} ${addr.name}.lan.arnoldarts.de."
+        local-data: "${addr.name}.arnoldarts.de. IN A ${addr.a}"
+        local-data-ptr: "${addr.a} ${addr.name}.arnoldarts.de."
       ''}
       ${optionalString (addr ? "aaaa") ''
-        local-data: "${addr.name}.lan.arnoldarts.de. IN AAAA ${addr.aaaa}"
-        local-data-ptr: "${addr.aaaa} ${addr.name}.lan.arnoldarts.de."
+        local-data: "${addr.name}.arnoldarts.de. IN AAAA ${addr.aaaa}"
+        local-data-ptr: "${addr.aaaa} ${addr.name}.arnoldarts.de."
       ''}
     ''
   );
@@ -43,23 +57,11 @@ in
       "2001:470:1f0b:1033::1" # starbase
     ];
     extraConfig = ''
-      local-zone: "lan.arnoldarts.de." static
-
-      local-data: "portal.lan.arnoldarts.de. IN A    192.168.1.240"
-      local-data: "portal.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::706f:7274:616c"
-      local-data-ptr: "192.168.1.240  portal.lan.arnoldarts.de."
-      local-data-ptr: "2001:470:1f0b:1033::706f:7274:616c  portal.lan.arnoldarts.de."
-
-      local-data: "nfs.lan.arnoldarts.de. IN CNAME portal.lan.arnoldarts.de."
+      local-zone: "arnoldarts.de." static
 
       ${localdata addresses}
 
-      #local-data: "mpd.lan.arnoldarts.de. IN A 192.168.1.221"
-      #local-data: "mpd.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::6d:7064"
-      local-data: "cups.lan.arnoldarts.de. IN A 192.168.1.222"
-      local-data: "cups.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::6375:7073"
-      local-data: "starbase.lan.arnoldarts.de. IN A 192.168.1.250"
-      local-data: "starbase.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::1"
+      local-data: "nfs.arnoldarts.de. IN CNAME portal.arnoldarts.de."
     '';
   };
 }

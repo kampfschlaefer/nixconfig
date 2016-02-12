@@ -38,7 +38,7 @@ in {
   } // builtins.listToAttrs( map (x: { name = "/srv/nfs/${x}"; value = { device = "/dev/portalgroup/${x}"; }; } ) vgfilesystems );
 
   networking.hostName = "portal"; # Define your hostname.
-  networking.domain = "lan.arnoldarts.de";
+  networking.domain = "arnoldarts.de";
 
   networking.nameservers = [
     "2001:470:1f0b:1033::1"
@@ -47,7 +47,7 @@ in {
     "192.168.1.240"
     "8.8.4.4"
   ];
-  networking.search = [ "lan.arnoldarts.de" "arnoldarts.de" ];
+  networking.search = [ "arnoldarts.de" ];
 
   networking.enableIPv6 = true;
   networking.useDHCP = false;
