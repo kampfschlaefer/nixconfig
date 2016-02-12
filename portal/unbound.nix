@@ -52,7 +52,7 @@ in
 
       local-data: "nfs.lan.arnoldarts.de. IN CNAME portal.lan.arnoldarts.de."
 
-      ${localdata}
+      ${localdata addresses}
 
       #local-data: "mpd.lan.arnoldarts.de. IN A 192.168.1.221"
       #local-data: "mpd.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::6d:7064"
