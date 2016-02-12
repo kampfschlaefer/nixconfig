@@ -1,5 +1,9 @@
 { config, lib, pkgs, ... }:
 
+let
+  dmzIf = "eno2";
+  lanIf = "eth0";
+in
 {
   containers.firewall = {
     /*autoStart = true;*/
@@ -22,20 +26,22 @@
 
       networking.defaultGateway = "192.168.2.10";
 
-      networking.interfaces.eth0 = {
-        useDHCP = false;
-        ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
-        ip4 = [{ address = "192.168.1.220"; prefixLength = 24; }];
-      };
-      networking.interfaces.eno2 = {
-        useDHCP = false;
-        #ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
-        ip4 = [{ address = "192.168.2.220"; prefixLength = 24; }];
+      networking.interfaces = {
+        lanIf = {
+          useDHCP = false;
+          ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
+          ip4 = [{ address = "192.168.1.220"; prefixLength = 24; }];
+        };
+        dmzIf = {
+          useDHCP = false;
+          #ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
+          ip4 = [{ address = "192.168.2.220"; prefixLength = 24; }];
+        };
       };
 
       networking.nat = {
         enable = true;
-        externalInterface = "dmz";
+        externalInterface = dmzIf;
         internalIPs = [ "192.168.1.0/24" ];
         externalIP = "192.168.2.220";
       };
@@ -53,15 +59,15 @@
             fromInterface = "eth0"; protocol = "tcp"; destinationPort = "22"; target = "ACCEPT";
           }*/
           {
-            fromInterface = "eth0";
-            toInterface = "eno2";
+            fromInterface = lanIf;
+            toInterface = dmzIf;
             protocol = "tcp";
             destinationPort = "80";
             target = "ACCEPT";
           }
           {
-            fromInterface = "eth0";
-            toInterface = "eno2";
+            fromInterface = lanIf;
+            toInterface = dmzIf;
             protocol = "tcp";
             destinationPort = "443";
             target = "ACCEPT";
