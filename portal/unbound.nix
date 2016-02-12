@@ -1,5 +1,22 @@
 { config, lib, pkgs, ... }:
 
+let
+  addresses = [
+    { name = "mpd"; a = "192.168.1.221"; aaaa = "2001:470:1f0b:1033::6d:7064"; }
+  ];
+  localdata = concatMapStrings (addr:
+    ''
+      ${optionalString (addr ? "a") ''
+        local-data: "${addr.name}.lan.arnoldarts.de. IN A ${addr.a}"
+        local-data-ptr: "${addr.a} ${addr.name}.lan.arnoldarts.de."
+      ''}
+      ${optionalString (addr ? "aaaa") ''
+        local-data: "${addr.name}.lan.arnoldarts.de. IN AAAA ${addr.aaaa}"
+        local-data-ptr: "${addr.aaaa} ${addr.name}.lan.arnoldarts.de."
+      ''}
+    ''
+  );
+in
 {
   networking.firewall.allowedTCPPorts = [ 53 ];
   networking.firewall.allowedUDPPorts = [ 53 ];
@@ -31,8 +48,12 @@
       local-data-ptr: "192.168.1.240  portal.lan.arnoldarts.de."
       local-data-ptr: "2001:470:1f0b:1033::706f:7274:616c  portal.lan.arnoldarts.de."
 
-      local-data: "mpd.lan.arnoldarts.de. IN A 192.168.1.221"
-      local-data: "mpd.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::6d:7064"
+      local-data: "nfs.lan.arnoldarts.de. IN CNAME portal.lan.arnoldarts.de."
+
+      ${localdata}
+
+      #local-data: "mpd.lan.arnoldarts.de. IN A 192.168.1.221"
+      #local-data: "mpd.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::6d:7064"
       local-data: "cups.lan.arnoldarts.de. IN A 192.168.1.222"
       local-data: "cups.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::6375:7073"
       local-data: "starbase.lan.arnoldarts.de. IN A 192.168.1.250"
