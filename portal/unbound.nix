@@ -26,8 +26,17 @@
     extraConfig = ''
       local-zone: "lan.arnoldarts.de." static
 
-      local-data: "portal.lan.arnoldarts.de. IN A 192.168.1.240"
+      local-data: "portal.lan.arnoldarts.de. IN A    192.168.1.240"
+      local-data: "portal.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::706f:7274:616c"
       local-data-ptr: "192.168.1.240  portal.lan.arnoldarts.de."
+      local-data-ptr: "2001:470:1f0b:1033::706f:7274:616c  portal.lan.arnoldarts.de."
+
+      local-data: "mpd.lan.arnoldarts.de. IN A 192.168.1.221"
+      local-data: "mpd.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::6d:7064"
+      local-data: "cups.lan.arnoldarts.de. IN A 192.168.1.222"
+      local-data: "cups.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::6375:7073"
+      local-data: "starbase.lan.arnoldarts.de. IN A 192.168.1.250"
+      local-data: "starbase.lan.arnoldarts.de. IN AAAA 2001:470:1f0b:1033::1"
     '';
   };
 }
