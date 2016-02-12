@@ -20,6 +20,8 @@
         lan = { interfaces = [ "eth0" ]; };
       };*/
 
+      networking.defaultGateway = "192.168.2.10";
+
       networking.interfaces.eth0 = {
         useDHCP = false;
         ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
@@ -51,15 +53,15 @@
             fromInterface = "eth0"; protocol = "tcp"; destinationPort = "22"; target = "ACCEPT";
           }*/
           {
-            fromInterface = "lan";
-            toInterface = "dmz";
+            fromInterface = "eth0";
+            toInterface = "eno2";
             protocol = "tcp";
             destinationPort = "80";
             target = "ACCEPT";
           }
           {
-            fromInterface = "lan";
-            toInterface = "dmz";
+            fromInterface = "eth0";
+            toInterface = "eno2";
             protocol = "tcp";
             destinationPort = "443";
             target = "ACCEPT";
