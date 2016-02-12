@@ -11,6 +11,7 @@ in {
       ./containers/testing.nix
       ./containers/mpd.nix
       ./containers/cups.nix
+      ./containers/firewall.nix
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
