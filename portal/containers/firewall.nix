@@ -51,7 +51,7 @@ in
         rejectPackets = true;
         logRefusedPackets = true;
 
-        defaultPolicies = { input = "REJECT"; forward = "REJECT"; output = "REJECT"; };
+        defaultPolicies = { input = "DROP"; forward = "DROP"; output = "DROP"; };
         rules = [
           { fromInterface = "lo"; target = "ACCEPT"; }
           { toInterface = "lo"; target = "ACCEPT"; }
