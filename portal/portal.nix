@@ -36,6 +36,8 @@ in {
 
   fileSystems = {
     "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
+    "/media/backupdrop" = { device = "/dev/portalgroup/backupdrop"; };
+    "/media/backup" = { device = "/dev/portalgroup/backup"; options = "defaults,noauto"; };
   } // builtins.listToAttrs( map (x: { name = "/srv/nfs/${x}"; value = { device = "/dev/portalgroup/${x}"; }; } ) vgfilesystems );
 
   networking.hostName = "portal"; # Define your hostname.
@@ -153,6 +155,11 @@ in {
       mail.recipient = "arnold@arnoldarts.de";
       #test = true;
     };
+  };
+
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "ondemand";
   };
 
   #power.ups.enable = true;
