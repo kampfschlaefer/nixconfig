@@ -10,10 +10,14 @@
   containers.gitolite = {
     autoStart = true;
     privateNetwork = true;
-    localAddress = "192.168.10.2";
-    hostAddress = "192.168.10.1";
+    hostBridge = "lan";
     config = { config, pkgs, ... }: {
       networking.domain = "arnoldarts.de";
+      networking.interfaces.eth0 = {
+        useDHCP = false;
+        ip4 = [{ address = "192.168.1.223"; prefixLength = 24; }];
+        ip6 = [{ address = "2001:470:1f0b:1033::67:6974"; prefixLength = 64; }];
+      };
       networking.firewall.enable = false;
       services.openssh.enable = true;
       services.gitolite = {
