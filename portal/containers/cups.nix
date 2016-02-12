@@ -12,7 +12,7 @@
         ../../lib/users/arnold.nix
       ];
 
-      networking.domain = "lan.arnoldarts.de";
+      networking.domain = "arnoldarts.de";
       networking.interfaces.eth0 = {
         useDHCP = false;
         ip6 = [{ address = "2001:470:1f0b:1033::6375:7073"; prefixLength = 64; }];
