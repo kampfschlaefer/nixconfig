@@ -6,7 +6,7 @@
 
     privateNetwork = true;
     hostBridge = "lan";
-    interfaces = [ "eth1" ];
+    interfaces = [ "eno2" ];
 
     config = { config, pkgs, ... }: {
       /*imports = [
