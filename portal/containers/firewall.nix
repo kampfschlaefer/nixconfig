@@ -31,6 +31,13 @@
         ip4 = [{ address = "192.168.2.220"; prefixLength = 24; }];
       };
 
+      networking.nat = {
+        enable = true;
+        externalInterface = "dmz";
+        internalIPs = [ "192.168.1.0/24" ];
+        externalIP = "192.168.2.220";
+      };
+
       networking.firewall = {
         allowPing = true;
         rejectPackets = true;
