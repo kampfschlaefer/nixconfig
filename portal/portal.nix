@@ -41,7 +41,8 @@ in {
   networking.domain = "arnoldarts.de";
 
   networking.nameservers = [
-    "::1"
+    "2001:470:1f0b:1033::706f:7274:616c"
+    "192.168.1.240"
     "8.8.4.4"
     "2001:470:1f0b:1033::1"
     "192.168.1.250"
