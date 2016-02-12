@@ -12,6 +12,10 @@
       "::1/64"
       "2001:470:1f0b:1033::/64"
     ];
+    interfaces = [
+      "::"
+      "*"
+    ];
     forwardAddresses = [
       "8.8.8.8"              # Google Public DNS
       "2001:4860:4860::8888" # Google Public DNS
