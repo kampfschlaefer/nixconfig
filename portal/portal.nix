@@ -90,6 +90,11 @@ in {
         target = "ACCEPT";
       }
     ];
+    extraPackages = [ pkgs.procps ];
+    extraCommands = ''
+      sysctl net.ipv4.conf.all.forwarding=1
+      sysctl net.ipv6.conf.all.forwarding=1
+    '';
   };
 
   # Select internationalisation properties.

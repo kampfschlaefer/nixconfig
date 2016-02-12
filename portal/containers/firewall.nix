@@ -14,6 +14,7 @@
       ];*/
 
       networking.domain = "arnoldarts.de";
+
       networking.interfaces.eth0 = {
         useDHCP = false;
         ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
@@ -24,6 +25,7 @@
         #ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
         ip4 = [{ address = "192.168.2.220"; prefixLength = 24; }];
       };
+
       networking.firewall = {
         allowPing = true;
         rejectPackets = true;
@@ -37,6 +39,12 @@
             fromInterface = "eth0"; protocol = "tcp"; destinationPort = "22"; target = "ACCEPT";
           }
         ];
+      };
+
+      services.openssh = {
+        enable = true;
+        allowSFTP = true;
+        startWhenNeeded = true;
       };
     };
   };
