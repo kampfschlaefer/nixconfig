@@ -59,19 +59,20 @@ in
             fromInterface = "eth0"; protocol = "tcp"; destinationPort = "22"; target = "ACCEPT";
           }*/
           {
+            ipv4Only = true;
             fromInterface = lanIf;
             toInterface = dmzIf;
-            protocol = "tcp";
-            destinationPort = "80";
+            /*protocol = "tcp";
+            destinationPort = "80";*/
             target = "ACCEPT";
           }
-          {
+          /*{
             fromInterface = lanIf;
             toInterface = dmzIf;
             protocol = "tcp";
             destinationPort = "443";
             target = "ACCEPT";
-          }
+          }*/
         ];
       };
 
