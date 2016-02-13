@@ -6,12 +6,18 @@
       device = "/dev/disk/by-uuid/4bff6ea6-a6f4-4163-9a7e-1703c84cb769";
       options = "noauto";
     };
+    "/media/backupdrop" = { device = "/dev/portalgroup/backupdrop"; };
   };
   systemd.automounts = [
     {
       wantedBy = [ "multi-user.target" ];
       where = "/media/duplydisk";
     }
+  ];
+
+  users.users.root.openssh.authorizedKeys = [
+    ''## rsync from xingu
+command="${pkgs.rrsync}/bin/rrsync /media/backupdrop/xingu-root",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCyDU2ExXgzRGm/eI9viDvh11C1k3RDayVf1oP6DAymnR/GcCpyjkJhzv0+wss1gNR10bHipKCsKht/i796bW/F3YG6xtBPDbtXeTn9zdgyN1vr3sG5pbG1N4VyAXhA6xYyeZK23s+rOfp3OTFcHPwXyF78upC0MbHgLnJu+zrN5sDxd6QAqfYxwf+uE2YQoonhIhxXy8OqaamkpJBHXu0e7R3z/Qy1bKt6Cjfv9Q7Jbr2WMFbfK1YG96sWuFwngc1nqKm24784z3793Rne8pDGjNicRODOptf4b6BvHEF09r+fVIN2oKK+vrzmt+IxRxNwwYGe51SHXeERsawi+t6xhzaNtk1AUf47A5SQPiw7aOS0IoTtxkxZkf7Y0IclQ+S22GDtfR4mBYUQ4BYrxNusi6cILHZWr8BnagrA41xasUhuRapyrPO5hpevyiAlRdLx3QnoWlewNZXBQl2L1gSpCQVNyUocUu0QbZjGSZP9QDY3iYvf0UtkD3gkbef7pHyi3kO9byruaQnCrB9dqySLin+kV2afVqi7T2Jlrj81aXSFoDBInypTHXH9wp+b7Kte2VTCxZeLwTeyJ6GrX2G/ZvvxBXFJujQvTIsSfg8xtaMOe8pqMUFqCuNOgSU/PqOBff79CUv5jRFg2hgQegNQ54SbamQ7yHXTLTyYSI8ykw== root@xingu.arnoldarts.de''
   ];
 
   systemd.services.duplyportal = {
