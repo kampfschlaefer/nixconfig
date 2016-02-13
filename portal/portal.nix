@@ -37,7 +37,14 @@ in {
   fileSystems = {
     "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
     "/media/backup" = { device = "/dev/portalgroup/backup"; options = "defaults,noauto"; };
-  } // builtins.listToAttrs( map (x: { name = "/srv/nfs/${x}"; value = { device = "/dev/portalgroup/${x}"; }; } ) vgfilesystems );
+  } // builtins.listToAttrs(
+    map (x:
+      {
+        name = "/srv/nfs/${x}";
+        value = { device = "/dev/portalgroup/${x}"; };
+      }
+    ) vgfilesystems
+  );
 
   networking.hostName = "portal"; # Define your hostname.
   networking.domain = "arnoldarts.de";
