@@ -2,7 +2,7 @@
 
 {
   fileSystems = {
-    "/var/lib/containers/mpd/media/music" = {
+    "/var/lib/containers/imap/var/spool/mail" = {
       device = "/dev/portalgroup/maildir";
     };
   };
