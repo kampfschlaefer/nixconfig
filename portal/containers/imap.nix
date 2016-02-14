@@ -42,6 +42,10 @@
           { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "993"; target = "ACCEPT"; }
           { toInterface = "eth0"; protocol = "tcp"; destinationPort = "143"; target = "ACCEPT"; }
           { toInterface = "eth0"; protocol = "tcp"; destinationPort = "993"; target = "ACCEPT"; }
+          { fromInterface = "eth0"; protocol = "icmp"; target = "ACCEPT"; }
+          { toInterface = "eth0"; protocol = "icmp"; target = "ACCEPT"; }
+          { fromInterface = "eth0"; protocol = "icmp6"; target = "ACCEPT"; }
+          { toInterface = "eth0"; protocol = "icmp6"; target = "ACCEPT"; }
         ];
       };
 
