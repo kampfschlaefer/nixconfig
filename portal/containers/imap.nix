@@ -32,7 +32,7 @@
       ];
 
       networking.firewall = {
-        enable = true;
+        enable = false;
         defaultPolicies = { input = "DROP"; output = "DROP"; forward="DROP"; };
         rules = [
           { fromInterface = "lo"; target = "ACCEPT"; }
