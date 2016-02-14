@@ -12,6 +12,7 @@ in {
       ./containers/mpd.nix
       ./containers/cups.nix
       ./containers/firewall.nix
+      ./containers/imap.nix
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
