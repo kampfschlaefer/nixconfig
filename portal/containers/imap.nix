@@ -37,7 +37,8 @@
         rules = [
           { fromInterface = "lo"; target = "ACCEPT"; }
           { toInterface = "lo"; target = "ACCEPT"; }
-          { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "22"; target = "ACCEPT"; }
+          /*{ fromInterface = "eth0"; protocol = "tcp"; destinationPort = "22"; target = "ACCEPT"; }*/
+          { toInterface = "eth0"; protocol = "udp"; destinationPort = "53"; target = "ACCEPT"; }
           { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "143"; target = "ACCEPT"; }
           { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "993"; target = "ACCEPT"; }
           { toInterface = "eth0"; protocol = "tcp"; destinationPort = "143"; target = "ACCEPT"; }
