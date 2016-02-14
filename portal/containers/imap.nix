@@ -28,6 +28,7 @@
 
       environment.systemPackages = with pkgs; [
         offlineimap
+        vimNox
       ];
 
       networking.firewall = {
