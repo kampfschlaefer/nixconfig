@@ -7,7 +7,7 @@
     };
   };
 
-  containers.mpd = {
+  containers.imap = {
     autoStart = true;
 
     privateNetwork = true;
