@@ -26,7 +26,23 @@
       ];
       users.users.arnold.group = lib.mkOverride 10 "dovecot2";
 
-      networking.firewall.enable = false;
+      environment.systemPackages = with pkgs; [
+        offlineimap
+      ];
+
+      networking.firewall = {
+        enable = true;
+        defaultPolicies = { input = "DROP"; output = "DROP"; forward="DROP"; };
+        rules = [
+          { fromInterface = "lo"; target = "ACCEPT"; }
+          { toInterface = "lo"; target = "ACCEPT"; }
+          { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "22"; target = "ACCEPT"; }
+          { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "143"; target = "ACCEPT"; }
+          { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "993"; target = "ACCEPT"; }
+          { toInterface = "eth0"; protocol = "tcp"; destinationPort = "143"; target = "ACCEPT"; }
+          { toInterface = "eth0"; protocol = "tcp"; destinationPort = "993"; target = "ACCEPT"; }
+        ];
+      };
 
       services.openssh = {
         enable = true;
