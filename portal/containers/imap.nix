@@ -24,6 +24,7 @@
       imports = [
         ../../lib/users/arnold.nix
       ];
+      users.users.arnold.group = lib.mkOverride 10 services.dovecot2.group;
 
       networking.firewall.enable = false;
 
