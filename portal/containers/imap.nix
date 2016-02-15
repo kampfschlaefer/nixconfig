@@ -39,6 +39,7 @@
           { toInterface = "lo"; target = "ACCEPT"; }
           /*{ fromInterface = "eth0"; protocol = "tcp"; destinationPort = "22"; target = "ACCEPT"; }*/
           { toInterface = "eth0"; protocol = "udp"; destinationPort = "53"; target = "ACCEPT"; }
+          { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "24"; target = "ACCEPT"; }
           { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "143"; target = "ACCEPT"; }
           { fromInterface = "eth0"; protocol = "tcp"; destinationPort = "993"; target = "ACCEPT"; }
           { toInterface = "eth0"; protocol = "tcp"; destinationPort = "143"; target = "ACCEPT"; }
@@ -62,6 +63,14 @@
         enableLmtp = true;
         enablePop3 = false;
         mailLocation = "maildir:/var/spool/mail/%u";
+        extraConfig = ''
+          service lmtp {
+            inet_listener lmtp {
+              address = 192.168.1.224 2001:470:1f0b:1033::696d:6170 127.0.0.1 ::1
+              port = 24
+            }
+          }
+        '';
         /*sslCACert = "";
         sslServerCert = "";
         sslServerKey = "";*/
