@@ -70,6 +70,10 @@
               port = 24
             }
           }
+          protocol lmtp {
+            mail_plugins = $mail_plugins sieve
+            postmaster_address = arnold@arnoldarts.de
+          }
         '';
         /*sslCACert = "";
         sslServerCert = "";
