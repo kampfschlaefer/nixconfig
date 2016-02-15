@@ -71,7 +71,7 @@
             }
           }
           protocol lmtp {
-            mail_plugins = $mail_plugins sieve
+            #mail_plugins = $mail_plugins sieve
             postmaster_address = arnold@arnoldarts.de
           }
         '';
