@@ -76,6 +76,10 @@ in
         ];
       };
 
+      environment.systemPackages = [
+        pkgs.atop
+      ];
+
       /*services.openssh = {
         enable = true;
         allowSFTP = true;
