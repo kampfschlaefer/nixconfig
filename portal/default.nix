@@ -125,6 +125,7 @@ in {
     gptfdisk parted hdparm
     git
     duply gnupg
+    linuxPackages.netatop
   ];
   environment.shellAliases = {
     vi = "vim";
