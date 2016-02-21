@@ -83,7 +83,7 @@ in {
     };
   };
 
-  networking.defaultGateway = "192.168.1.250";
+  networking.defaultGateway = "192.168.1.220";
   networking.defaultGateway6 = "2001:470:1f0b:1033::1";
 
   networking.firewall = {
