@@ -78,6 +78,7 @@ in
 
       environment.systemPackages = [
         pkgs.atop
+        pkgs.iftop
       ];
 
       /*services.openssh = {
