@@ -32,7 +32,7 @@
       SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     };
     script = "duply portaldisk backup";
-    startAt = "*-*-* 2:10:00";
+    startAt = "*-*-* 3:10:00";
   };
   systemd.services.duplyportal-purge = {
     path = [ pkgs.bash pkgs.duply pkgs.duplicity ];
