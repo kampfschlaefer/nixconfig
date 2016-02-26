@@ -46,7 +46,9 @@ in {
 
           ${lib.concatMapStrings
             (machine:
-              ''host ${machine.name} { hardware ethernet ${machine.ethernetAddress}; })''
+              ''
+                host ${machine.name} { hardware ethernet ${machine.ethernetAddress}; }
+              ''
             )
             known_hosts
           }
