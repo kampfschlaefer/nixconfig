@@ -18,8 +18,8 @@ with lib;
 
 let
   known_hosts = [
-    { name = "watering"; ethernetAddress = "b8:27:eb:c3:4c:ae"; } # lan
-    { name = "watering"; ethernetAddress = "7c:dd:90:73:6b:6b"; } # wifi
+    { name = "watering-lan"; ethernetAddress = "b8:27:eb:c3:4c:ae"; } # lan
+    { name = "watering-wifi"; ethernetAddress = "7c:dd:90:73:6b:6b"; } # wifi
     { name = "raspimate"; ethernetAddress = "7c:dd:90:73:6a:56"; }
     { name = "raspio"; ethernetAddress = "7c:dd:90:5d:91:97"; }
   ];
