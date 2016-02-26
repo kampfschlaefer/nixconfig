@@ -16,6 +16,7 @@ in {
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
+      ./dhcpd.nix
     ];
 
   nix.nixPath = [
