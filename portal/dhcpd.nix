@@ -38,7 +38,8 @@ in {
 
       subnet 192.168.1.0 netmask 255.255.255.0 {
 
-        range 192.168.1.90 192.168.1.126 {
+        pool {
+          range 192.168.1.90 192.168.1.126;
           default-lease-time 7200;
           max-lease-time 14400;
           deny unknown-clients;
@@ -55,7 +56,8 @@ in {
           }
         }
 
-        range 192.168.1.129 192.168.1.158 {
+        pool {
+          range 192.168.1.129 192.168.1.158;
           default-lease-time 300;
           max-lease-time 1800;
           allow unknown-clients;
