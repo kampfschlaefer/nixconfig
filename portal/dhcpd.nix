@@ -26,7 +26,7 @@ let
 in {
   services.dhcpd = {
     enable = true;
-    interfaces = [ "eno1" ];
+    interfaces = [ "lan" ];
     machines = [
       # { ethernetAddress = ""; hostName = ""; ipAddress = ""; }
     ];
