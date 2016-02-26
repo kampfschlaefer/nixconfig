@@ -22,6 +22,9 @@ let
     { name = "watering-wifi"; ethernetAddress = "7c:dd:90:73:6b:6b"; } # wifi
     { name = "raspimate"; ethernetAddress = "7c:dd:90:73:6a:56"; }
     { name = "raspio"; ethernetAddress = "7c:dd:90:5d:91:97"; }
+    { name = "android-lg"; ethernetAddress = "f8:a9:d0:1e:b7:29"; }
+    { name = "android-ines"; ethernetAddress = "60:be:b5:0a:73:d3"; }
+    { name = "xingu"; ethernetAddress = "d0:50:99:4f:3b:07"; }
   ];
 in {
   services.dhcpd = {
