@@ -32,7 +32,8 @@ in {
     ];
     extraConfig = ''
       option subnet-mask 255.255.255.0;
-      option domain-name-servers 192.168.1.240 2001:470:1f0b:1033::706f:7274:616c;
+      # option domain-name-servers 192.168.1.240 2001:470:1f0b:1033::706f:7274:616c;
+      option domain-name-servers 192.168.1.240;
       option domain-name "arnoldarts.de";
 
       subnet 192.168.1.0 netmask 255.255.255.0 {
