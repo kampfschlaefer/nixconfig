@@ -25,6 +25,7 @@ let
     { name = "android-lg"; ethernetAddress = "f8:a9:d0:1e:b7:29"; }
     { name = "android-ines"; ethernetAddress = "60:be:b5:0a:73:d3"; }
     { name = "xingu"; ethernetAddress = "d0:50:99:4f:3b:07"; }
+    { name = "amazonas"; ethernetAddress = "ac:b5:7d:3a:0f:ce"; }
   ];
 in {
   services.dhcpd = {
