@@ -154,7 +154,7 @@ in {
     createMountPoints = true;
     lockdPort = 4001;
     mountdPort = 4002;
-    exports = "/srv/nfs  192.168.0.0/24(rw,sync,fsid=0,crossmnt,no_subtree_check) 2001:470:1f0b:1033::/64(rw,sync,fsid=0,crossmnt,no_subtree_check)";
+    exports = "/srv/nfs  192.168.1.0/24(rw,sync,fsid=0,crossmnt,no_subtree_check) 2001:470:1f0b:1033::/64(rw,sync,fsid=0,crossmnt,no_subtree_check)";
   };
 
   services.smartd = {
