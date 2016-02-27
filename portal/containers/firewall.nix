@@ -6,7 +6,7 @@ let
 in
 {
   containers.firewall = {
-    /*autoStart = true;*/
+    autoStart = true;
 
     privateNetwork = true;
     hostBridge = "lan";
