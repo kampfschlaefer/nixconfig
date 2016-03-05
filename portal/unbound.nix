@@ -58,9 +58,13 @@ in
       "2001:4860:4860::8888" # Google Public DNS
       "74.82.42.42"          # Hurricane Electric
       "2001:470:20::2"       # Hurricane Electric
-      "2001:470:1f0b:1033::1" # starbase
     ];
     extraConfig = ''
+      # Is it the dns that makes it so slow here?
+      log-queries: yes
+      statistics-interval: 300
+      extended-statistics: yes
+
       local-zone: "arnoldarts.de." static
 
       ${localdata addresses}
