@@ -61,7 +61,7 @@ in
     ];
     extraConfig = ''
       # Is it the dns that makes it so slow here?
-      log-queries: yes
+      log-queries: no
       statistics-interval: 300
       extended-statistics: yes
 
