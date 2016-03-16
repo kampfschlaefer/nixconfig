@@ -79,6 +79,7 @@ in
       environment.systemPackages = [
         pkgs.atop
         pkgs.iftop
+        pkgs.sysstat
       ];
 
       /*services.openssh = {

@@ -122,7 +122,7 @@ in {
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     wget tcpdump nmap
-    htop atop freeipmi lm_sensors psmisc
+    htop atop freeipmi lm_sensors psmisc dnstop sysstat
     vimNox byobu tmux python
     gptfdisk parted hdparm
     git
