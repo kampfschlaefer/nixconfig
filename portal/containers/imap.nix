@@ -8,7 +8,7 @@
   };
 
   containers.imap = {
-    autoStart = true;
+    autoStart = lib.mkOverride 100 true;
 
     privateNetwork = true;
     hostBridge = "lan";
