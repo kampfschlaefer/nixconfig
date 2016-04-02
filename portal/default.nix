@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   vgfilesystems = [ "audiofiles" "je_pictures" "misc-system" "videos" ];
@@ -48,7 +48,7 @@ in {
     ) vgfilesystems
   );
 
-  networking.hostName = "portal"; # Define your hostname.
+  networking.hostName = lib.mkOverride 10 "portal"; # Define your hostname.
   networking.domain = "arnoldarts.de";
 
   networking.nameservers = [
@@ -74,7 +74,7 @@ in {
   };
 
   networking.bridges = {
-    lan = { interfaces = [ "eno1" ]; };
+    lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
   };
 
   networking.interfaces = {

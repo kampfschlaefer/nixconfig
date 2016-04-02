@@ -6,11 +6,11 @@ let
 in
 {
   containers.firewall = {
-    autoStart = true;
+    autoStart = lib.mkOverride 100 true;
 
     privateNetwork = true;
     hostBridge = "lan";
-    interfaces = [ "eno2" ];
+    interfaces = lib.mkOverride 100 [ "eno2" ];
 
     config = { config, pkgs, ... }: {
       /*imports = [
