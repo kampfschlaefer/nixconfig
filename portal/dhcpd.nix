@@ -24,6 +24,7 @@ let
     { name = "raspio"; ethernetAddress = "7c:dd:90:5d:91:97"; }
     { name = "android-lg"; ethernetAddress = "f8:a9:d0:1e:b7:29"; }
     { name = "android-ines"; ethernetAddress = "60:be:b5:0a:73:d3"; }
+    { name = "flachmann"; ethernetAddress = "00:22:f4:4e:5e:8e"; }
     { name = "xingu"; ethernetAddress = "d0:50:99:4f:3b:07"; }
     { name = "amazonas"; ethernetAddress = "ac:b5:7d:3a:0f:ce"; }
     { name = "orinoco"; ethernetAddress = "78:e4:00:90:74:79"; }
