@@ -17,6 +17,7 @@ in {
       ./postfix-satelite.nix
       ./unbound.nix
       ./dhcpd.nix
+      ./ups.nix
     ];
 
   nix.nixPath = [
