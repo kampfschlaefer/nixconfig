@@ -67,7 +67,11 @@ in
       statistics-interval: 300
       extended-statistics: yes
 
-      local-zone: "arnoldarts.de." static
+      cache-min-ttl: 300
+      cache-max-ttl: 3600
+      prefetch: yes
+
+      local-zone: "arnoldarts.de." typetransparent
 
       ${localdata addresses}
 
