@@ -56,9 +56,9 @@ in
       "*"
     ];
     forwardAddresses = [
-      "8.8.8.8"              # Google Public DNS
+      #"8.8.8.8"              # Google Public DNS
       "2001:4860:4860::8888" # Google Public DNS
-      "74.82.42.42"          # Hurricane Electric
+      #"74.82.42.42"          # Hurricane Electric
       "2001:470:20::2"       # Hurricane Electric
     ];
     extraConfig = ''
