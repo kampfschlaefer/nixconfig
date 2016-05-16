@@ -7,6 +7,8 @@ let
     { name = "laserjet"; a = "192.168.1.10"; }
     { name = "fonera";   a = "192.168.1.20"; }
 
+    { name = "xingu";    a = "192.168.1.114"; aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07"; }
+
     { name = "firewall"; a = "192.168.1.220"; aaaa = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; }
     { name = "mpd";      a = "192.168.1.221"; aaaa = "2001:470:1f0b:1033::6d:7064"; }
     { name = "cups";     a = "192.168.1.222"; aaaa = "2001:470:1f0b:1033::6375:7073"; }
@@ -55,8 +57,8 @@ in
     ];
     forwardAddresses = [
       "8.8.8.8"              # Google Public DNS
-      "2001:4860:4860::8888" # Google Public DNS
       "74.82.42.42"          # Hurricane Electric
+      "2001:4860:4860::8888" # Google Public DNS
       "2001:470:20::2"       # Hurricane Electric
     ];
     extraConfig = ''
@@ -65,7 +67,11 @@ in
       statistics-interval: 300
       extended-statistics: yes
 
-      local-zone: "arnoldarts.de." static
+      cache-min-ttl: 300
+      cache-max-ttl: 3600
+      prefetch: yes
+
+      local-zone: "arnoldarts.de." typetransparent
 
       ${localdata addresses}
 
