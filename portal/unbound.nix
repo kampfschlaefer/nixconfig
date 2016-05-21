@@ -45,6 +45,7 @@ in
 
   services.unbound = {
     enable = true;
+    enableRootTrustAnchor = false;
     allowedAccess = [
       "127.0.0.0/8"
       "192.168.0.0/16"
@@ -53,7 +54,10 @@ in
     ];
     interfaces = [
       "::"
-      "*"
+      # "::1"
+      # "2001:470:1f0b:1033::706f:7274:616c"
+      "127.0.0.1"
+      "192.168.1.240"
     ];
     forwardAddresses = [
       "8.8.8.8"              # Google Public DNS
@@ -62,6 +66,9 @@ in
       "2001:470:20::2"       # Hurricane Electric
     ];
     extraConfig = ''
+      # Only for debugging the start problem
+      verbosity: 2
+
       # Is it the dns that makes it so slow here?
       log-queries: no
       statistics-interval: 300
