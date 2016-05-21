@@ -52,7 +52,7 @@ in {
   networking.hostName = lib.mkOverride 10 "portal"; # Define your hostname.
   networking.domain = "arnoldarts.de";
 
-  networking.nameservers = [
+  networking.nameservers = lib.mkOverride 100 [
     "192.168.1.240"
     #"2001:470:1f0b:1033::706f:7274:616c"
     "8.8.4.4"              # Google DNS
@@ -150,6 +150,8 @@ in {
 
   services.fcron.enable = true;
   #services.fcron.mailto = "root@starbase.arnoldarts.de";
+
+  services.nscd.enable = false;
 
   services.nfs.server = {
     enable = true;

@@ -11,6 +11,9 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         virtualisation.memorySize = 2*1024;
         virtualisation.vlans = [ 1 2 ];
 
+        networking.nameservers = lib.mkOverride 1 [
+          "192.168.1.240"
+        ];
         networking.interfaces.eth1 = lib.mkOverride 1 {};
         networking.interfaces.eth2 = lib.mkOverride 1 {};
         networking.bridges.lan.interfaces = lib.mkOverride 10 [ "eth1" ];
@@ -28,8 +31,13 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       $portal->start();
 
       $portal->waitForUnit("default.target");
+      $portal->waitForUnit("container\@gitolite");
 
       # sleep 10;
+
+      $portal->succeed("unbound-checkconf /var/lib/unbound/unbound.conf >&2");
+
+      $portal->succeed("systemctl is-active unbound >&2");
 
       $portal->succeed("ip link >&2");
       $portal->succeed("ip -4 a >&2");
