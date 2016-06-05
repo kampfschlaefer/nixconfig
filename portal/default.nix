@@ -39,7 +39,7 @@ in {
 
   fileSystems = {
     "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
-    "/media/backup" = { device = "/dev/portalgroup/backup"; options = "defaults,noauto"; };
+    "/media/backup" = { device = "/dev/portalgroup/backup"; options = ["defaults" "noauto"]; };
   } // builtins.listToAttrs(
     map (x:
       {
