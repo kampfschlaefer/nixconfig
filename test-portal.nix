@@ -21,9 +21,9 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           networking.interfaces.eth1 = lib.mkOverride 1 {};
           networking.interfaces.eth2 = lib.mkOverride 1 {};
           networking.bridges.lan.interfaces = lib.mkOverride 10 [ "eth1" ];
+          networking.bridges.dmz.interfaces = lib.mkOverride 10 [ "eth2" ];
 
           containers.firewall.autoStart = lib.mkOverride 10 run_firewall;
-          containers.firewall.interfaces = lib.mkOverride 10 [ "eth2" ];
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           containers.imap.autoStart = lib.mkOverride 10 false;
@@ -36,7 +36,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           networking.interfaces.eth1 = {
             useDHCP = false;
-            ip4 = [ { address = "192.168.2.10"; prefixLength = 24; } ];
+            ip4 = [ { address = "192.168.2.10"; prefixLength = 32; } ];
           };
 
           networking.firewall.enable = false;
@@ -70,11 +70,14 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_firewall
         ''subtest "check outside connectivity", sub {
-          $portal->fail("ping -n -c 1 -w 2 192.168.2.10 >&2");
-          # $outside->execute("ip -4 a >&2");
-          $outside->succeed("ping -n -c 1 -w 2 192.168.2.20 >&2");
-          # $portal->execute("nixos-container run firewall -- ip -4 a >&2");
-          $portal->execute("nixos-container run firewall -- ping -n -c 1 -w 2 192.168.2.10 >&2");
+          $portal->execute("ip link >&2");
+          $portal->succeed("ping -n -c 1 -w 2 192.168.2.10 >&2");
+          $outside->execute("ip link >&2");
+          $outside->execute("ip -4 a >&2");
+          $outside->succeed("ping -n -c 1 -w 2 192.168.2.220 >&2");
+          $portal->execute("nixos-container run firewall -- ip link >&2");
+          $portal->execute("nixos-container run firewall -- ip -4 a >&2");
+          $portal->fail("nixos-container run firewall -- ping -n -c 1 -w 2 192.168.2.10 >&2");
         };''
       }
 

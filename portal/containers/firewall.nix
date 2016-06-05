@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  dmzIf = "eno2";
+  dmzIf = "dmzfw";
   lanIf = "eth0";
 in
 {
@@ -10,7 +10,11 @@ in
 
     privateNetwork = true;
     hostBridge = "lan";
-    interfaces = lib.mkOverride 100 [ "eno2" ];
+    extraVeths = {
+      dmzfw = {
+        hostBridge = "dmz";
+      };
+    };
 
     config = { config, pkgs, ... }: {
       /*imports = [
@@ -19,28 +23,18 @@ in
 
       networking.domain = "arnoldarts.de";
 
-      /*networking.bridges = {
-        dmz = { interfaces = [ "eno2" ]; };
-        lan = { interfaces = [ "eth0" ]; };
-      };*/
-
       networking.defaultGateway = "192.168.2.10";
 
       networking.interfaces = {
-        eth0 = {
+        "${lanIf}" = {
           useDHCP = false;
           ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
           ip4 = [{ address = "192.168.1.220"; prefixLength = 24; }];
         };
-        eno2 = {
+        "${dmzIf}" = {
           useDHCP = false;
           #ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
           ip4 = [{ address = "192.168.2.220"; prefixLength = 24; }];
-        };
-        eth2 = {
-          # For tests
-          useDHCP = false;
-          ip4 = [{ address = "192.168.2.20"; prefixLength = 24; }];
         };
       };
 
