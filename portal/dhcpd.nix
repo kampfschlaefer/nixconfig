@@ -29,6 +29,7 @@ let
     { name = "xingu"; ethernetAddress = "d0:50:99:4f:3b:07"; }
     { name = "amazonas"; ethernetAddress = "ac:b5:7d:3a:0f:ce"; }
     { name = "orinoco"; ethernetAddress = "78:e4:00:90:74:79"; }
+    { name = "ebook"; ethernetAddress = "ac:a2:13:a1:46:c3"; }
   ];
 in {
   services.dhcpd = {

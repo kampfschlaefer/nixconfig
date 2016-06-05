@@ -22,7 +22,7 @@ let
 
     { name = "openwrt";  a = "192.168.1.251"; }
     { name = "tenda";    a = "192.168.1.252"; }
-    #{ name = "hp";       a = "192.168.1.253"; }
+    # { name = "hp";       a = "192.168.1.253"; } # old switch, not printer
     { name = "tp";       a = "192.168.1.254"; }
   ];
 
@@ -66,8 +66,8 @@ in
       "2001:470:20::2"       # Hurricane Electric
     ];
     extraConfig = ''
-      # Only for debugging the start problem
-      verbosity: 2
+      # >1 logs requests
+      verbosity: 1
 
       # Is it the dns that makes it so slow here?
       log-queries: no
