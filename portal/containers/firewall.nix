@@ -37,6 +37,11 @@ in
           #ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
           ip4 = [{ address = "192.168.2.220"; prefixLength = 24; }];
         };
+        eth2 = {
+          # For tests
+          useDHCP = false;
+          ip4 = [{ address = "192.168.2.20"; prefixLength = 24; }];
+        };
       };
 
       networking.nat = {
