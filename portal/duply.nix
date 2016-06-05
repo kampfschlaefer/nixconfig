@@ -4,7 +4,7 @@
   fileSystems = {
     "/media/duplydisk" = {
       device = "/dev/disk/by-uuid/4bff6ea6-a6f4-4163-9a7e-1703c84cb769";
-      options = "noauto";
+      options = ["noauto"];
     };
     "/media/backupdrop" = { device = "/dev/portalgroup/backupdrop"; };
   };
