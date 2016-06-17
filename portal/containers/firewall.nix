@@ -48,7 +48,8 @@ in
       networking.firewall = {
         allowPing = true;
         rejectPackets = true;
-        logRefusedPackets = true;
+        # log target doesn't work inside network-namespaces
+        logRefusedPackets = false;
 
         defaultPolicies = { input = "DROP"; forward = "DROP"; output = "DROP"; };
         rules = [

@@ -1,8 +1,9 @@
 import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
-    run_gitolite = true;
-    run_mpd = true;
-    run_firewall = true;
+    run_gitolite = false;
+    run_mpd = false;
+    run_firewall = false;
+    run_torproxy = true;
   in {
     name = "test-portal";
 
@@ -26,6 +27,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.firewall.autoStart = lib.mkOverride 10 run_firewall;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
+          containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
           containers.imap.autoStart = lib.mkOverride 10 false;
           containers.cups.autoStart = lib.mkOverride 10 false;
         };
@@ -40,6 +42,8 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           };
 
           networking.firewall.enable = false;
+
+          environment.systemPackages = [ pkgs.nmap ];
         };
     };
 
@@ -50,7 +54,9 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->start();
 
         $portal->waitForUnit("default.target");
-        # $portal->waitForUnit("container\@gitolite");
+        ${lib.optionalString run_torproxy
+          ''$portal->waitForUnit("container\@torproxy");''
+        }
       };
 
       subtest "check unbound", sub {
@@ -95,6 +101,18 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           # The firewall machine doesn't yet answer ipv6 pings
           $portal->fail("ping6 -n -c 1 -w 2 firewall >&2");''
         }
+        ${lib.optionalString run_torproxy
+          ''# $portal->succeed("nixos-container run torproxy -- ip a >&2");
+          # $portal->succeed("nixos-container run torproxy -- iptables -L -nv >&2");
+          # $portal->succeed("nixos-container run torproxy -- ip6tables -L -nv >&2");
+          $portal->succeed("ping -n -c 1 -w 2 torproxy >&2");
+          $portal->succeed("ping6 -n -c 1 -w 2 torproxy >&2");
+          $portal->succeed("nmap --open -n -p 9050 torproxy -oG - |grep \"/open\"");
+          $portal->succeed("nmap --open -n -p 9063 torproxy -oG - |grep \"/open\"");
+          $outside->fail("nmap --open -n -p 9050 192.168.2.225 -oG - |grep \"/open\"");
+          $outside->fail("nmap --open -n -p 9063 192.168.2.225 -oG - |grep \"/open\"");
+          ''
+        }
       };
 
       ${lib.optionalString run_mpd
@@ -105,6 +123,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       }
 
       $portal->shutdown();
+      $outside->shutdown();
     '';
   }
 )

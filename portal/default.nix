@@ -10,9 +10,10 @@ in {
       ./containers/gitolite.nix
       ./containers/testing.nix
       ./containers/mpd.nix
-      ./containers/cups.nix
       ./containers/firewall.nix
+      ./containers/torproxy.nix
       ./containers/imap.nix
+      ./containers/cups.nix
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
