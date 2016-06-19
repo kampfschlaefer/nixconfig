@@ -2,7 +2,8 @@
 
 
 # ranges:
-# 65-126 (/26) known hosts dhcp
+# 65-94 (/27) known hosts with fixed addresses
+# 97-126 (/26) known hosts dhcp
 # 129-158 (/27) unknown hosts (no default route)
 #
 with lib;
@@ -25,11 +26,11 @@ let
     { hostName = "watering-wifi"; ethernetAddress = "7c:dd:90:73:6b:6b"; } # wifi
     { hostName = "raspimate"; ethernetAddress = "7c:dd:90:73:6a:56"; }
     { hostName = "raspio"; ethernetAddress = "7c:dd:90:5d:91:97"; }
-    { hostName = "touchpi"; ethernetAddress = "b8:27:eb:73:38:22"; ipAddress = "192.168.1.91"; }
+    { hostName = "touchpi"; ethernetAddress = "b8:27:eb:73:38:22"; ipAddress = "192.168.1.70"; }
     { hostName = "android-lg"; ethernetAddress = "f8:a9:d0:1e:b7:29"; }
     { hostName = "android-ines"; ethernetAddress = "60:be:b5:0a:73:d3"; }
     { hostName = "flachmann"; ethernetAddress = "00:22:f4:4e:5e:8e"; }
-    { hostName = "xingu"; ethernetAddress = "d0:50:99:4f:3b:07"; ipAddress = "192.168.1.114"; }
+    { hostName = "xingu"; ethernetAddress = "d0:50:99:4f:3b:07"; ipAddress = "192.168.1.65"; }
     { hostName = "amazonas"; ethernetAddress = "ac:b5:7d:3a:0f:ce"; }
     { hostName = "orinoco"; ethernetAddress = "78:e4:00:90:74:79"; }
     { hostName = "ebook"; ethernetAddress = "ac:a2:13:a1:46:c3"; }
@@ -39,7 +40,7 @@ in {
   services.dhcpd = {
     enable = true;
     interfaces = [ "lan" ];
-    machines = filter (host: hasAttr "ipAddress" host) known_hosts;
+    machines = [];  # filter (host: hasAttr "ipAddress" host) known_hosts;
     extraConfig = ''
       ddns-update-style none;
       ddns-updates off;
@@ -51,8 +52,21 @@ in {
 
       subnet 192.168.1.0 netmask 255.255.255.0 {
 
+        group {
+          default-lease-time 7200;
+          max-lease-time 14400;
+          option routers 192.168.1.220;
+          ${lib.concatMapStrings
+            (machine:
+              ''
+                host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; fixed-address ${machine.ipAddress}; }
+              ''
+            )
+            (filter (host: hasAttr "ipAddress" host) known_hosts)
+          }
+        }
         pool {
-          range 192.168.1.65 192.168.1.126;
+          range 192.168.1.97 192.168.1.126;
           default-lease-time 7200;
           max-lease-time 14400;
           deny unknown-clients;
