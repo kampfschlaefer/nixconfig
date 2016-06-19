@@ -1,11 +1,14 @@
 { config, lib, pkgs, ... }:
 
+
+# ranges:
+# 65-126 (/26) known hosts dhcp
+# 129-158 (/27) unknown hosts (no default route)
+#
 with lib;
 # dhcp-host=00:21:04:f4:76:df,c470-ip,6h
-# dhcp-host=00:19:3e:00:42:03,pirelli,6h
 # dhcp-host=00:18:84:24:F5:58,openwrt
 # #dhcp-host=00:00:cb:61:18:80,saratoga,192.168.1.205
-# #dhcp-host=00:15:17:26:25:18,xingu,192.168.1.50
 # dhcp-host=38:ec:e4:cc:c4:dc,schieber
 # dhcp-host=7c:dd:90:5d:91:97,raspio
 # # watering lan
@@ -18,26 +21,24 @@ with lib;
 
 let
   known_hosts = [
-    { name = "watering-lan"; ethernetAddress = "b8:27:eb:c3:4c:ae"; } # lan
-    { name = "watering-wifi"; ethernetAddress = "7c:dd:90:73:6b:6b"; } # wifi
-    { name = "raspimate"; ethernetAddress = "7c:dd:90:73:6a:56"; }
-    { name = "raspio"; ethernetAddress = "7c:dd:90:5d:91:97"; }
-    { name = "touchpi"; ethernetAddress = "b8:27:eb:73:38:22"; }
-    { name = "android-lg"; ethernetAddress = "f8:a9:d0:1e:b7:29"; }
-    { name = "android-ines"; ethernetAddress = "60:be:b5:0a:73:d3"; }
-    { name = "flachmann"; ethernetAddress = "00:22:f4:4e:5e:8e"; }
-    { name = "xingu"; ethernetAddress = "d0:50:99:4f:3b:07"; }
-    { name = "amazonas"; ethernetAddress = "ac:b5:7d:3a:0f:ce"; }
-    { name = "orinoco"; ethernetAddress = "78:e4:00:90:74:79"; }
-    { name = "ebook"; ethernetAddress = "ac:a2:13:a1:46:c3"; }
+    { hostName = "watering-lan"; ethernetAddress = "b8:27:eb:c3:4c:ae"; } # lan
+    { hostName = "watering-wifi"; ethernetAddress = "7c:dd:90:73:6b:6b"; } # wifi
+    { hostName = "raspimate"; ethernetAddress = "7c:dd:90:73:6a:56"; }
+    { hostName = "raspio"; ethernetAddress = "7c:dd:90:5d:91:97"; }
+    { hostName = "touchpi"; ethernetAddress = "b8:27:eb:73:38:22"; ipAddress = "192.168.1.91"; }
+    { hostName = "android-lg"; ethernetAddress = "f8:a9:d0:1e:b7:29"; }
+    { hostName = "android-ines"; ethernetAddress = "60:be:b5:0a:73:d3"; }
+    { hostName = "flachmann"; ethernetAddress = "00:22:f4:4e:5e:8e"; }
+    { hostName = "xingu"; ethernetAddress = "d0:50:99:4f:3b:07"; ipAddress = "192.168.1.114"; }
+    { hostName = "amazonas"; ethernetAddress = "ac:b5:7d:3a:0f:ce"; }
+    { hostName = "orinoco"; ethernetAddress = "78:e4:00:90:74:79"; }
+    { hostName = "ebook"; ethernetAddress = "ac:a2:13:a1:46:c3"; }
   ];
 in {
   services.dhcpd = {
     enable = true;
     interfaces = [ "lan" ];
-    machines = [
-      # { ethernetAddress = ""; hostName = ""; ipAddress = ""; }
-    ];
+    machines = filter (host: hasAttr "ipAddress" host) known_hosts;
     extraConfig = ''
       ddns-update-style none;
       ddns-updates off;
@@ -50,7 +51,7 @@ in {
       subnet 192.168.1.0 netmask 255.255.255.0 {
 
         pool {
-          range 192.168.1.90 192.168.1.126;
+          range 192.168.1.65 192.168.1.126;
           default-lease-time 7200;
           max-lease-time 14400;
           deny unknown-clients;
@@ -60,10 +61,10 @@ in {
           ${lib.concatMapStrings
             (machine:
               ''
-                host ${machine.name} { hardware ethernet ${machine.ethernetAddress}; }
+                host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; }
               ''
             )
-            known_hosts
+            (filter (host: !hasAttr "ipAddress" host) known_hosts)
           }
         }
 
