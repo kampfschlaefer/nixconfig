@@ -53,10 +53,12 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         # $portal->waitForUnit("container\@gitolite");
       };
 
-      subtest "check unbound", sub {
+      subtest "check unbound/dhcp", sub {
         $portal->succeed("unbound-checkconf /var/lib/unbound/unbound.conf >&2");
 
         $portal->succeed("systemctl is-active unbound >&2");
+
+        $portal->succeed("systemctl is-active dhcpd >&2");
       };
 
       subtest "check basic interface setup", sub {
