@@ -3,6 +3,7 @@
 {
   imports = [
     ../lib/machines/base.nix
+    ../lib/software/pwsafe.nix
   ];
 
   networking.hostName = lib.mkOverride 10 "orinoco";
@@ -16,7 +17,9 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    freeipmi lm_sensors psmisc dnstop sysstat
+    claws-mail firefox
+    gitAndTools.tig
+    python27Packages.virtualenv
   ];
   environment.shellAliases = {
     vinox = "vim";

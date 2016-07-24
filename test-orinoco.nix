@@ -12,6 +12,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           ];
           virtualisation.memorySize = 1024;
           virtualisation.vlans = [ 1 ];
+          nix.buildCores = 3;
         };
     };
 
@@ -24,8 +25,11 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       };
 
       subtest "admin environment", sub {
-        $orinoco->succeed("which git-crypt >&2");
-        $orinoco->succeed("which sensors >&2");
+        ${lib.concatStringsSep "\n" (
+          map
+            (app: ''$orinoco->succeed("which ${app} >&2");'')
+            [ "git-crypt" "claws-mail" "tig" "virtualenv" "pwsafe" ]
+        )}
 
         $orinoco->execute("grep /etc/static/bashrc -e 'alias' >&2");
         $orinoco->succeed("grep /etc/static/bashrc -e 'vi=' >&2");
