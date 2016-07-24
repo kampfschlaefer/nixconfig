@@ -23,9 +23,6 @@
   };
 
   programs.bash.enableCompletion = true;
-  environment.sessionVariables = {
-    EDITOR = "vim";
-  };
 
   services.xserver.enable = true;
   services.xserver.layout = "de";

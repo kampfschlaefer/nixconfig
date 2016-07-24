@@ -6,6 +6,7 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       #/etc/nixos/hardware-configuration.nix
+      ../lib/machines/base.nix
       ../lib/users/arnold.nix
       ./containers/gitolite.nix
       ./containers/testing.nix
@@ -116,44 +117,17 @@ in {
     '';
   };
 
-  # Select internationalisation properties.
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "de";
-    defaultLocale = "en_US.UTF-8";
-  };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Berlin";
-
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    wget tcpdump nmap
-    htop atop freeipmi lm_sensors psmisc dnstop sysstat
-    vimNox byobu tmux python
-    gptfdisk parted hdparm
-    git
+    freeipmi lm_sensors dnstop
     duply gnupg
     linuxPackages.netatop
   ];
   environment.shellAliases = {
-    vi = "vim";
-  };
-
-  programs.bash.enableCompletion = true;
-  environment.sessionVariables = {
-    EDITOR = "vim";
   };
 
   # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  #services.sudo.wheelNeedsPassword = false;
-  security.pam.enableSSHAgentAuth = true;
-  security.pam.services.ssh.sshAgentAuth = true;
 
   services.fcron.enable = true;
   #services.fcron.mailto = "root@starbase.arnoldarts.de";

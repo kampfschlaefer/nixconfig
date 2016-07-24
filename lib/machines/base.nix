@@ -23,6 +23,12 @@
     vi = "vim";
   };
 
+  programs.bash.enableCompletion = true;
+  environment.sessionVariables = {
+    EDITOR = "vim";
+  };
+
+
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 

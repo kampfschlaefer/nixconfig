@@ -3,7 +3,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_gitolite = false;
     run_mpd = false;
     run_firewall = false;
-    run_torproxy = true;
+    run_torproxy = false;
   in {
     name = "test-portal";
 
@@ -57,6 +57,11 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         ${lib.optionalString run_torproxy
           ''$portal->waitForUnit("container\@torproxy");''
         }
+      };
+
+      subtest "admin environment", sub {
+        $portal->execute("grep /etc/static/bashrc -e 'alias' >&2");
+        $portal->succeed("grep /etc/static/bashrc -e 'vi=' >&2");
       };
 
       subtest "check unbound/dhcp", sub {
