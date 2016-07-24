@@ -36,6 +36,10 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $orinoco->succeed("grep /etc/static/bashrc -e 'vinox=' >&2");
       };
 
+      subtest "arnolda environment", sub {
+        $orinoco->succeed("test -d /home/arnold >&2");
+      };
+
       $orinoco->shutdown();
     '';
   }

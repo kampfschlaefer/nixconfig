@@ -4,6 +4,7 @@
   imports = [
     ../lib/machines/base.nix
     ../lib/software/pwsafe.nix
+    ../lib/users/arnold.nix
   ];
 
   networking.hostName = lib.mkOverride 10 "orinoco";
