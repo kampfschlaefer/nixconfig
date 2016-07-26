@@ -22,12 +22,6 @@ in {
       ./ups.nix
     ];
 
-  nix.nixPath = [
-    "/etc/nixos/nixconfig/nixpkgs"
-    "nixpkgs=/etc/nixos/nixconfig/nixpkgs"
-    "nixos-config=/etc/nixos/configuration.nix"
-  ];
-
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;

@@ -1,6 +1,12 @@
 { config, lib, pkgs, ... }:
 
 {
+  nix.nixPath = [
+    "/etc/nixos/nixconfig/nixpkgs"
+    "nixpkgs=/etc/nixos/nixconfig/nixpkgs"
+    "nixos-config=/etc/nixos/configuration.nix"
+  ];
+
   i18n = {
     consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "de";
