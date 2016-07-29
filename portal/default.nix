@@ -12,7 +12,7 @@ in {
       ./containers/testing.nix
       ./containers/mpd.nix
       ./containers/firewall.nix
-      ./containers/torproxy.nix
+      /*./containers/torproxy.nix*/
       ./containers/imap.nix
       ./containers/cups.nix
       ./duply.nix
