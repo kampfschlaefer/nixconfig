@@ -29,6 +29,7 @@
     python27 python33 python35
     python27Packages.virtualenv
     python35Packages.virtualenv
+    kde5.networkmanager-qt
   ];
 
   services.xserver.enable = true;
