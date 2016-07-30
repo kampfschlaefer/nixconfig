@@ -9,8 +9,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_4_5;
-
   networking.hostName = lib.mkOverride 10 "orinoco";
   networking.useDHCP = true;
   networking.enableIPv6 = true;
@@ -36,5 +34,5 @@
     twoFingerScroll = true;
   };
   services.xserver.desktopManager.kde5.enable = true;
-  services.xserver.displayManager.kdm.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
 }
