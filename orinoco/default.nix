@@ -9,6 +9,8 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  boot.kernelPackages = pkgs.linuxPackages_4_5;
+
   networking.hostName = lib.mkOverride 10 "orinoco";
   networking.useDHCP = true;
   networking.enableIPv6 = true;
@@ -26,11 +28,6 @@
     gitAndTools.tig
     python27Packages.virtualenv
   ];
-  environment.shellAliases = {
-    vinox = "vim";
-  };
-
-  programs.bash.enableCompletion = true;
 
   services.xserver.enable = true;
   services.xserver.layout = "de";

@@ -33,7 +33,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
         $orinoco->execute("grep /etc/static/bashrc -e 'alias' >&2");
         $orinoco->succeed("grep /etc/static/bashrc -e 'vi=' >&2");
-        $orinoco->succeed("grep /etc/static/bashrc -e 'vinox=' >&2");
+        # $orinoco->succeed("grep /etc/static/bashrc -e 'vinox=' >&2");
       };
 
       subtest "arnolda environment", sub {
