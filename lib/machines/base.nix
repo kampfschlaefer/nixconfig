@@ -21,6 +21,7 @@
   environment.systemPackages = with pkgs; [
     wget tcpdump nmap
     htop atop psmisc sysstat which
+    lshw usbutils dmidecode
     vimNox byobu tmux python
     gptfdisk parted hdparm
     git gitAndTools.git-crypt
