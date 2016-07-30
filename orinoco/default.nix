@@ -10,11 +10,11 @@
   nixpkgs.config.allowUnfree = true;
 
   networking.hostName = lib.mkOverride 10 "orinoco";
-  networking.useDHCP = true;
+  networking.useDHCP = false;
   networking.enableIPv6 = true;
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = false;
-  networking.wicd.enable = true;
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;
+  # networking.wicd.enable = true;
   services.hostapd.enable = false;
 
   users.users.arnold.extraGroups = [ "networkmanager" ];
