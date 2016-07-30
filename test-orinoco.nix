@@ -28,7 +28,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         ${lib.concatStringsSep "\n" (
           map
             (app: ''$orinoco->succeed("which ${app} >&2");'')
-            [ "git-crypt" "claws-mail" "tig" "virtualenv" "pwsafe" ]
+            [ "git-crypt" "claws-mail" "tig" "virtualenv" "pwsafe" "python3" "atom" ]
         )}
 
         $orinoco->execute("grep /etc/static/bashrc -e 'alias' >&2");
@@ -36,7 +36,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         # $orinoco->succeed("grep /etc/static/bashrc -e 'vinox=' >&2");
       };
 
-      subtest "arnolda environment", sub {
+      subtest "arnolds environment", sub {
         $orinoco->succeed("test -d /home/arnold >&2");
       };
 

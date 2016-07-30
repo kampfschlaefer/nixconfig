@@ -23,8 +23,12 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     claws-mail firefox
+    atom
+    seafile-client
     gitAndTools.tig
+    python27 python33 python35
     python27Packages.virtualenv
+    python35Packages.virtualenv
   ];
 
   services.xserver.enable = true;
