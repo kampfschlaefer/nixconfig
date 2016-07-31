@@ -3,7 +3,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_gitolite = false;
     run_mpd = false;
     run_firewall = false;
-    run_torproxy = false;
+    run_torproxy = true;
   in {
     name = "test-portal";
 
