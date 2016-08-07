@@ -37,6 +37,7 @@ let
     { hostName = "ebookold";      ethernetAddress = "ac:a2:13:a1:46:c3"; }
     { hostName = "ebook";         ethernetAddress = "28:f3:66:9c:13:71"; }
     { hostName = "steuer";        ethernetAddress = "08:00:27:1f:06:82"; }
+    { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
   ];
 in {
   services.dhcpd = {
