@@ -8,6 +8,8 @@ let
     { name = "fonera";   a = "192.168.1.20"; }
 
     { name = "xingu";    a = "192.168.1.65"; aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07"; }
+    { name = "orinoco";  a = "192.168.1.66"; } # wireless
+    { name = "amazonas"; a = "192.168.1.67"; } # wireless
     { name = "touchpi";  a = "192.168.1.70"; /*aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07";*/ }
 
     { name = "firewall"; a = "192.168.1.220"; aaaa = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; }
