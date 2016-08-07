@@ -20,10 +20,9 @@
   users.users.arnold.extraGroups = [ "networkmanager" ];
 
   # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     claws-mail firefox
-    atom
+    atom zeal
     seafile-client
     gitAndTools.tig
     python27 python33 python35
@@ -38,6 +37,7 @@
     enable = true;
     twoFingerScroll = true;
   };
+
   services.xserver.desktopManager.kde5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
 }
