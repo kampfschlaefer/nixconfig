@@ -43,7 +43,7 @@
         if [ "$TERM" != "dumb" -o -n "$INSIDE_EMACS" ]; then
           PROMPT_COLOR="1;31m"
           let $UID && PROMPT_COLOR="1;32m"
-          PS1="\n\[\033[$PROMPT_COLOR\][\u@\h:\w]\[\033[0m\]\$(__git_ps1 )\\$ "
+          PS1="\n\[\033[$PROMPT_COLOR\]\u@\h\[\033[0m\]:\[\033[1;34m\]\w\[\033[0m\]\$(__git_ps1 )\\$ "
           if test "$TERM" = "xterm"; then
             PS1="\[\033]2;\h:\u:\w\007\]$PS1"
           fi
