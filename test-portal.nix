@@ -81,6 +81,14 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->succeed("ip -6 r >&2");
       };
 
+      subtest "check libvirtd", sub {
+        $portal->succeed("getent group |grep libvirtd >&2");
+        $portal->succeed("virsh list >&2");
+        # Arnold shouldn't actually be allowed to do virsh commands
+        #$portal->succeed("id arnold |grep libvirtd");
+        #$portal->succeed("sudo -u arnold virsh list >&2");
+      };
+
       ${lib.optionalString run_firewall
         ''subtest "check outside connectivity", sub {
           $portal->execute("ip link >&2");
