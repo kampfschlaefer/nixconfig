@@ -149,6 +149,7 @@ in {
     enable = true;
     enableKVM = true;
   };
+  users.users.arnold.extraGroups = [ "libvirtd" ];
 
   powerManagement = {
     enable = true;
