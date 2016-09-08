@@ -6,6 +6,7 @@ let
 in {
   power.ups = {
     enable = false; # TODO: Switch to true
+    mode = "standalone";
 
     ups = {
       eaton = {
