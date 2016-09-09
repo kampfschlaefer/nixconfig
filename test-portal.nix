@@ -84,9 +84,9 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       subtest "check libvirtd", sub {
         $portal->succeed("getent group |grep libvirtd >&2");
         $portal->succeed("virsh list >&2");
-        # Arnold shouldn't actually be allowed to do virsh commands
-        #$portal->succeed("id arnold |grep libvirtd");
-        #$portal->succeed("sudo -u arnold virsh list >&2");
+        # Arnold should be allowed to do virsh commands
+        $portal->succeed("id arnold |grep libvirtd");
+        $portal->succeed("sudo -u arnold -l virsh list >&2");
       };
 
       ${lib.optionalString run_firewall
@@ -117,15 +117,20 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->fail("ping6 -n -c 1 -w 2 firewall >&2");''
         }
         ${lib.optionalString run_torproxy
-          ''# $portal->succeed("nixos-container run torproxy -- ip a >&2");
+          ''$portal->execute("journalctl -M torproxy -u tor >&2");
+
+          # $portal->succeed("nixos-container run torproxy -- ip a >&2");
           # $portal->succeed("nixos-container run torproxy -- iptables -L -nv >&2");
           # $portal->succeed("nixos-container run torproxy -- ip6tables -L -nv >&2");
+
           $portal->succeed("ping -n -c 1 -w 2 torproxy >&2");
           $portal->succeed("ping6 -n -c 1 -w 2 torproxy >&2");
           $portal->succeed("nmap --open -n -p 9050 torproxy -oG - |grep \"/open\"");
           $portal->succeed("nmap --open -n -p 9063 torproxy -oG - |grep \"/open\"");
+          $portal->succeed("nmap --open -n -p 8118 torproxy -oG - |grep \"/open\"");
           $outside->fail("nmap --open -n -p 9050 192.168.2.225 -oG - |grep \"/open\"");
           $outside->fail("nmap --open -n -p 9063 192.168.2.225 -oG - |grep \"/open\"");
+          $outside->fail("nmap --open -n -p 8118 192.168.2.225 -oG - |grep \"/open\"");
           ''
         }
       };

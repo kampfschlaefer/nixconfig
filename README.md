@@ -16,4 +16,4 @@ Hopefully I do not leak sensistive configuration in here without encrypting it. 
 
 I do use the nixpkgs tree as submodule. That way I can always reference an exact version of the whole system.
 
-*But* it links to my own branch in my private repo where I have custom patches on top of nix. So nothing to see here…
+*But* it links to my own branch in my private repo where I have custom patches on top of nix. Currently its based on the 16.03 release of nixos. And I am working on getting as many of my patches into mainline nixos as possible.

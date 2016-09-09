@@ -46,10 +46,11 @@ in
         rules = [
           { fromInterface = "lo"; target = "ACCEPT"; }
           { toInterface = "lo"; target = "ACCEPT"; }
+          { fromInterface = "${lanIf}"; protocol = "tcp"; destinationPort = "8118"; target = "ACCEPT"; }
           { fromInterface = "${lanIf}"; protocol = "tcp"; destinationPort = "9050"; target = "ACCEPT"; }
           { fromInterface = "${lanIf}"; protocol = "tcp"; destinationPort = "9063"; target = "ACCEPT"; }
           { toInterface = "${lanIf}"; protocol = "icmpv6"; target = "ACCEPT"; }
-          /*{ toInterface = "${dmzIf}"; target = "ACCEPT"; }*/
+          { toInterface = "${dmzIf}"; target = "ACCEPT"; }
         ];
       };
 
@@ -62,6 +63,15 @@ in
           socksListenAddressFaster = "192.168.1.225:9063";
           socksPolicy = "accept 192.168.1.0/24, reject *";
         };
+
+        torsocks = {
+          enable = true;
+        };
+      };
+
+      services.privoxy = {
+        enable = true;
+        listenAddress = "192.168.1.225:8118";
       };
 
       environment.systemPackages = [

@@ -12,6 +12,9 @@
     {
       wantedBy = [ "multi-user.target" ];
       where = "/media/duplydisk";
+      automountConfig = {
+        TimeoutIdleSec = 60;
+      };
     }
   ];
 

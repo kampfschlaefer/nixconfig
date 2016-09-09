@@ -19,7 +19,7 @@ in {
       ./postfix-satelite.nix
       ./unbound.nix
       ./dhcpd.nix
-      ./ups.nix
+      #./ups.nix
     ];
 
   # Use the GRUB 2 boot loader.
@@ -149,6 +149,7 @@ in {
     enable = true;
     enableKVM = true;
   };
+  users.users.arnold.extraGroups = [ "libvirtd" ];
 
   powerManagement = {
     enable = true;
