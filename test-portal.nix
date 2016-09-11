@@ -1,24 +1,34 @@
 import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
-    run_gitolite = false;
+    run_gitolite = true;
     run_mpd = false;
     run_firewall = false;
-    run_torproxy = true;
+    run_torproxy = false;
+
+    outside_needed = run_firewall || run_torproxy;
+
+    testspkg = import ./lib/tests/default.nix {
+      stdenv = pkgs.stdenv; bats = pkgs.bats;
+    };
+
   in {
     name = "test-portal";
 
     nodes = {
       portal = {config, pkgs, ... }:
         {
+          testdata = true;
           imports = [
             ./portal/default.nix
           ];
           virtualisation.memorySize = 2*1024;
           virtualisation.vlans = [ 1 2 ];
 
-          networking.nameservers = lib.mkOverride 1 [
-            "192.168.1.240"
-          ];
+          networking.interfaces.eth0 = lib.mkOverride 10 {
+            useDHCP = false;
+            ip4 = [];
+            ip6 = [];
+          };
           networking.interfaces.eth1 = lib.mkOverride 1 {};
           networking.interfaces.eth2 = lib.mkOverride 1 {};
           networking.bridges.lan.interfaces = lib.mkOverride 10 [ "eth1" ];
@@ -45,12 +55,39 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           environment.systemPackages = [ pkgs.nmap ];
         };
+      inside = {config, pkgs, ...}:
+        {
+          virtualisation.memorySize = 256;
+          virtualisation.vlans = [ 1 ];
+
+          imports = [
+            ./lib/users/arnold.nix
+          ];
+
+          networking.interfaces.eth0 = lib.mkOverride 10 {
+            useDHCP = false;
+            ip4 = [];
+            ip6 = [];
+          };
+          networking.interfaces.eth1 = {
+            useDHCP = true;
+          };
+
+          environment.systemPackages = [
+            pkgs.git
+            pkgs.nmap
+            pkgs.openssh
+            testspkg
+          ];
+        };
     };
 
     testScript = ''
 
       subtest "set up", sub {
-        $outside->start();
+        ${lib.optionalString outside_needed
+          ''$outside->start();''
+        }
         $portal->start();
 
         $portal->waitForUnit("default.target");
@@ -136,14 +173,24 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       };
 
       ${lib.optionalString run_mpd
-        ''subtest "check container shutdown", sub {
+        ''subtest "check mpd container shutdown", sub {
           $portal->execute("nixos-container stop mpd >&2");
           $portal->fail("ping -n -c 1 -w 2 mpd >&2");
         };''
       }
 
-      $portal->shutdown();
-      $outside->shutdown();
+      ${lib.optionalString run_gitolite
+        ''subtest "Check gitolite", sub {
+          $inside->waitForUnit("default.target");
+          $inside->succeed("test_gitolite >&2");
+        };''
+      }
+
+      #$inside->shutdown();
+      #$portal->shutdown();
+      ${lib.optionalString outside_needed
+        ''#$outside->shutdown();''
+      }
     '';
   }
 )
