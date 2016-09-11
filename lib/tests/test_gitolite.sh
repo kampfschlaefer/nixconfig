@@ -1,10 +1,11 @@
 #!@bats@/bin/bats --tap
 
+cd /root
+
 #
 # Prepare git settings
 #
 @test "Prepare git settings" {
-	cd /root
 	mkdir -m 0700 /root/.ssh
 	cp @out@/data/*_key /root/.ssh/
 	cp @out@/data/*_key.pub /root/.ssh/
@@ -26,7 +27,6 @@
 # configure repositories
 #
 @test "configure repositories as admin" {
-	cd /root
 	run git clone gitolite@gitolite-admin:gitolite-admin
 	[ $status -eq 0 ]
 	cd gitolite-admin
@@ -36,11 +36,12 @@
 	# add user and repositories
 	echo "
 	repo private_repo
-	    RW+ = user
+		RW+ = user
 
 	repo public_repo
-	    RW+ = user
-	    R   = gitweb
+		config gitweb.description = \"For all to see\"
+		RW+ = user
+		R   = gitweb
 	" >> conf/gitolite.conf
 	cp @out@/data/test_key.pub keydir/user.pub
 
@@ -56,7 +57,6 @@
 # access user repo
 #
 @test "fill public repo as user" {
-	cd /root
 	run git clone gitolite@gitolite:public_repo
 	[ $status -eq 0 ]
 	cd public_repo
@@ -70,7 +70,6 @@
 	[ $status -eq 0 ]
 }
 @test "fill private repo as user" {
-	cd /root
 	run git clone gitolite@gitolite:private_repo
 	[ $status -eq 0 ]
 	cd private_repo
@@ -91,4 +90,30 @@
 	run git clone gitolite@gitolite:gitolite-admin gitolite-admin-user
 	[ $status -ne 0 ]
 	[[ "$output" =~ "DENIED" ]]
+}
+
+#
+# Access gitweb via curl
+#
+@test "public_repo is visible in gitweb" {
+	run curl -s -f http://gitolite/gitweb/
+	echo $output >&2
+	[ $status -eq 0 ]
+	[[ "$output" =~ "public_repo" ]]
+}
+@test "access public_repo via http" {
+	mkdir http
+	cd http
+	run git clone http://gitolite/gitweb/public_repo.git
+	[ $status -eq 0 ]
+	[[ -d public_repo ]]
+}
+
+@test "private_repo is not visible in gitweb" {
+	run curl -s -f http://gitolite/gitweb/
+	echo $output >&2
+	[ $status -eq 0 ]
+	[[ ! "$output" =~ "testing" ]]
+	[[ ! "$output" =~ "gitolite-admin" ]]
+	[[ ! "$output" =~ "private_repo" ]]
 }

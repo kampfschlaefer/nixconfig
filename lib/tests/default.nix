@@ -1,11 +1,11 @@
-{ stdenv, bats }:
+{ stdenv, bats, curl }:
 
 stdenv.mkDerivation rec {
   name = "testgitolite";
 
   src = ./.;
 
-  buildInputs = [ bats ];
+  buildInputs = [ bats curl ];
   configurePhase = false;
   dontBuild = true;
 

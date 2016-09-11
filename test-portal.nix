@@ -8,7 +8,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     outside_needed = run_firewall || run_torproxy;
 
     testspkg = import ./lib/tests/default.nix {
-      stdenv = pkgs.stdenv; bats = pkgs.bats;
+      stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl;
     };
 
   in {
@@ -181,9 +181,21 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_gitolite
         ''subtest "Check gitolite", sub {
+          $portal->waitForUnit("container\@gitolite");
+          $portal->succeed("journalctl -M gitolite -u gitolite-init >&2");
+          $portal->succeed("systemctl -M gitolite status gitolite-init >&2");
+          $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite >&2");
+          $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite/repositories >&2");
+          $portal->succeed("nixos-container run gitolite -- cat /var/lib/gitolite/.gitolite.rc >&2");
+          $portal->succeed("grep 0027 /var/lib/containers/gitolite/var/lib/gitolite/.gitolite.rc >&2");
           $inside->waitForUnit("default.target");
+          $inside->execute("curl -s http://gitolite/gitweb/ >&2");
           $inside->succeed("test_gitolite >&2");
-        };''
+        };
+        $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite >&2");
+        $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite/repositories >&2");
+        #$inside->execute("curl -s http://gitolite/gitweb/ >&2");
+        ''
       }
 
       #$inside->shutdown();
