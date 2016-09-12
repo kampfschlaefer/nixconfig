@@ -20,6 +20,7 @@ in {
       ./containers/torproxy.nix
       ./containers/imap.nix
       ./containers/cups.nix
+      ./containers/pyheim.nix
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
