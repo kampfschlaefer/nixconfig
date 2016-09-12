@@ -189,12 +189,11 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("nixos-container run gitolite -- cat /var/lib/gitolite/.gitolite.rc >&2");
           $portal->succeed("grep 0027 /var/lib/containers/gitolite/var/lib/gitolite/.gitolite.rc >&2");
           $inside->waitForUnit("default.target");
-          $inside->execute("curl -s http://gitolite/gitweb/ >&2");
+          $inside->succeed("curl -s http://gitolite/gitweb/ |grep \"404 - No projects found\" >&2");
           $inside->succeed("test_gitolite >&2");
         };
         $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite >&2");
         $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite/repositories >&2");
-        #$inside->execute("curl -s http://gitolite/gitweb/ >&2");
         ''
       }
 
