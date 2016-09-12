@@ -1,24 +1,34 @@
 import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
-    run_gitolite = false;
-    run_mpd = false;
-    run_firewall = false;
+    run_gitolite = true;
+    run_mpd = true;
+    run_firewall = true;
     run_torproxy = true;
+
+    outside_needed = run_firewall || run_torproxy;
+
+    testspkg = import ./lib/tests/default.nix {
+      stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl;
+    };
+
   in {
     name = "test-portal";
 
     nodes = {
       portal = {config, pkgs, ... }:
         {
+          testdata = true;
           imports = [
             ./portal/default.nix
           ];
           virtualisation.memorySize = 2*1024;
           virtualisation.vlans = [ 1 2 ];
 
-          networking.nameservers = lib.mkOverride 1 [
-            "192.168.1.240"
-          ];
+          networking.interfaces.eth0 = lib.mkOverride 10 {
+            useDHCP = false;
+            ip4 = [];
+            ip6 = [];
+          };
           networking.interfaces.eth1 = lib.mkOverride 1 {};
           networking.interfaces.eth2 = lib.mkOverride 1 {};
           networking.bridges.lan.interfaces = lib.mkOverride 10 [ "eth1" ];
@@ -45,12 +55,39 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           environment.systemPackages = [ pkgs.nmap ];
         };
+      inside = {config, pkgs, ...}:
+        {
+          virtualisation.memorySize = 256;
+          virtualisation.vlans = [ 1 ];
+
+          imports = [
+            ./lib/users/arnold.nix
+          ];
+
+          networking.interfaces.eth0 = lib.mkOverride 10 {
+            useDHCP = false;
+            ip4 = [];
+            ip6 = [];
+          };
+          networking.interfaces.eth1 = {
+            useDHCP = true;
+          };
+
+          environment.systemPackages = [
+            pkgs.git
+            pkgs.nmap
+            pkgs.openssh
+            testspkg
+          ];
+        };
     };
 
     testScript = ''
 
       subtest "set up", sub {
-        $outside->start();
+        ${lib.optionalString outside_needed
+          ''$outside->start();''
+        }
         $portal->start();
 
         $portal->waitForUnit("default.target");
@@ -136,14 +173,39 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       };
 
       ${lib.optionalString run_mpd
-        ''subtest "check container shutdown", sub {
+        ''subtest "check mpd container shutdown", sub {
           $portal->execute("nixos-container stop mpd >&2");
           $portal->fail("ping -n -c 1 -w 2 mpd >&2");
         };''
       }
 
-      $portal->shutdown();
-      $outside->shutdown();
+      ${lib.optionalString run_gitolite
+        ''subtest "Check gitolite", sub {
+          $portal->waitForUnit("container\@gitolite");
+          # $portal->succeed("journalctl -M gitolite -u gitolite-init >&2");
+          # $portal->succeed("journalctl -M gitolite -u git-daemon >&2");
+          $portal->succeed("systemctl -M gitolite status gitolite-init >&2");
+          # $portal->succeed("systemctl -M gitolite list-dependencies git-daemon >&2");
+          $portal->succeed("systemctl -M gitolite status git-daemon >&2");
+          # $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite >&2");
+          # $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite/repositories >&2");
+          # $portal->succeed("nixos-container run gitolite -- cat /var/lib/gitolite/.gitolite.rc >&2");
+          $portal->succeed("grep 0027 /var/lib/containers/gitolite/var/lib/gitolite/.gitolite.rc >&2");
+          $inside->waitForUnit("default.target");
+          # $inside->succeed("curl -s http://gitolite/gitweb/ |grep \"404 - No projects found\" >&2");
+          $inside->fail("curl -s http://gitolite/gitweb/ >&2");
+          $inside->succeed("test_gitolite >&2");
+        };
+        # $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite >&2");
+        # $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite/repositories >&2");
+        ''
+      }
+
+      #$inside->shutdown();
+      #$portal->shutdown();
+      ${lib.optionalString outside_needed
+        ''#$outside->shutdown();''
+      }
     '';
   }
 )
