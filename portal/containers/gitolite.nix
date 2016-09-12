@@ -39,13 +39,13 @@ in
         adminPubkey = adminkey;
       };
 
-      services.lighttpd = {
+      /*services.lighttpd = {
         enable = true;
         gitweb = {
           enable = true;
           projectroot = config.services.gitolite.dataDir + "/repositories";
         };
-      };
+      };*/
 
       services.gitDaemon = {
         enable = true;

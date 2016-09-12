@@ -97,6 +97,7 @@ cd /root
 # Access gitweb via curl
 #
 @test "public_repo is visible in gitweb" {
+	skip "gitweb is disabled"
 	run curl -s -f http://gitolite/gitweb/
 	echo $output >&2
 	[ $status -eq 0 ]
