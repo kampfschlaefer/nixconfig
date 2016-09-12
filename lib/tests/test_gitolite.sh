@@ -41,7 +41,7 @@ cd /root
 	repo public_repo
 		config gitweb.description = \"For all to see\"
 		RW+ = user
-		R   = gitweb
+		R   = gitweb daemon
 	" >> conf/gitolite.conf
 	cp @out@/data/test_key.pub keydir/user.pub
 
@@ -50,6 +50,7 @@ cd /root
 	run git commit -m "add user and repos"
 	[ $status -eq 0 ]
 	run git push
+	echo $output >&2
 	[ $status -eq 0 ]
 }
 
@@ -103,8 +104,9 @@ cd /root
 }
 @test "access public_repo via http" {
 	skip "gitweb doesn't allow access via git+http"
-	mkdir http
+	mkdir -p http
 	cd http
+	rm -Rf *
 	run git clone http://gitolite/gitweb/public_repo.git
 	[ $status -eq 0 ]
 	[[ -d public_repo ]]
@@ -118,4 +120,31 @@ cd /root
 	[[ ! "$output" =~ "testing" ]]
 	[[ ! "$output" =~ "gitolite-admin" ]]
 	[[ ! "$output" =~ "private_repo" ]]
+}
+
+#
+# Access public_repo via anonymous git
+#
+@test "public_repo is accessible via anonymous git" {
+	mkdir -p anonymous
+	cd anonymous
+	rm -Rf *
+	run git clone git://gitolite/public_repo.git
+	echo $output >&2
+	[ $status -eq 0 ]
+	run grep "public" public_repo/readme.md
+	[ $status -eq 0 ]
+}
+@test "private repos are not accessible via anonymous git" {
+	mkdir -p anonymous
+	cd anonymous
+	rm -Rf *
+	run git clone git://gitolite/private_repo.git
+	echo $output >&2
+	[ $status -ne 0 ]
+	[[ "$output" =~ "access denied" ]]
+	run git clone git://gitolite/testing.git
+	[ $status -ne 0 ]
+	run git clone git://gitolite/gitolite-admin.git
+	[ $status -ne 0 ]
 }

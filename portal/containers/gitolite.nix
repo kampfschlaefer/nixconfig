@@ -46,7 +46,14 @@ in
           projectroot = config.services.gitolite.dataDir + "/repositories";
         };
       };
-      users.extraUsers.gitolite.group = "lighttpd";
+
+      services.gitDaemon = {
+        enable = true;
+        basePath = config.services.gitolite.dataDir + "/repositories";
+      };
+
+      users.extraUsers.lighttpd.extraGroups = [ config.services.gitDaemon.group ];
+      users.extraUsers.gitolite.group = config.services.gitDaemon.group;
 
       # Make gitolite and lighttpd and gitweb play toghether
       systemd.services."gitolite-init".preStart = ''
@@ -59,6 +66,8 @@ in
 
         chmod g+rx /var/lib/gitolite/repositories
       ";
+      systemd.services."git-daemon".preStart = "[ -d ${config.services.gitolite.dataDir}/repositories ] || sleep 2";
+      systemd.services."git-daemon".requires = [ "gitolite-init.service" ];
     };
   };
 }
