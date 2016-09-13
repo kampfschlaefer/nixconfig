@@ -21,6 +21,7 @@ in
     localAddress6 = "2001:470:1f0b:1033::7079:6865:696d/64";
 
     config = { config, pkgs, ... }: {
+      time.timeZone = "Europe/Berlin";
 
       networking.domain = "arnoldarts.de";
       networking.firewall.enable = false;
