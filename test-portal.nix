@@ -4,6 +4,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_mpd = true;
     run_firewall = true;
     run_torproxy = true;
+    run_pyheim = true;
 
     outside_needed = run_firewall || run_torproxy;
 
@@ -38,6 +39,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
+          containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
           containers.imap.autoStart = lib.mkOverride 10 false;
           containers.cups.autoStart = lib.mkOverride 10 false;
         };
@@ -199,6 +201,15 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         # $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite >&2");
         # $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite/repositories >&2");
         ''
+      }
+
+      ${lib.optionalString run_pyheim
+        ''subtest "Check pyheim", sub {
+          $portal->waitForUnit("container\@pyheim");
+          $portal->succeed("nixos-container run pyheim -- pyheim_get_all --help >&2");
+          $portal->succeed("systemctl -M pyheim status pyheim_colortemp_daytime.timer >&2");
+          $portal->succeed("systemctl -M pyheim status pyheim_colortemp_night.timer >&2");
+        };''
       }
 
       #$inside->shutdown();
