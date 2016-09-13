@@ -8,8 +8,8 @@ in python.mkDerivation {
   src = pkgs.fetchgit {
     name = "pyheim-master";
     url = "git://gitolite/pyheim.git";
-    rev = "e40fc8593c864c68b8c319da96efcbbcdb7a038e";
-    sha256 = "0dijp85mnfwl9x7q0l2ajbav8zq1759qix7wq7z2viv8a0zr7f4b";
+    rev = "d5a74a498311acef681c00eea9be10804d9e1873";
+    sha256 = "13psf1hmsk0xcc02bdh672q41d6ya352fcf7n6zydr5shf7gzq4g";
   };
   buildInputs = [ pkgs.openssh ];
   propagatedBuildInputs = [
