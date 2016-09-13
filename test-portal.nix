@@ -209,6 +209,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("nixos-container run pyheim -- pyheim_get_all --help >&2");
           $portal->succeed("systemctl -M pyheim status pyheim_colortemp_daytime.timer >&2");
           $portal->succeed("systemctl -M pyheim status pyheim_colortemp_night.timer >&2");
+          $portal->succeed("systemctl -M pyheim status pyheim_spots_off.timer >&2");
         };''
       }
 

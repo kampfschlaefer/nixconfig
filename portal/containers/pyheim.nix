@@ -21,6 +21,7 @@ in
     localAddress6 = "2001:470:1f0b:1033::7079:6865:696d/64";
 
     config = { config, pkgs, ... }: {
+      time.timeZone = "Europe/Berlin";
 
       networking.domain = "arnoldarts.de";
       networking.firewall.enable = false;
@@ -34,10 +35,14 @@ in
       environment.systemPackages = [ pyheimpkg ];
 
       systemd.services.pyheim_colortemp_daytime = pyheim_timer // {
-        startAt = "*-*-* 17,18,19,20,21,22,23:00:00";
+        startAt = "*-*-* 17,18,19,20,21,22,23:*:00";
       };
       systemd.services.pyheim_colortemp_night = pyheim_timer // {
-        startAt = "*-*-* 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17:01/5:00";
+        startAt = "*-*-* 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17:00/5:00";
+      };
+      systemd.services.pyheim_spots_off = pyheim_timer // {
+        startAt = "*-*-* 1:00,05:00";
+        script = "${pyheimpkg}/bin/pyheim_spot_cmd off";
       };
     };
   };
