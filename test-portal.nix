@@ -7,6 +7,8 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_pyheim = false;
     run_selfoss = true;
 
+    debug = false;
+
     outside_needed = run_firewall || run_torproxy;
 
     testspkg = import ./lib/tests/default.nix {
@@ -98,7 +100,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         ${lib.optionalString run_torproxy
           ''$portal->waitForUnit("container\@torproxy");''
         }
-        ${lib.optionalString (run_gitolite /*|| run_selfoss*/)
+        ${lib.optionalString (run_gitolite || run_selfoss)
           ''$inside->start();''
         }
       };
@@ -224,14 +226,18 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("ping -n -c 1 selfoss >&2");
           $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
-          $portal->succeed("curl http://selfoss/ >&2");
-          $portal->succeed("curl -f http://selfoss/ >&2");
-          #$inside->succeed("curl -s -f http://selfoss/ >&2");
-        };
-        subtest "selfoss debugging", sub {
+          #$portal->succeed("curl http://selfoss/ >&2");
+          #$portal->succeed("curl -f http://selfoss/ >&2");
+          $inside->waitForUnit("default.target");
+          $inside->succeed("curl -s -f http://selfoss/ >&2");
+        };''
+      }
+      ${lib.optionalString (run_selfoss && debug)
+        ''subtest "selfoss debugging", sub {
           $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
-          $portal->succeed("nixos-container run selfoss -- ls -la /run/phpfpm >&2");
+          $portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold >&2");
+          $portal->succeed("nixos-container run selfoss -- ls -laR /var/lib/selfoss/arnold/data >&2");
         };''
       }
 

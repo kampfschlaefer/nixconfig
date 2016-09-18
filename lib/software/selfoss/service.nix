@@ -8,61 +8,42 @@ let
       type = types.str;
       default = "sqlite";
     };
+
+    servername = mkOption {
+      type = types.str;
+    };
   };
 
   selfosspkg = pkgs.callPackage ./default.nix {};
 
-  selfossinstpkg = instancename: instance: let
-    targets = [ "index.php" "common.php" "controllers" "daos" "defaults.ini" "helpers" "libs" "spouts" "templates" ];
-  in pkgs.stdenv.mkDerivation rec {
-    name = "selfoss-${instancename}";
-
-    src = ./.;
-    buildInputs = [ selfosspkg ];
-
-    dontBuild = true;
-
-    installPhase = ''
-      mkdir $out
-
-      ${concatMapStrings (target: ''
-        ln -s ${selfosspkg}/${target} $out/${target};
-      '') targets}
-
-      ln -s /var/lib/selfoss/${instancename}/data $out/data
-      ln -s /var/lib/selfoss/${instancename}/public $out/public
-    '';
-  };
-
   cfg = config.services.selfoss;
-
 
   hasInstances = length(attrNames cfg) > 0;
 
   nginxcfg = config.services.nginx;
-
-  #instances = mapAttrsToList selfossinstpkg cfg;
 
   selfossprestarts = concatStringsSep "\n" (
     mapAttrsToList (name: opts: ''
       if [ ! -d /var/lib/selfoss/${name} ]; then
         mkdir -p /var/lib/selfoss/${name}
         cp -R ${selfosspkg}/data /var/lib/selfoss/${name}
+        chmod u+w -R /var/lib/selfoss/${name}/data
         cp -R ${selfosspkg}/public /var/lib/selfoss/${name}
+        chmod u+w /var/lib/selfoss/${name}/public
       fi
+      for f in index.php common.php controllers daos defaults.ini helpers libs spouts templates; do
+        cp -R ${selfosspkg}/$f /var/lib/selfoss/${name}/
+      done
       chown -R ${nginxcfg.user}:${nginxcfg.group} /var/lib/selfoss/${name}
     '') cfg
   );
 
   httpconfig = concatStringsSep "\n" (
-    mapAttrsToList (name: opts:
-      let
-        instance = selfossinstpkg name opts;
-      in ''
+    mapAttrsToList (name: opts: ''
       server {
-        server_name ${name};
+        server_name ${opts.servername};
 
-        root ${instance};
+        root /var/lib/selfoss/${name};
 
         index index.php;
 
@@ -70,7 +51,7 @@ let
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
           fastcgi_pass unix:/run/phpfpm/selfoss;
           fastcgi_index index.php;
-          fastcgi_param SCRIPT_FILENAME ${instance}/$fastcgi_script_name;
+          fastcgi_param SCRIPT_FILENAME /var/lib/selfoss/${name}/$fastcgi_script_name;
           fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
           fastcgi_param DOCUMENT_ROOT   $document_root;
           fastcgi_param QUERY_STRING    $query_string;
@@ -78,6 +59,7 @@ let
           fastcgi_param CONTENT_TYPE    $content_type;
           fastcgi_param CONTENT_LENGTH  $content_length;
           fastcgi_param REQUEST_URI     $request_uri;
+          fastcgi_param SERVER_PORT     $server_port;
         }
 
         access_log syslog:server=unix:/dev/log;
@@ -101,7 +83,7 @@ in
   config = mkIf hasInstances {
 
     services.phpfpm = {
-      #phpPackage = pkgs.php56;
+      phpPackage = pkgs.php56;
       extraConfig = ''
         error_log = syslog
         log_level = notice

@@ -33,6 +33,7 @@ in
 
       services.selfoss.arnold = {
         dbtype = "sqlite";
+        servername = "seafile.arnoldarts.de";
       };
 
       /*services.openssh = {
