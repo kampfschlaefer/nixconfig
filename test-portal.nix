@@ -4,7 +4,8 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_mpd = false;
     run_firewall = false;
     run_torproxy = false;
-    run_pyheim = true;
+    run_pyheim = false;
+    run_selfoss = true;
 
     outside_needed = run_firewall || run_torproxy;
 
@@ -40,6 +41,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
           containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
+          containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.imap.autoStart = lib.mkOverride 10 false;
           containers.cups.autoStart = lib.mkOverride 10 false;
         };
@@ -95,6 +97,9 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->waitForUnit("default.target");
         ${lib.optionalString run_torproxy
           ''$portal->waitForUnit("container\@torproxy");''
+        }
+        ${lib.optionalString (run_gitolite /*|| run_selfoss*/)
+          ''$inside->start();''
         }
       };
 
@@ -210,6 +215,23 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl -M pyheim status pyheim_colortemp_daytime.timer >&2");
           $portal->succeed("systemctl -M pyheim status pyheim_colortemp_night.timer >&2");
           $portal->succeed("systemctl -M pyheim status pyheim_spots_off.timer >&2");
+        };''
+      }
+
+      ${lib.optionalString run_selfoss
+        ''subtest "Check selfoss", sub {
+          $portal->waitForUnit("container\@selfoss");
+          $portal->succeed("ping -n -c 1 selfoss >&2");
+          $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
+          $portal->succeed("journalctl -M selfoss -u nginx >&2");
+          $portal->succeed("curl http://selfoss/ >&2");
+          $portal->succeed("curl -f http://selfoss/ >&2");
+          #$inside->succeed("curl -s -f http://selfoss/ >&2");
+        };
+        subtest "selfoss debugging", sub {
+          $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
+          $portal->succeed("journalctl -M selfoss -u nginx >&2");
+          $portal->succeed("nixos-container run selfoss -- ls -la /run/phpfpm >&2");
         };''
       }
 

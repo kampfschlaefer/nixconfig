@@ -21,6 +21,7 @@ in {
       ./containers/imap.nix
       ./containers/cups.nix
       ./containers/pyheim.nix
+      ./containers/selfoss.nix
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
