@@ -8,6 +8,24 @@ let
       type = types.str;
       default = "sqlite";
     };
+    dbhost = mkOption {
+      type = types.str;
+      default = "localhost";
+    };
+    dbport = mkOption {
+      type = types.int;
+    };
+    dbname = mkOption {
+      type = types.str;
+      default = "selfoss";
+    };
+    dbusername = mkOption {
+      type = types.str;
+      default = "selfoss";
+    };
+    dbpassword = mkOption {
+      type = types.str;
+    };
 
     servername = mkOption {
       type = types.str;
@@ -22,6 +40,21 @@ let
 
   nginxcfg = config.services.nginx;
 
+  instanceconfig = opts: ''
+    [globals]
+    db_type=${opts.dbtype}
+    ${lib.optionalString (opts.dbtype == "postgres")
+    ''db_host=${opts.dbhost}
+      db_database=${opts.dbname}
+      db_username=${opts.dbusername}
+      db_password=${opts.dbpassword}
+      db_port=${opts.dbport}
+    ''}
+    ${lib.optionalString (opts.dbtype == "sqlite")
+    ''db_file=data/sqlite/selfoss.db
+    ''}
+  '';
+
   selfossprestarts = concatStringsSep "\n" (
     mapAttrsToList (name: opts: ''
       if [ ! -d /var/lib/selfoss/${name} ]; then
@@ -31,10 +64,13 @@ let
         cp -R ${selfosspkg}/public /var/lib/selfoss/${name}
         chmod u+w /var/lib/selfoss/${name}/public
       fi
+      cd /var/lib/selfoss/${name}
+      rm -f config.ini
+      echo "${instanceconfig opts}" > config.ini
       for f in index.php common.php controllers daos defaults.ini helpers libs spouts templates; do
-        cp -R ${selfosspkg}/$f /var/lib/selfoss/${name}/
+        ${pkgs.rsync}/bin/rsync -r --delete ${selfosspkg}/$f ./
       done
-      chown -R ${nginxcfg.user}:${nginxcfg.group} /var/lib/selfoss/${name}
+      chown -R ${nginxcfg.user}:${nginxcfg.group} .
     '') cfg
   );
 
@@ -106,7 +142,7 @@ in
     services.nginx = {
       enable = true;
       httpConfig = ''
-        disable_symlinks off;
+        #disable_symlinks off;
         ${httpconfig}
       '';
     };
