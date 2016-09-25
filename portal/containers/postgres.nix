@@ -8,7 +8,6 @@ in
 
     privateNetwork = true;
     hostBridge = "backend";
-    # localAddress = "192.168.6.1/23";
 
     config = {config, pkgs, ...}: {
       time.timeZone = "Europe/Berlin";
@@ -29,10 +28,15 @@ in
 
       services.postgresql = {
         enable = true;
-
         enableTCPIP = true;
-
         package = pkgs.postgresql95;
+        authentication = ''
+          host selfoss selfoss 192.168.6.2/32 trust
+        '';
+        initialScript = builtins.toFile "pg_initial_script" ''
+          CREATE ROLE selfoss LOGIN CREATEDB;
+          CREATE DATABASE selfoss OWNER selfoss;
+        '';
       };
 
     };

@@ -15,7 +15,6 @@ in
       };
     };
 
-
     config = { config, pkgs, ... }: {
       imports = [
         ../../lib/software/selfoss/service.nix
@@ -40,15 +39,17 @@ in
       networking.firewall.allowedTCPPorts = [ 80 ];
 
       services.selfoss.arnold = {
-        dbtype = "sqlite";
         servername = "seafile.arnoldarts.de";
+        dbtype = "pgsql";
+        dbhost = "postgres";
+        dbname = "selfoss";
+        dbusername = "selfoss";
+        dbpassword = "";
       };
-
-      /*services.openssh = {
-        enable = true;
-        allowSFTP = true;
-        startWhenNeeded = true;
-      };*/
+      services.selfoss.sqlite = {
+        dbtype = "sqlite";
+        servername = "sqlite_seafile.arnoldarts.de";
+      };
 
       environment.systemPackages = [ selfosspkg ];
     };

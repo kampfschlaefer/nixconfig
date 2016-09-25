@@ -9,9 +9,10 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
     debug = false;
 
-    run_postgres = run_selfoss || true;
+    run_postgres = run_selfoss || false;
 
     outside_needed = run_firewall || run_torproxy;
+    inside_needed = run_selfoss || run_gitolite;
 
     testspkg = import ./lib/tests/default.nix {
       stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl;
@@ -45,6 +46,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
           containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
+          containers.postgres.autoStart = lib.mkOverride 10 run_postgres;
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.imap.autoStart = lib.mkOverride 10 false;
           containers.cups.autoStart = lib.mkOverride 10 false;
@@ -102,7 +104,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         ${lib.optionalString run_torproxy
           ''$portal->waitForUnit("container\@torproxy");''
         }
-        ${lib.optionalString (run_gitolite || run_selfoss)
+        ${lib.optionalString inside_needed
           ''$inside->start();''
         }
       };
@@ -227,29 +229,34 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->waitForUnit("container\@postgres");
           $portal->succeed("journalctl -M postgres -u postgresql >&2");
           $portal->succeed("systemctl -M postgres status postgresql >&2");
+          $portal->succeed("nixos-container run postgres -- psql -l >&2");
         };''
       }
 
       ${lib.optionalString run_selfoss
         ''subtest "Check selfoss", sub {
           $portal->waitForUnit("container\@selfoss");
-          $portal->succeed("nixos-container run selfoss -- ping -n -c 2 192.168.6.1 >&2");
           $portal->succeed("ping -n -c 1 selfoss >&2");
+          $portal->succeed("nixos-container run selfoss -- ping -n -c 2 192.168.6.1 >&2");
           $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
           $portal->succeed("systemctl -M selfoss status nginx >&2");
           $portal->succeed("systemctl -M selfoss status phpfpm >&2");
-          #$portal->succeed("curl http://selfoss/ >&2");
-          $portal->succeed("curl -f http://selfoss/ >&2");
+          $portal->succeed("curl -s -f http://selfoss/ >&2");
           $inside->waitForUnit("default.target");
           $inside->succeed("curl -s -f http://selfoss/ >&2");
         };''
       }
       ${lib.optionalString (run_selfoss && debug)
         ''subtest "selfoss debugging", sub {
+          $portal->succeed("curl -f http://selfoss/ >&2");
           $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
+          $portal->succeed("nixos-container run postgres -- psql -l >&2");
+          $portal->succeed("nixos-container run postgres -- psql selfoss -c \"\\dp\" >&2");
           $portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold >&2");
+          $portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold/data/logs >&2");
+          $portal->execute("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/data/logs/default.log >&2");
           $portal->succeed("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/config.ini >&2");
         };''
       }

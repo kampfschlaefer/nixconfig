@@ -5,30 +5,55 @@ with lib;
 let
   selfossinstance = {
     dbtype = mkOption {
-      type = types.str;
+      type = types.enum [ "sqlite" "pgsql" "mysql" ];
       default = "sqlite";
+      description = ''
+        The database to use. "sqlite" is the easiest and also the default.
+      '';
     };
     dbhost = mkOption {
       type = types.str;
       default = "localhost";
+      description = ''
+        The host of the database to connect to.
+        Only for database types pgsql and mysql.
+      '';
     };
     dbport = mkOption {
-      type = types.int;
+      type = types.nullOr types.int;
+      default = null;
+      description = ''
+        Port of the database to connect to for pgsql and mysql.
+        Defaults to 5432 for pgsql and 3306 for mysql.
+      '';
     };
     dbname = mkOption {
       type = types.str;
       default = "selfoss";
+      description = ''
+        Name of the database to use.
+      '';
     };
     dbusername = mkOption {
       type = types.str;
       default = "selfoss";
+      description = ''
+        Name of the database user.
+      '';
     };
     dbpassword = mkOption {
       type = types.str;
+      default = "";
+      description = ''
+        Password to connect to the database.
+      '';
     };
 
     servername = mkOption {
       type = types.str;
+      description = ''
+        Name of the nginx-server where the selfoss instance is reachable.
+      '';
     };
   };
 
@@ -40,15 +65,25 @@ let
 
   nginxcfg = config.services.nginx;
 
+  portForDbtype = dbtype:
+    if dbtype == "pgsql"
+    then 5432
+    else (
+      if dbtype == "mysql"
+      then 3306
+      else null
+    );
+
   instanceconfig = opts: ''
     [globals]
     db_type=${opts.dbtype}
-    ${lib.optionalString (opts.dbtype == "postgres")
-    ''db_host=${opts.dbhost}
+    ${lib.optionalString (opts.dbtype == "pgsql" || opts.dbtype == "mysql")
+    ''
+      db_host=${opts.dbhost}
       db_database=${opts.dbname}
       db_username=${opts.dbusername}
       db_password=${opts.dbpassword}
-      db_port=${opts.dbport}
+      db_port=${toString (if opts.dbport != null then opts.dbport else portForDbtype opts.dbtype)}
     ''}
     ${lib.optionalString (opts.dbtype == "sqlite")
     ''db_file=data/sqlite/selfoss.db
