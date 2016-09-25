@@ -229,9 +229,11 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl -M postgres status postgresql >&2");
         };''
       }
+
       ${lib.optionalString run_selfoss
         ''subtest "Check selfoss", sub {
           $portal->waitForUnit("container\@selfoss");
+          $portal->succeed("nixos-container run selfoss -- ping -n -c 2 192.168.6.1 >&2");
           $portal->succeed("ping -n -c 1 selfoss >&2");
           $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");

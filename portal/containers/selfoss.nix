@@ -17,8 +17,14 @@ in
 
     privateNetwork = true;
     hostBridge = "lan";
-    localAddress = "192.168.1.227/24";
-    localAddress6 = "2001:470:1f0b:1033:73:656c:666f:7373/64";
+    /*localAddress = "192.168.1.227/24";*/
+    /*localAddress6 = "2001:470:1f0b:1033:73:656c:666f:7373/64";*/
+    extraVeths = {
+      backendpg = {
+        hostBridge = "backend";
+      };
+    };
+
 
     config = { config, pkgs, ... }: {
       imports = [
@@ -28,6 +34,18 @@ in
       time.timeZone = "Europe/Berlin";
 
       networking.domain = "arnoldarts.de";
+      networking.interfaces = {
+        eth0 = {
+          useDHCP = false;
+          ip4 = [{ address="192.168.1.227"; prefixLength=24; }];
+          ip6 = [{ address="2001:470:1f0b:1033:73:656c:666f:7373"; prefixLength=64; }];
+        };
+        backendpg = {
+          useDHCP = false;
+          ip4 = [{ address="192.168.6.2"; prefixLength=23; }];
+          ip6 = [];
+        };
+      };
       networking.firewall.enable = true;
       networking.firewall.allowedTCPPorts = [ 80 ];
 
