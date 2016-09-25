@@ -9,6 +9,8 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
     debug = false;
 
+    run_postgres = run_selfoss || true;
+
     outside_needed = run_firewall || run_torproxy;
 
     testspkg = import ./lib/tests/default.nix {
@@ -220,6 +222,13 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         };''
       }
 
+      ${lib.optionalString run_postgres
+        ''subtest "Check postgres", sub {
+          $portal->waitForUnit("container\@postgres");
+          $portal->succeed("journalctl -M postgres -u postgresql >&2");
+          $portal->succeed("systemctl -M postgres status postgresql >&2");
+        };''
+      }
       ${lib.optionalString run_selfoss
         ''subtest "Check selfoss", sub {
           $portal->waitForUnit("container\@selfoss");
