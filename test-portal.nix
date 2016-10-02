@@ -5,8 +5,10 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_firewall = true;
     run_torproxy = true;
     run_pyheim = true;
+    run_ntp = true;
 
     outside_needed = run_firewall || run_torproxy;
+    inside_needed = run_gitolite || run_ntp;
 
     testspkg = import ./lib/tests/default.nix {
       stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl;
@@ -80,6 +82,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
             pkgs.nmap
             pkgs.openssh
             testspkg
+            pkgs.ntp
           ];
         };
     };
@@ -87,10 +90,13 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     testScript = ''
 
       subtest "set up", sub {
+        $portal->start();
         ${lib.optionalString outside_needed
           ''$outside->start();''
         }
-        $portal->start();
+        ${lib.optionalString inside_needed
+          ''$inside->start();''
+        }
 
         $portal->waitForUnit("default.target");
         ${lib.optionalString run_torproxy
@@ -103,14 +109,6 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->succeed("grep /etc/static/bashrc -e 'vi=' >&2");
       };
 
-      subtest "check unbound/dhcp", sub {
-        $portal->succeed("unbound-checkconf /var/lib/unbound/unbound.conf >&2");
-
-        $portal->succeed("systemctl is-active unbound >&2");
-
-        $portal->succeed("systemctl is-active dhcpd >&2");
-      };
-
       subtest "check basic interface setup", sub {
         $portal->succeed("ip link >&2");
         $portal->succeed("ip -4 a >&2");
@@ -120,6 +118,14 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->succeed("ip -6 r >&2");
       };
 
+      subtest "check unbound/dhcp", sub {
+        $portal->succeed("unbound-checkconf /var/lib/unbound/unbound.conf >&2");
+
+        $portal->succeed("systemctl is-active unbound >&2");
+
+        $portal->succeed("systemctl is-active dhcpd >&2");
+      };
+
       subtest "check libvirtd", sub {
         $portal->succeed("getent group |grep libvirtd >&2");
         $portal->succeed("virsh list >&2");
@@ -127,6 +133,15 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->succeed("id arnold |grep libvirtd");
         $portal->succeed("sudo -u arnold -l virsh list >&2");
       };
+
+      ${lib.optionalString run_ntp
+        ''subtest "check ntp", sub {
+          $inside->waitForUnit("default.target");
+          $portal->fail("systemctl status ntpd >&2");
+          $portal->succeed("systemctl status -n 10 -l openntpd >&2");
+          $inside->succeed("ntpdate -q portal.arnoldarts.de |grep \"stratum 16\"");
+        };''
+      }
 
       ${lib.optionalString run_firewall
         ''subtest "check outside connectivity", sub {
