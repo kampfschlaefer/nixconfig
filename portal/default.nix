@@ -147,7 +147,7 @@ in {
 
     services.openntpd = {
       enable = true;
-      servers = [ "pool.ntp.org" "ubuntu.pool.ntp.org" "nixos.pool.ntp.org" ];
+      servers = [ "pool.ntp.org" "0.ubuntu.pool.ntp.org" "1.ubuntu.pool.ntp.org" "0.nixos.pool.ntp.org" "1.nixos.pool.ntp.org" ];
       extraConfig = ''
         listen on 192.168.1.240
         listen on 2001:470:1f0b:1033::706f:7274:616c
