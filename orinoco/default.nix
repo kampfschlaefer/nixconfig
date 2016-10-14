@@ -38,6 +38,7 @@
     twoFingerScroll = true;
   };
 
+  services.xserver.desktopManager.e19.enable = true;
   services.xserver.desktopManager.kde5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
 }
