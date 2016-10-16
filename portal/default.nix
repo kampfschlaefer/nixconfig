@@ -39,6 +39,9 @@ in {
     boot.loader.grub.device = "/dev/sda";
 
     boot.kernelModules = [ "dm-mirror" "dm-snapshot" ];
+    boot.extraModprobeConfig = ''
+      options kvm_intel nested=y
+    '';
 
     fileSystems = {
       "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
