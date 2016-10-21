@@ -34,22 +34,12 @@
     environment =  {
       SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     };
-    script = "duply portaldisk backup";
+    script = ''
+      duply portaldisk purge-purgeFull
+      duply portaldisk backup
+    '';
     startAt = "*-*-* 3:10:00";
   };
-  systemd.services.duplyportal-purge = {
-    path = [ pkgs.bash pkgs.duply pkgs.duplicity ];
-    serviceConfig = {
-      User = "root";
-      WorkingDirectory = "/root";
-    };
-    environment =  {
-      SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
-    };
-    script = "duply portaldisk purge --force && duply portaldisk purgeFull --force";
-    startAt = "monthly";
-  };
-
 
   systemd.services.duplyamazon = {
     path = [ pkgs.bash pkgs.duply pkgs.duplicity ];

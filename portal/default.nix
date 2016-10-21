@@ -39,6 +39,9 @@ in {
     boot.loader.grub.device = "/dev/sda";
 
     boot.kernelModules = [ "dm-mirror" "dm-snapshot" ];
+    boot.extraModprobeConfig = ''
+      options kvm_intel nested=y
+    '';
 
     fileSystems = {
       "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
@@ -103,7 +106,7 @@ in {
       allowPing = true;
       rejectPackets = true;
       allowedTCPPorts = [ 111 2049 4001 4002 ];
-      allowedUDPPorts = [ 111 2049 4001 4002 60001 ];
+      allowedUDPPorts = [ 111 123 2049 4001 4002 60001 ];
       rules = [
         {
           fromInterface = "lan";
@@ -141,6 +144,17 @@ in {
       lockdPort = 4001;
       mountdPort = 4002;
       exports = "/srv/nfs  192.168.1.0/24(rw,sync,fsid=0,crossmnt,no_subtree_check) 2001:470:1f0b:1033::/64(rw,sync,fsid=0,crossmnt,no_subtree_check)";
+    };
+
+    services.ntp.enable = false;
+
+    services.openntpd = {
+      enable = true;
+      servers = [ "pool.ntp.org" "0.ubuntu.pool.ntp.org" "1.ubuntu.pool.ntp.org" "0.nixos.pool.ntp.org" "1.nixos.pool.ntp.org" ];
+      extraConfig = ''
+        listen on 192.168.1.240
+        listen on 2001:470:1f0b:1033::706f:7274:616c
+      '';
     };
 
     services.smartd = {
