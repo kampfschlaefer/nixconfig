@@ -134,6 +134,11 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->succeed("sudo -u arnold -l virsh list >&2");
       };
 
+      subtest "check duply setup", sub {
+        $portal->succeed("systemctl status duplyportal.timer >&2");
+        $portal->succeed("systemctl status duplyamazon.timer >&2");
+      };
+
       ${lib.optionalString run_ntp
         ''subtest "check ntp", sub {
           $inside->waitForUnit("default.target");
