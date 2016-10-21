@@ -38,7 +38,9 @@ let
     # backend (/23 net)
     { name = "postgres"; a = "192.168.6.1"; }
     # { name = "selfoss";  a = "192.168.6.2"; }  # for documentation
-  ];
+  ] ++ (if config.testdata then [
+    { name = "outsideweb";   a = "192.168.2.10"; }
+  ] else []);
 
   localdata = concatMapStrings (addr:
     ''
