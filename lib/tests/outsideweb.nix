@@ -54,6 +54,9 @@ in
         server_name outsideweb;
 
         root ${httpDir}/html;
+
+        access_log syslog:server=unix:/dev/log;
+        error_log syslog:server=unix:/dev/log;
       }
       '';
     };
