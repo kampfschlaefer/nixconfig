@@ -16,12 +16,13 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp;
 
     testspkg = import ./lib/tests/default.nix {
-      stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl;
+      stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl; git = pkgs.git; jq = pkgs.jq;
     };
 
     extraHosts = ''
       # Could add extra name-address pairs here
     '';
+
   in {
     name = "test-portal";
 
@@ -34,6 +35,8 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           ];
           virtualisation.memorySize = 2*1024;
           virtualisation.vlans = [ 1 2 ];
+
+          boot.kernelParams = [ "quiet" ];
 
           networking = {
             interfaces = {
@@ -66,6 +69,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         {
           virtualisation.memorySize = 512;
           virtualisation.vlans = [ 2 ];
+          boot.kernelParams = [ "quiet" ];
 
           imports = [
             ./lib/tests/outsideweb.nix
@@ -90,6 +94,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         {
           virtualisation.memorySize = 256;
           virtualisation.vlans = [ 1 ];
+          boot.kernelParams = [ "quiet" ];
 
           imports = [
             ./lib/users/arnold.nix
@@ -125,6 +130,9 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     testScript = ''
 
       subtest "set up", sub {
+        ${lib.optionalString outside_needed
+          ''$outside->start();''
+        }
         $portal->start();
 
         $portal->waitForUnit("default.target");
@@ -169,9 +177,6 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       };
 
       subtest "start other machines as needed", sub {
-        ${lib.optionalString outside_needed
-          ''$outside->start();''
-        }
         ${lib.optionalString inside_needed
           ''$inside->start();''
         }
@@ -301,6 +306,13 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_selfoss
         ''subtest "Check selfoss", sub {
+          # Preparation
+          $outside->succeed("systemctl status -l -n 40 nginx >&2");
+          $portal->succeed("nixos-container run selfoss -- ip r get 192.168.2.10 >&2");
+          $portal->succeed("nixos-container run selfoss -- ping -n -c 1 -w 2 outsideweb >&2");
+          $portal->succeed("nixos-container run selfoss -- curl -s -f http://outsideweb >&2");
+
+          # Services
           $portal->waitForUnit("container\@selfoss");
           $portal->succeed("ping -n -c 1 selfoss >&2");
           $portal->succeed("nixos-container run selfoss -- ping -n -c 2 192.168.6.1 >&2");
@@ -311,19 +323,26 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("curl -s -f http://selfoss/ >&2");
           $inside->waitForUnit("default.target");
           $inside->succeed("curl -s -f http://selfoss/ >&2");
+
+          # Add Feed, fetch Feed
+          #$inside->succeed("curl -s -f -X POST --data 'title=Outside+Web&tags=&filter=&spout=spouts_rss_feed&url=http%3A%2F%2Foutsideweb%2Frss.xml' http://selfoss/source >&2");
+          $inside->succeed("test_selfoss >&2");
         };''
       }
       ${lib.optionalString (run_selfoss && debug)
         ''subtest "selfoss debugging", sub {
-          $portal->succeed("curl -f http://selfoss/ >&2");
+          #$portal->succeed("curl -f http://selfoss/ >&2");
+          #$portal->succeed("curl -s http://selfoss/sources/list >&2");
           $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
-          $portal->succeed("nixos-container run postgres -- psql -l >&2");
-          $portal->succeed("nixos-container run postgres -- psql selfoss -c \"\\dp\" >&2");
+          #$portal->succeed("nixos-container run postgres -- psql -l >&2");
+          #$portal->succeed("nixos-container run postgres -- psql selfoss -c \"\\dp\" >&2");
           $portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold >&2");
-          $portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold/data/logs >&2");
-          $portal->execute("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/data/logs/default.log >&2");
-          $portal->succeed("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/config.ini >&2");
+          #$portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold/data/logs >&2");
+          #$portal->execute("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/data/logs/default.log >&2");
+          #$portal->succeed("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/config.ini >&2");
+
+          $outside->succeed("journalctl -u nginx >&2");
         };''
       }
 

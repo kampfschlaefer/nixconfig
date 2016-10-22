@@ -23,6 +23,9 @@ in
       time.timeZone = "Europe/Berlin";
 
       networking.domain = "arnoldarts.de";
+      networking.defaultGateway = "192.168.1.220";
+      networking.defaultGateway6 = "2001:470:1f0b:1033:6669:7265:7761:6c6c";
+
       networking.interfaces = {
         eth0 = {
           useDHCP = false;

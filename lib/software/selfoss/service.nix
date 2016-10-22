@@ -65,6 +65,8 @@ let
 
   nginxcfg = config.services.nginx;
 
+  phppkg = pkgs.php56;
+
   portForDbtype = dbtype:
     if dbtype == "pgsql"
     then 5432
@@ -88,6 +90,7 @@ let
     ${lib.optionalString (opts.dbtype == "sqlite")
     ''db_file=data/sqlite/selfoss.db
     ''}
+    allow_public_update_access=1
   '';
 
   selfossprestarts = concatStringsSep "\n" (
@@ -118,6 +121,22 @@ let
 
         index index.php;
 
+        location ~* \ (gif|jpg|png) {
+          expires 30d;
+        }
+        location ~ ^/favicons/.*$ {
+          try_files $uri /var/lib/selfoss/${name}/data/$uri;
+        }
+        location ~ ^/thumbnails/.*$ {
+          try_files $uri /var/lib/selfoss/${name}/data/$uri;
+        }
+        location ~* ^/(data\/logs|data\/sqlite|config\.ini|\.ht) {
+          deny all;
+        }
+        location / {
+          index index.php index.html index.htm;
+          try_files $uri /public/$uri /index.php$is_args$args;
+        }
         location ~ \.php$ {
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
           fastcgi_pass unix:/run/phpfpm/selfoss;
@@ -131,6 +150,9 @@ let
           fastcgi_param CONTENT_LENGTH  $content_length;
           fastcgi_param REQUEST_URI     $request_uri;
           fastcgi_param SERVER_PORT     $server_port;
+        }
+        location ~ ^/(.+)$ {
+          try_files /public/$1 /index.php$is_args$args;
         }
 
         access_log syslog:server=unix:/dev/log;
@@ -154,7 +176,11 @@ in
   config = mkIf hasInstances {
 
     services.phpfpm = {
-      phpPackage = pkgs.php56;
+      phpPackage = phppkg;
+      phpIni = builtins.toFile "php-selfoss.ini" ''
+        always_populate_raw_post_data = -1;
+        ${readFile "${phppkg}/etc/php-recommended.ini"}
+      '';
       extraConfig = ''
         error_log = syslog
         log_level = notice
