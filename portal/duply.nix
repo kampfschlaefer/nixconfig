@@ -36,7 +36,6 @@
     };
     script = ''
       duply portaldisk purge-purgeFull --force
-      duply portaldisk cleanup --force
       duply portaldisk backup
     '';
     startAt = "*-*-* 3:10:00";
