@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Outside World</title>
+    <link href="http://outsideweb.arnoldarts.de/" />
+    <id>urn:id:feed1</id>
+    <updated>2016-11-04T17:00:00Z</updated>
+
+    <entry>
+        <id>urn:id:post1</id>
+        <title>First Post</title>
+        <link href="http://outsideweb.arnoldarts.de/first_post.html" />
+        <author><name>Arnold Krille</name></author>
+        <updated>2016-11-04T17:00:00Z</updated>
+        <content>Actual first content</content>
+    </entry>
+</feed>

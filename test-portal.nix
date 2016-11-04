@@ -311,6 +311,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("nixos-container run selfoss -- ip r get 192.168.2.10 >&2");
           $portal->succeed("nixos-container run selfoss -- ping -n -c 1 -w 2 outsideweb >&2");
           $portal->succeed("nixos-container run selfoss -- curl -s -f http://outsideweb >&2");
+          $portal->succeed("nixos-container run selfoss -- curl -s -f http://outsideweb/feed.atom >&2");
 
           # Services
           $portal->waitForUnit("container\@selfoss");

@@ -6,20 +6,10 @@ let
 
   cfg = config.services.outsideweb;
 
-  indexhtml = ''
-    <html>
-      <head><title>Outside Web</title></head>
-      <body>
-        <h1>Congratulations!</h1>
-        <p>You reached the outside web.</p>
-      </body>
-    </html>
-  '';
-
   httpDir = pkgs.stdenv.mkDerivation rec {
     name = "outsideweb_resources";
 
-    src = ./.;
+    src = ./data;
 
     buildInputs = [];
     configurePhase = false;
@@ -30,7 +20,8 @@ let
 
       echo "Congratulations, you found the outside web" > $out/html/index.txt
 
-      echo "${indexhtml}" > $out/html/index.html
+      cp index.html $out/html/
+      cp feed.atom $out/html/
     '';
   };
 
