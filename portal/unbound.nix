@@ -7,11 +7,13 @@ let
     { name = "laserjet"; a = "192.168.1.10"; }
     { name = "fonera";   a = "192.168.1.20"; }
 
+    # client machines
     { name = "xingu";    a = "192.168.1.65"; aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07"; }
     { name = "orinoco";  a = "192.168.1.66"; } # wireless
     { name = "amazonas"; a = "192.168.1.67"; } # wireless
     { name = "touchpi";  a = "192.168.1.70"; /*aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07";*/ }
 
+    # containers
     { name = "firewall"; a = "192.168.1.220"; aaaa = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; }
     { name = "mpd";      a = "192.168.1.221"; aaaa = "2001:470:1f0b:1033::6d:7064"; }
     { name = "cups";     a = "192.168.1.222"; aaaa = "2001:470:1f0b:1033::6375:7073"; }
@@ -19,17 +21,26 @@ let
     { name = "imap";     a = "192.168.1.224"; aaaa = "2001:470:1f0b:1033::696d:6170"; }
     { name = "torproxy"; a = "192.168.1.225"; aaaa = "2001:470:1f0b:1033:746f:7270:726f:7879"; }
     { name = "pyheim";   a = "192.168.1.226"; aaaa = "2001:470:1f0b:1033::7079:6865:696d"; }
+    { name = "selfoss";  a = "192.168.1.227"; aaaa = "2001:470:1f0b:1033:73:656c:666f:7373"; }
 
+    # servers
     { name = "portal";   a = "192.168.1.240"; aaaa = "2001:470:1f0b:1033::706f:7274:616c"; }
 
     { name = "starbase"; a = "192.168.1.250"; aaaa = "2001:470:1f0b:1033::1"; }
     { name = "seafile";  a = "192.168.1.250"; aaaa = "2001:470:1f0b:1033::5ea:f11e"; }
 
+    # network infrastructure
     { name = "openwrt";  a = "192.168.1.251"; }
     { name = "tenda";    a = "192.168.1.252"; }
     # { name = "hp";       a = "192.168.1.253"; } # old switch, not printer
     { name = "tp";       a = "192.168.1.254"; }
-  ];
+
+    # backend (/23 net)
+    { name = "postgres"; a = "192.168.6.1"; }
+    # { name = "selfoss";  a = "192.168.6.2"; }  # for documentation
+  ] ++ (if config.testdata then [
+    { name = "outsideweb";   a = "192.168.2.10"; }
+  ] else []);
 
   localdata = concatMapStrings (addr:
     ''

@@ -38,7 +38,9 @@ let
     { hostName = "ebook";         ethernetAddress = "28:f3:66:9c:13:71"; }
     { hostName = "steuer";        ethernetAddress = "08:00:27:1f:06:82"; }
     { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
-  ];
+  ] ++ (if config.testdata then [
+    { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
+  ] else []);
 in {
   services.dhcpd = {
     enable = true;
@@ -69,6 +71,7 @@ in {
           }
         }
         pool {
+          # This is a /27 network for the known clients in 97-126
           range 192.168.1.97 192.168.1.126;
           default-lease-time 7200;
           max-lease-time 14400;

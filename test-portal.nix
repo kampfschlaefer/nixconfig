@@ -1,18 +1,27 @@
 import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
-    run_gitolite = false;
-    run_mpd = false;
-    run_firewall = false;
-    run_torproxy = false;
+    run_gitolite = true;
+    run_mpd = true;
+    run_firewall = true;
+    run_torproxy = true;
     run_pyheim = true;
     run_ntp = true;
+    run_selfoss = true;
 
-    outside_needed = run_firewall || run_torproxy;
-    inside_needed = run_gitolite || run_ntp;
+    debug = false;
+
+    run_postgres = run_selfoss || false;
+
+    outside_needed = run_firewall || run_torproxy || run_selfoss;
+    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp;
 
     testspkg = import ./lib/tests/default.nix {
-      stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl;
+      stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl; git = pkgs.git; jq = pkgs.jq;
     };
+
+    extraHosts = ''
+      # Could add extra name-address pairs here
+    '';
 
   in {
     name = "test-portal";
@@ -27,21 +36,32 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           virtualisation.memorySize = 2*1024;
           virtualisation.vlans = [ 1 2 ];
 
-          networking.interfaces.eth0 = lib.mkOverride 10 {
-            useDHCP = false;
-            ip4 = [];
-            ip6 = [];
-          };
-          networking.interfaces.eth1 = lib.mkOverride 1 {};
-          networking.interfaces.eth2 = lib.mkOverride 1 {};
-          networking.bridges.lan.interfaces = lib.mkOverride 10 [ "eth1" ];
-          networking.bridges.dmz.interfaces = lib.mkOverride 10 [ "eth2" ];
+          boot.kernelParams = [ "quiet" ];
 
-          containers.firewall.autoStart = lib.mkOverride 10 run_firewall;
+          networking = {
+            interfaces = {
+              eth0 = lib.mkOverride 10 {
+                useDHCP = false;
+                ip4 = [];
+                ip6 = [];
+              };
+              eth1 = lib.mkOverride 1 {};
+              eth2 = lib.mkOverride 1 {};
+            };
+            bridges = {
+              lan.interfaces = lib.mkOverride 10 [ "eth1" ];
+              dmz.interfaces = lib.mkOverride 10 [ "eth2" ];
+            };
+            inherit extraHosts;
+          };
+
+          containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
           containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
+          containers.postgres.autoStart = lib.mkOverride 10 run_postgres;
+          containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.imap.autoStart = lib.mkOverride 10 false;
           containers.cups.autoStart = lib.mkOverride 10 false;
         };
@@ -49,13 +69,24 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         {
           virtualisation.memorySize = 512;
           virtualisation.vlans = [ 2 ];
+          boot.kernelParams = [ "quiet" ];
 
-          networking.interfaces.eth1 = {
-            useDHCP = false;
-            ip4 = [ { address = "192.168.2.10"; prefixLength = 32; } ];
+          imports = [
+            ./lib/tests/outsideweb.nix
+          ];
+
+          networking = {
+            interfaces.eth1 = {
+              useDHCP = false;
+              ip4 = [ { address = "192.168.2.10"; prefixLength = 32; } ];
+            };
+
+            firewall.enable = false;
+
+            inherit extraHosts;
           };
 
-          networking.firewall.enable = false;
+          services.outsideweb.enable = true;
 
           environment.systemPackages = [ pkgs.nmap ];
         };
@@ -63,18 +94,27 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         {
           virtualisation.memorySize = 256;
           virtualisation.vlans = [ 1 ];
+          boot.kernelParams = [ "quiet" ];
 
           imports = [
             ./lib/users/arnold.nix
           ];
 
-          networking.interfaces.eth0 = lib.mkOverride 10 {
-            useDHCP = false;
-            ip4 = [];
-            ip6 = [];
-          };
-          networking.interfaces.eth1 = {
-            useDHCP = true;
+          networking = {
+            interfaces = {
+              eth0 = lib.mkOverride 10 {
+                useDHCP = false;
+                ip4 = [];
+                ip6 = [];
+              };
+              eth1 = lib.mkOverride 10 {
+                useDHCP = true;
+                ip4 = [];
+                ip6 = [];
+                macAddress = "7e:e2:63:7f:f0:0e";
+              };
+            };
+            inherit extraHosts;
           };
 
           environment.systemPackages = [
@@ -90,13 +130,10 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     testScript = ''
 
       subtest "set up", sub {
-        $portal->start();
         ${lib.optionalString outside_needed
           ''$outside->start();''
         }
-        ${lib.optionalString inside_needed
-          ''$inside->start();''
-        }
+        $portal->start();
 
         $portal->waitForUnit("default.target");
         ${lib.optionalString run_torproxy
@@ -139,6 +176,18 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->succeed("systemctl status duplyamazon.timer >&2");
       };
 
+      subtest "start other machines as needed", sub {
+        ${lib.optionalString inside_needed
+          ''$inside->start();''
+        }
+        ${lib.optionalString outside_needed
+          ''$outside->waitForUnit("default.target");''
+        }
+        ${lib.optionalString inside_needed
+          ''$inside->waitForUnit("default.target");''
+        }
+      };
+
       ${lib.optionalString run_ntp
         ''subtest "check ntp", sub {
           $inside->waitForUnit("default.target");
@@ -150,14 +199,27 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_firewall
         ''subtest "check outside connectivity", sub {
+          $portal->waitForUnit("container\@firewall");
+
           $portal->execute("ip link >&2");
-          $portal->succeed("ping -n -c 1 -w 2 192.168.2.10 >&2");
+          $portal->succeed("ping -n -c 1 -w 2 outside >&2");
+          $portal->succeed("ping -n -c 1 -w 2 outsideweb >&2");
+          $portal->succeed("curl -s -f http://outsideweb >&2");
+
           $outside->execute("ip link >&2");
           $outside->execute("ip -4 a >&2");
           $outside->succeed("ping -n -c 1 -w 2 192.168.2.220 >&2");
+
           $portal->execute("nixos-container run firewall -- ip link >&2");
           $portal->execute("nixos-container run firewall -- ip -4 a >&2");
           $portal->fail("nixos-container run firewall -- ping -n -c 1 -w 2 192.168.2.10 >&2");
+
+          $inside->execute("ip -4 a >&2");
+          $inside->execute("ip -4 r >&2");
+          $inside->succeed("ip r get 192.168.2.10 >&2");
+
+          $inside->succeed("ping -c 1 -w 2 -n outsideweb >&2");
+          $inside->succeed("curl -s -f http://outsideweb >&2");
         };''
       }
 
@@ -230,6 +292,58 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl -M pyheim status pyheim_colortemp_daytime.timer >&2");
           $portal->succeed("systemctl -M pyheim status pyheim_colortemp_night.timer >&2");
           $portal->succeed("systemctl -M pyheim status pyheim_spots_off.timer >&2");
+        };''
+      }
+
+      ${lib.optionalString run_postgres
+        ''subtest "Check postgres", sub {
+          $portal->waitForUnit("container\@postgres");
+          $portal->succeed("journalctl -M postgres -u postgresql >&2");
+          $portal->succeed("systemctl -M postgres status postgresql >&2");
+          $portal->succeed("nixos-container run postgres -- psql -l >&2");
+        };''
+      }
+
+      ${lib.optionalString run_selfoss
+        ''subtest "Check selfoss", sub {
+          # Preparation
+          $outside->succeed("systemctl status -l -n 40 nginx >&2");
+          $portal->succeed("nixos-container run selfoss -- ip r get 192.168.2.10 >&2");
+          $portal->succeed("nixos-container run selfoss -- ping -n -c 1 -w 2 outsideweb >&2");
+          $portal->succeed("nixos-container run selfoss -- curl -s -f http://outsideweb >&2");
+          $portal->succeed("nixos-container run selfoss -- curl -s -f http://outsideweb/feed.atom >&2");
+
+          # Services
+          $portal->waitForUnit("container\@selfoss");
+          $portal->succeed("ping -n -c 1 selfoss >&2");
+          $portal->succeed("nixos-container run selfoss -- ping -n -c 2 192.168.6.1 >&2");
+          $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
+          $portal->succeed("journalctl -M selfoss -u nginx >&2");
+          $portal->succeed("systemctl -M selfoss status nginx >&2");
+          $portal->succeed("systemctl -M selfoss status phpfpm >&2");
+          $portal->succeed("curl -s -f http://selfoss/ >&2");
+          $inside->waitForUnit("default.target");
+          $inside->succeed("curl -s -f http://selfoss/ >&2");
+
+          # Add Feed, fetch Feed
+          #$inside->succeed("curl -s -f -X POST --data 'title=Outside+Web&tags=&filter=&spout=spouts_rss_feed&url=http%3A%2F%2Foutsideweb%2Frss.xml' http://selfoss/source >&2");
+          $inside->succeed("test_selfoss >&2");
+        };''
+      }
+      ${lib.optionalString (run_selfoss && debug)
+        ''subtest "selfoss debugging", sub {
+          #$portal->succeed("curl -f http://selfoss/ >&2");
+          #$portal->succeed("curl -s http://selfoss/sources/list >&2");
+          $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
+          $portal->succeed("journalctl -M selfoss -u nginx >&2");
+          #$portal->succeed("nixos-container run postgres -- psql -l >&2");
+          #$portal->succeed("nixos-container run postgres -- psql selfoss -c \"\\dp\" >&2");
+          $portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold >&2");
+          #$portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold/data/logs >&2");
+          #$portal->execute("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/data/logs/default.log >&2");
+          #$portal->succeed("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/config.ini >&2");
+
+          $outside->succeed("journalctl -u nginx >&2");
         };''
       }
 

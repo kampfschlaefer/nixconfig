@@ -1,5 +1,7 @@
 #!@bats@/bin/bats --tap
 
+PATH=@git@/bin:@curl@/bin:$PATH
+
 cd /root
 
 #
