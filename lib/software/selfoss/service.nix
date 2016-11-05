@@ -126,10 +126,10 @@ let
           expires 30d;
         }
         location ~ ^/favicons/.*$ {
-          try_files /var/lib/selfoss/${name}/data/$uri $uri;
+          try_files $uri /var/lib/selfoss/${name}/data/$uri;
         }
         location ~ ^/thumbnails/.*$ {
-          try_files /var/lib/selfoss/${name}/data/$uri $uri;
+          try_files $uri /var/lib/selfoss/${name}/data/$uri;
         }
         location ~* ^/(data\/logs|data\/sqlite|config\.ini|\.ht) {
           deny all;
@@ -153,7 +153,7 @@ let
           fastcgi_param SERVER_PORT     $server_port;
         }
         location ~ ^/(.+)$ {
-          try_files /public/$1 /index.php$is_args$args;
+          try_files /var/lib/selfoss/${name}/public/$1 /index.php$is_args$args;
         }
 
         access_log syslog:server=unix:/dev/log;
