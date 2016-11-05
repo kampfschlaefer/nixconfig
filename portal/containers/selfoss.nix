@@ -41,18 +41,19 @@ in
       networking.firewall.enable = true;
       networking.firewall.allowedTCPPorts = [ 80 ];
 
-      services.selfoss.arnold = {
-        servername = "seafile.arnoldarts.de";
+      services.selfoss.updateinterval = "hourly";
+      services.selfoss.instances.arnold = {
+        servername = "selfoss.arnoldarts.de";
         dbtype = "pgsql";
         dbhost = "postgres";
         dbname = "selfoss";
         dbusername = "selfoss";
         dbpassword = "";
       };
-      services.selfoss.sqlite = {
+      /*services.selfoss.sqlite = {
         dbtype = "sqlite";
-        servername = "sqlite_seafile.arnoldarts.de";
-      };
+        servername = "sqlite_selfoss.arnoldarts.de";
+      };*/
 
       environment.systemPackages = [ selfosspkg ];
     };

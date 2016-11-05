@@ -61,7 +61,7 @@ let
 
   cfg = config.services.selfoss;
 
-  hasInstances = length(attrNames cfg) > 0;
+  hasInstances = length(attrNames cfg.instances) > 0;
 
   nginxcfg = config.services.nginx;
 
@@ -105,11 +105,11 @@ let
       cd /var/lib/selfoss/${name}
       rm -f config.ini
       echo "${instanceconfig opts}" > config.ini
-      for f in index.php common.php controllers daos defaults.ini helpers libs spouts templates; do
+      for f in index.php cliupdate.php common.php controllers daos defaults.ini helpers libs spouts templates; do
         ${pkgs.rsync}/bin/rsync -r --delete ${selfosspkg}/$f ./
       done
       chown -R ${nginxcfg.user}:${nginxcfg.group} .
-    '') cfg
+    '') cfg.instances
   );
 
   httpconfig = concatStringsSep "\n" (
@@ -158,13 +158,42 @@ let
         access_log syslog:server=unix:/dev/log;
         error_log syslog:server=unix:/dev/log;
       }
-    '') cfg
+    '') cfg.instances
   );
+
+  updateservice = cfg: {
+    path = [ phppkg ];
+    serviceConfig = {
+      User = nginxcfg.user;
+      WorkingDirectory = "/var/lib/selfoss/";
+    };
+    environment =  {
+      SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
+    };
+    script = concatMapStrings (
+      name: ''
+        ( cd ${name} && php -f cliupdate.php )
+      ''
+    ) (builtins.attrNames cfg.instances);
+    startAt = cfg.updateinterval;
+  };
 
 in
 {
   options = {
-    services.selfoss = mkOption {
+    services.selfoss.updateinterval = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      description = ''
+        Update the feeds with a systemd.timer job in onCalender notation.
+
+        Use "hourly" to get make selfoss fetch the sources each hour.
+
+        'null' disables automatic feed updates completely.
+      '';
+    };
+
+    services.selfoss.instances = mkOption {
       type = types.attrsOf types.optionSet;
       options = selfossinstance;
       default = {};
@@ -174,7 +203,6 @@ in
     };
   };
   config = mkIf hasInstances {
-
     services.phpfpm = {
       phpPackage = phppkg;
       phpIni = builtins.toFile "php-selfoss.ini" ''
@@ -209,6 +237,8 @@ in
     };
 
     systemd.services.nginx.preStart = selfossprestarts;
+
+    systemd.services.selfoss_update = mkIf (cfg.updateinterval != null) (updateservice cfg);
 
     environment.systemPackages = [ selfosspkg ];
   };
