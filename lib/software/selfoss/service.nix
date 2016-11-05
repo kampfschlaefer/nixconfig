@@ -154,9 +154,6 @@ let
           fastcgi_param REQUEST_URI     $request_uri;
           fastcgi_param SERVER_PORT     $server_port;
         }
-        location ~ ^/(.+)$ {
-          try_files /public/$1 /index.php$is_args$args;
-        }
 
         access_log syslog:server=unix:/dev/log;
         error_log syslog:server=unix:/dev/log;
