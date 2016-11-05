@@ -153,7 +153,7 @@ let
           fastcgi_param SERVER_PORT     $server_port;
         }
         location ~ ^/(.+)$ {
-          try_files $uri /var/lib/selfoss/${name}/public/$1 /index.php$is_args$args;
+          try_files /public/$1 /index.php$is_args$args;
         }
 
         access_log syslog:server=unix:/dev/log;
