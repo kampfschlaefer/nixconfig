@@ -1,11 +1,21 @@
-{ stdenv, bats, curl }:
+{ stdenv, bats, curl, git, jq }:
 
+let
+  install_script = script: ''
+    install -m 0755 ${script}.bats $out/bin/${script}
+    substituteAllInPlace $out/bin/${script}
+  '';
+in
 stdenv.mkDerivation rec {
   name = "testgitolite";
 
   src = ./.;
 
-  buildInputs = [ bats curl ];
+  inherit jq;
+  inherit curl;
+  inherit git;
+  inherit bats;
+
   configurePhase = false;
   dontBuild = true;
 
@@ -13,6 +23,7 @@ stdenv.mkDerivation rec {
     mkdir -p $out/bin
     install -m 0755 test_gitolite.sh $out/bin/test_gitolite
     substituteAllInPlace $out/bin/test_gitolite
+    ${install_script "test_selfoss"}
 
     mkdir -p $out/data
     install -m 0600 data/*_key* $out/data

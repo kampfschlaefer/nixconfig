@@ -21,6 +21,8 @@ in {
       ./containers/imap.nix
       ./containers/cups.nix
       ./containers/pyheim.nix
+      ./containers/postgres.nix
+      ./containers/selfoss.nix
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
@@ -83,6 +85,7 @@ in {
     networking.bridges = {
       lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
       dmz = { interfaces = lib.mkOverride 100 [ "eno2" ]; };
+      backend = { interfaces = []; };
     };
 
     networking.interfaces = {
@@ -92,6 +95,11 @@ in {
         ip6 = [ { address = "2001:470:1f0b:1033::706f:7274:616c"; prefixLength = 64; } ];
       };
       dmz = {
+        useDHCP = false;
+        ip4 = [];
+        ip6 = [];
+      };
+      backend = {
         useDHCP = false;
         ip4 = [];
         ip6 = [];
