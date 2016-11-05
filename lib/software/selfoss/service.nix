@@ -92,6 +92,8 @@ let
     ''}
     allow_public_update_access=1
     base_url=http://${opts.servername}
+    items_lifetime=3000
+    homepage=unread
   '';
 
   selfossprestarts = concatStringsSep "\n" (
