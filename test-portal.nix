@@ -321,12 +321,19 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
           $portal->succeed("systemctl -M selfoss status nginx >&2");
           $portal->succeed("systemctl -M selfoss status phpfpm >&2");
-          $portal->succeed("curl -s -f http://selfoss/ >&2");
+
+          # check update service
+          $portal->succeed("systemctl -M selfoss status selfoss_update.timer >&2");
+          $portal->succeed("nixos-container run selfoss -- systemctl start selfoss_update.service >&2");
+          $portal->execute("journalctl -M selfoss -u selfoss_update >&2");
+          $portal->succeed("systemctl -M selfoss status selfoss_update.service >&2");
+
+          # access selfoss webinterface from container and from inside
+          $portal->succeed("curl -s -f http://selfoss/");
           $inside->waitForUnit("default.target");
-          $inside->succeed("curl -s -f http://selfoss/ >&2");
+          $inside->succeed("curl -s -f http://selfoss/");
 
           # Add Feed, fetch Feed
-          #$inside->succeed("curl -s -f -X POST --data 'title=Outside+Web&tags=&filter=&spout=spouts_rss_feed&url=http%3A%2F%2Foutsideweb%2Frss.xml' http://selfoss/source >&2");
           $inside->succeed("test_selfoss >&2");
         };''
       }
