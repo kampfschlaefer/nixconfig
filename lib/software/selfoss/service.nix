@@ -91,6 +91,7 @@ let
     ''db_file=data/sqlite/selfoss.db
     ''}
     allow_public_update_access=1
+    base_url=http://${opts.servername}
   '';
 
   selfossprestarts = concatStringsSep "\n" (
@@ -125,10 +126,10 @@ let
           expires 30d;
         }
         location ~ ^/favicons/.*$ {
-          try_files $uri /var/lib/selfoss/${name}/data/$uri;
+          try_files /var/lib/selfoss/${name}/data/$uri $uri;
         }
         location ~ ^/thumbnails/.*$ {
-          try_files $uri /var/lib/selfoss/${name}/data/$uri;
+          try_files /var/lib/selfoss/${name}/data/$uri $uri;
         }
         location ~* ^/(data\/logs|data\/sqlite|config\.ini|\.ht) {
           deny all;
