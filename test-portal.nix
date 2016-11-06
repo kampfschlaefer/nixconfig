@@ -8,9 +8,9 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_ntp = false;
     run_selfoss = true;
 
-    debug = false;
-
     run_postgres = run_selfoss || false;
+
+    debug = false;
 
     outside_needed = run_firewall || run_torproxy || run_selfoss;
     inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp;
