@@ -297,10 +297,22 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_postgres
         ''subtest "Check postgres", sub {
+          # start up
           $portal->waitForUnit("container\@postgres");
           $portal->succeed("journalctl -M postgres -u postgresql >&2");
           $portal->succeed("systemctl -M postgres status postgresql >&2");
           $portal->succeed("nixos-container run postgres -- psql -l >&2");
+
+          # backup dump works
+          $portal->succeed("systemctl -M postgres start postgresql-dump.service >&2");
+          sleep(1);
+          $portal->succeed("ls -lha /var/lib/containers/postgres/var/backup/postgresql >&2");
+          $portal->succeed("journalctl -M postgres -u postgresql-dump.service -l -n 50 >&2");
+          $portal->fail("systemctl -M postgres is-failed postgresql-dump.service >&2");
+          $portal->succeed("[ -f /var/lib/containers/postgres/var/backup/postgresql/complete_dump.sql.gz ]");
+
+          # backup dump has a timer
+          $portal->succeed("systemctl -M postgres status postgresql-dump.timer >&2");
         };''
       }
 
