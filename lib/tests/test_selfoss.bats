@@ -41,3 +41,8 @@ PATH=@jq@/bin:@curl@/bin:$PATH
     firsttitle=$(echo $output |jq -r .[0].title)
     [ $firsttitle = 'First Post' ]
 }
+@test "can download favicons" {
+    # Relies on a stable hash function in selfoss for the names of the favicon files.
+    run curl -s -f http://selfoss/favicons/de284a31d18355923a459f030e2aa9cb.png
+    [ $status -eq 0 ]
+}

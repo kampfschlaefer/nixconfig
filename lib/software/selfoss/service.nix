@@ -122,13 +122,11 @@ let
 
         root /var/lib/selfoss/${name};
 
-        index index.php;
-
         location ~* \ (gif|jpg|png) {
           expires 30d;
         }
         location ~ ^/favicons/.*$ {
-          try_files $uri /var/lib/selfoss/${name}/data/$uri;
+          root /var/lib/selfoss/${name}/data;
         }
         location ~ ^/thumbnails/.*$ {
           try_files $uri /var/lib/selfoss/${name}/data/$uri;
