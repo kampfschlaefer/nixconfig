@@ -346,6 +346,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->succeed("nixos-container run postgres -- psql -l >&2");
           #$portal->succeed("nixos-container run postgres -- psql selfoss -c \"\\dp\" >&2");
           $portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold >&2");
+          $portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold/data/favicons/ >&2");
           #$portal->succeed("nixos-container run selfoss -- ls -la /var/lib/selfoss/arnold/data/logs >&2");
           #$portal->execute("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/data/logs/default.log >&2");
           #$portal->succeed("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/config.ini >&2");

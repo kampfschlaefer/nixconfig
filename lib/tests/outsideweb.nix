@@ -20,8 +20,9 @@ let
 
       echo "Congratulations, you found the outside web" > $out/html/index.txt
 
-      cp index.html $out/html/
-      cp feed.atom $out/html/
+      cp index.html $out/html
+      cp feed.atom $out/html
+      cp favicon.ico $out/html
     '';
   };
 
