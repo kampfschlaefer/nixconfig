@@ -91,6 +91,9 @@ let
     ''db_file=data/sqlite/selfoss.db
     ''}
     allow_public_update_access=1
+    base_url=http://${opts.servername}
+    items_lifetime=3000
+    homepage=unread
   '';
 
   selfossprestarts = concatStringsSep "\n" (
@@ -150,9 +153,6 @@ let
           fastcgi_param CONTENT_LENGTH  $content_length;
           fastcgi_param REQUEST_URI     $request_uri;
           fastcgi_param SERVER_PORT     $server_port;
-        }
-        location ~ ^/(.+)$ {
-          try_files /public/$1 /index.php$is_args$args;
         }
 
         access_log syslog:server=unix:/dev/log;
