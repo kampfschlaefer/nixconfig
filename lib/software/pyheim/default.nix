@@ -9,7 +9,7 @@ in python.mkDerivation {
     name = "pyheim-master";
     url = "git://gitolite/pyheim.git";
     rev = "7e4c5bbd39402fae8faf9de2373c1d1a367a4e7e";
-    sha256 = "077yq9pkhi6ig7qcy3r73x6qnhj88bll5l7khrmx58h106slrzba";
+    sha256 = "1pxdcyhcm9hm46374vk5wy0wnm6pflydpr71a6kx1rqbz1fv64jh";
   };
   buildInputs = [ pkgs.openssh ];
   propagatedBuildInputs = [
