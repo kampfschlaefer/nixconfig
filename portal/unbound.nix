@@ -32,7 +32,7 @@ let
     # network infrastructure
     { name = "openwrt";  a = "192.168.1.251"; }
     { name = "tenda";    a = "192.168.1.252"; }
-    # { name = "hp";       a = "192.168.1.253"; } # old switch, not printer
+    { name = "turris";   a = "192.168.1.253"; }
     { name = "tp";       a = "192.168.1.254"; }
 
     # backend (/23 net)
