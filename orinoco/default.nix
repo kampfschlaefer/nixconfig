@@ -14,6 +14,7 @@
   networking.enableIPv6 = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
+  # networking.connman.enable = true;
   # networking.wicd.enable = true;
   services.hostapd.enable = false;
 
@@ -29,6 +30,7 @@
     python27Packages.virtualenv
     python35Packages.virtualenv
     kde5.networkmanager-qt
+    # e19.econnman
   ];
 
   services.xserver.enable = true;
@@ -38,7 +40,7 @@
     twoFingerScroll = true;
   };
 
-  services.xserver.desktopManager.e19.enable = true;
+  # services.xserver.desktopManager.e19.enable = true;
   services.xserver.desktopManager.kde5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
 }
