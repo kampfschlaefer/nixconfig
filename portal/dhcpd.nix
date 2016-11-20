@@ -38,6 +38,7 @@ let
     { hostName = "ebook";         ethernetAddress = "28:f3:66:9c:13:71"; }
     { hostName = "steuer";        ethernetAddress = "08:00:27:1f:06:82"; }
     { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
+    { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; }
   ] ++ (if config.testdata then [
     { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
   ] else []);
