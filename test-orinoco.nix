@@ -21,7 +21,11 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       subtest "set up", sub {
         $orinoco->start();
 
-        $orinoco->waitForUnit("default.target");
+        $orinoco->waitForUnit("multi-user.target");
+      };
+
+      subtest "networking", sub {
+        $orinoco->succeed("systemctl status network-manager >&2");
       };
 
       subtest "admin environment", sub {

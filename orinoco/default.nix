@@ -12,8 +12,9 @@
   networking.hostName = lib.mkOverride 10 "orinoco";
   networking.useDHCP = false;
   networking.enableIPv6 = true;
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
+  networking.connman.enable = false;
   # networking.wicd.enable = true;
   services.hostapd.enable = false;
 
@@ -29,7 +30,10 @@
     python27Packages.virtualenv
     python35Packages.virtualenv
     kde5.networkmanager-qt
+    # connman
   ];
+
+  services.dbus.socketActivated = true;
 
   services.xserver.enable = true;
   services.xserver.layout = "de";
@@ -38,7 +42,7 @@
     twoFingerScroll = true;
   };
 
-  services.xserver.desktopManager.e19.enable = true;
+  services.xserver.desktopManager.enlightenment.enable = true;
   services.xserver.desktopManager.kde5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
 }
