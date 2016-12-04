@@ -40,6 +40,7 @@ let
     { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
     { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; }
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; }
+    { hostName = "arduino";       ethernetAddress = "18:fe:34:cf:a7:26"; }
   ] ++ (if config.testdata then [
     { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
   ] else []);
