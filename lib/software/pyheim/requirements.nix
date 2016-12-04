@@ -2,7 +2,7 @@
 # See more at: https://github.com/garbas/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -V 3.5 -e . -r requirements_dev.txt
+#   pypi2nix -I /home/arnold/programme/nixconfig -V 3.5 -e . -e pytest-runner==2.6.2 -e setuptools_scm -v
 #
 
 { pkgs ? import <nixpkgs> {}

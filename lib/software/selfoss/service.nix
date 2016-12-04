@@ -203,9 +203,8 @@ in
   config = mkIf hasInstances {
     services.phpfpm = {
       phpPackage = phppkg;
-      phpIni = builtins.toFile "php-selfoss.ini" ''
+      phpOptions = ''
         always_populate_raw_post_data = -1;
-        ${readFile "${phppkg}/etc/php-recommended.ini"}
       '';
       extraConfig = ''
         error_log = syslog

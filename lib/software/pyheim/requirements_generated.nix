@@ -1,7 +1,7 @@
 # generated using pypi2nix tool (version: 1.5.0.dev0)
 #
 # COMMAND:
-#   pypi2nix -V 3.5 -e . -r requirements_dev.txt
+#   pypi2nix -I /home/arnold/programme/nixconfig -V 3.5 -e . -e pytest-runner==2.6.2 -e setuptools_scm -v
 #
 
 { pkgs, python, commonBuildInputs ? [], commonDoCheck ? false }:
@@ -26,46 +26,6 @@ self: {
 
 
 
-  "coverage" = python.mkDerivation {
-    name = "coverage-4.0";
-    src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/b6/1f/51dd99a422428771bd4c787bcac71fe4051fbfa0e33480b3d522192b75b3/coverage-4.0.tar.gz";
-      sha256 = "b1244343e39cb2835f9c89c2d8fbcad8e4a5b4945344b434a4d8b6e9e7431390";
-    };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [ ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.asl20;
-      description = "Code coverage measurement for Python";
-    };
-  };
-
-
-
-  "flake8" = python.mkDerivation {
-    name = "flake8-2.4.1";
-    src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/8f/b5/9a73c66c7dba273bac8758398f060c008a25f3e84531063b42503b5d0a95/flake8-2.4.1.tar.gz";
-      sha256 = "2e7ebbe59d8c85e626e36d99f0db2f578394313d3f7ce9dc9f1da57ef6cd7537";
-    };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [
-      self."mccabe"
-      self."pep8"
-      self."pyflakes"
-    ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.mit;
-      description = "the modular source code checker: pep8, pyflakes and co";
-    };
-  };
-
-
-
   "future" = python.mkDerivation {
     name = "future-0.15.2";
     src = pkgs.fetchurl {
@@ -84,11 +44,11 @@ self: {
 
 
 
-  "mccabe" = python.mkDerivation {
-    name = "mccabe-0.3.1";
+  "mido" = python.mkDerivation {
+    name = "mido-1.1.8";
     src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/bb/c9/a7d3a53fdaee1fdff753e8333ccf8affe944ac1d4dc4894dbcaa3db5954b/mccabe-0.3.1.tar.gz";
-      sha256 = "5f7ea6fb3aa9afe146d07fd6d5cedf788747d8b0c29e44732453c2b2db1e3d16";
+      url = "https://pypi.python.org/packages/66/34/106162294c2860303fa791a87a6e0323b1e2a5cefc6b5462dc3143e24f34/mido-1.1.8.tar.gz";
+      sha256 = "29203cb1eadbcb39863d5f2798425eea58dbdf6b13541cc84c75c19baa0a956a";
     };
     doCheck = commonDoCheck;
     buildInputs = commonBuildInputs;
@@ -96,25 +56,7 @@ self: {
     meta = with pkgs.stdenv.lib; {
       homepage = "";
       license = licenses.mit;
-      description = "McCabe checker, plugin for flake8";
-    };
-  };
-
-
-
-  "pep8" = python.mkDerivation {
-    name = "pep8-1.7.0";
-    src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/3e/b5/1f717b85fbf5d43d81e3c603a7a2f64c9f1dabc69a1e7745bd394cc06404/pep8-1.7.0.tar.gz";
-      sha256 = "a113d5f5ad7a7abacef9df5ec3f2af23a20a28005921577b15dd584d099d5900";
-    };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [ ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.mit;
-      description = "Python style guide checker";
+      description = "MIDI Objects for Python";
     };
   };
 
@@ -138,11 +80,11 @@ self: {
 
 
 
-  "pyflakes" = python.mkDerivation {
-    name = "pyflakes-0.8.1";
+  "pytest-runner" = python.mkDerivation {
+    name = "pytest-runner-2.6.2";
     src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/75/22/a90ec0252f4f87f3ffb6336504de71fe16a49d69c4538dae2f12b9360a38/pyflakes-0.8.1.tar.gz";
-      sha256 = "3fa80a10b36d51686bf7744f5dc99622cd5c98ce8ed64022e629868aafc17769";
+      url = "https://pypi.python.org/packages/de/7a/a6b4f85476e29fcb35a5d4d7cf4b8d91b8919dedf8e7b070877d83deaa80/pytest-runner-2.6.2.tar.gz";
+      sha256 = "e775a40ee4a3a1d45018b199c44cc20bbe7f3df2dc8882f61465bb4141c78cdb";
     };
     doCheck = commonDoCheck;
     buildInputs = commonBuildInputs;
@@ -150,7 +92,25 @@ self: {
     meta = with pkgs.stdenv.lib; {
       homepage = "";
       license = licenses.mit;
-      description = "passive checker of Python programs";
+      description = "Invoke py.test as distutils command with dependency resolution.";
+    };
+  };
+
+
+
+  "setuptools-scm" = python.mkDerivation {
+    name = "setuptools-scm-1.15.0";
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/80/b7/31b6ae5fcb188e37f7e31abe75f9be90490a5456a72860fa6e643f8a3cbc/setuptools_scm-1.15.0.tar.gz";
+      sha256 = "daf12d05aa2155a46aa357453757ffdc47d87f839e62114f042bceac6a619e2f";
+    };
+    doCheck = commonDoCheck;
+    buildInputs = commonBuildInputs;
+    propagatedBuildInputs = [ ];
+    meta = with pkgs.stdenv.lib; {
+      homepage = "";
+      license = licenses.mit;
+      description = "the blessed package to manage your versions by scm tags";
     };
   };
 
