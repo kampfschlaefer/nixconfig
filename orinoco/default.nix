@@ -2,10 +2,23 @@
 
 {
   imports = [
+    ./hardware-configuration.nix
     ../lib/machines/base.nix
     ../lib/software/pwsafe.nix
     ../lib/users/arnold.nix
   ];
+
+  # Use the GRUB 2 boot loader.
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  # Define on which hard drive you want to install Grub.
+  boot.loader.grub.device = "/dev/sda";
+  # boot.loader.grub.enableCryptodisk = true;
+
+  fileSystems."/home" = { device = "/dev/orinocogroup/home"; };
+
+  nix.binaryCaches = [ http://xingu.arnoldarts.de:8800/ /*https://cache.nixos.org/*/ ];
+  nix.requireSignedBinaryCaches = false;
 
   nix.useSandbox = true;
 
