@@ -2,17 +2,32 @@
 
 {
   imports = [
+    ./hardware-configuration.nix
     ../lib/machines/base.nix
     ../lib/software/pwsafe.nix
     ../lib/users/arnold.nix
   ];
+
+  # Use the GRUB 2 boot loader.
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  # Define on which hard drive you want to install Grub.
+  boot.loader.grub.device = "/dev/sda";
+  # boot.loader.grub.enableCryptodisk = true;
+
+  fileSystems."/home" = { device = "/dev/orinocogroup/home"; };
+
+  nix.binaryCaches = [ http://xingu.arnoldarts.de:8800/ /*https://cache.nixos.org/*/ ];
+  nix.requireSignedBinaryCaches = false;
+
+  nix.useSandbox = true;
 
   nixpkgs.config.allowUnfree = true;
 
   networking.hostName = lib.mkOverride 10 "orinoco";
   networking.useDHCP = false;
   networking.enableIPv6 = true;
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = false;  # Disables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
   networking.connman.enable = false;
   # networking.wicd.enable = true;
