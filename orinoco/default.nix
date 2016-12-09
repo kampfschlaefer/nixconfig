@@ -7,12 +7,14 @@
     ../lib/users/arnold.nix
   ];
 
+  nix.useSandbox = true;
+
   nixpkgs.config.allowUnfree = true;
 
   networking.hostName = lib.mkOverride 10 "orinoco";
   networking.useDHCP = false;
   networking.enableIPv6 = true;
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = false;  # Disables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
   networking.connman.enable = false;
   # networking.wicd.enable = true;
