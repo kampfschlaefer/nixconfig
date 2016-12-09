@@ -1,4 +1,4 @@
-import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
+import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
     run_headless = true;
   in {
@@ -8,7 +8,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       orinoco = {config, pkgs, ... }:
         {
           imports = [
-            ./orinoco/default.nix
+            ./default.nix
           ];
           virtualisation.memorySize = 1024;
           virtualisation.vlans = [ 1 ];
