@@ -21,19 +21,35 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ jre ];
 
-    systemd.services.blynk-server = {
-      script = "${jre}/bin/java -jar server.jar -dataFolder ${blynkdir}";
-      preStart = ''
+    users.extraUsers.blynk = {
+      name = "blynk";
+      group = "blynk";
+      description = "Blynk server user";
+    };
+    users.extraGroups.blynk = {};
+
+    systemd.services.prepare-blynk-server = {
+      script = ''
         [ -d ${blynkdir} ] || mkdir -p ${blynkdir}
         [ -e ${blynkdir}/server.jar ] || cp ${blynkserver} ${blynkdir}/server.jar
+        chown blynk:blynk -Rc ${blynkdir}
       '';
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+    };
+    systemd.services.blynk-server = {
+      script = "${jre}/bin/java -jar server.jar -dataFolder ${blynkdir}";
 
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
+      requires = [ "prepare-blynk-server.service" ];
+
       serviceConfig = {
         WorkingDirectory = "/var/lib/blynk";
+        User = "blynk";
       };
     };
   };

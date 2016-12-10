@@ -32,7 +32,7 @@ in
       };
       networking.firewall.enable = true;
       networking.firewall.allowPing = true;
-      networking.firewall.allowedTCPPorts = [ 80 ];
+      networking.firewall.allowedTCPPorts = [ 8440 8441 8442 8443 8080 8081 8082 9443 7443 ];
 
       services.blynk-server = {
         enable = true;
