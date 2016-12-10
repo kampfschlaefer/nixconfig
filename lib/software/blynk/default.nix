@@ -8,5 +8,5 @@ let
 in
 myfetchurl {
   url = https://github.com/blynkkk/blynk-server/releases/download/v0.20.1/server-0.20.1.jar;
-  sha256 = "0rpbxf5vm41lhmwzjy028cm3519kaw9c6kg25bfd4hkshh37lqrk";
+  sha256 = "40242b47aa61eeba880181ba4191ff8b37c6c2c82d951e398d3a920c91b00954";
 }
