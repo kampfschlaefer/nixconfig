@@ -37,21 +37,6 @@ in
       services.blynk-server = {
         enable = true;
       };
-      /*services.selfoss.updateinterval = "hourly";
-      services.selfoss.instances.arnold = {
-        servername = "selfoss.arnoldarts.de";
-        dbtype = "pgsql";
-        dbhost = "postgres";
-        dbname = "selfoss";
-        dbusername = "selfoss";
-        dbpassword = "";
-      };*/
-      /*services.selfoss.sqlite = {
-        dbtype = "sqlite";
-        servername = "sqlite_selfoss.arnoldarts.de";
-      };*/
-
-      /*environment.systemPackages = [ selfosspkg ];*/
     };
   };
 }
