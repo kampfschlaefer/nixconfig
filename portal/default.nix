@@ -13,20 +13,21 @@ in {
       #/etc/nixos/hardware-configuration.nix
       ../lib/machines/base.nix
       ../lib/users/arnold.nix
-      ./containers/gitolite.nix
-      ./containers/testing.nix
-      ./containers/mpd.nix
-      ./containers/firewall.nix
-      ./containers/torproxy.nix
-      ./containers/imap.nix
+      ./containers/blynk.nix
       ./containers/cups.nix
-      ./containers/pyheim.nix
+      ./containers/firewall.nix
+      ./containers/gitolite.nix
+      ./containers/imap.nix
+      ./containers/mpd.nix
       ./containers/postgres.nix
+      ./containers/pyheim.nix
       ./containers/selfoss.nix
+      ./containers/testing.nix
+      ./containers/torproxy.nix
+      ./dhcpd.nix
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
-      ./dhcpd.nix
       #./ups.nix
     ];
 
