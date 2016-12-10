@@ -1,12 +1,13 @@
 import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
-    run_gitolite = true;
-    run_mpd = true;
-    run_firewall = true;
-    run_torproxy = true;
-    run_pyheim = true;
-    run_ntp = true;
-    run_selfoss = true;
+    run_gitolite = false;
+    run_mpd = false;
+    run_firewall = false;
+    run_torproxy = false;
+    run_pyheim = false;
+    run_ntp = false;
+    run_selfoss = false;
+    run_blynk = true;
 
     run_postgres = run_selfoss || false;
 
@@ -364,6 +365,16 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->succeed("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/config.ini >&2");
 
           $outside->succeed("journalctl -u nginx >&2");
+        };''
+      }
+      ${lib.optionalString run_blynk
+        ''subtest "Check Blynk", sub {
+          $portal->succeed("ping -c 2 -n blynk.arnoldarts.de >&2");
+          $portal->execute("journalctl -M blynk -u blynk-server -n 50 -l >&2");
+          $portal->succeed("systemctl -M blynk status blynk-server.service >&2");
+          $portal->succeed("nmap -n blynk.arnoldarts.de -p 8442,8443 >&2");
+          $portal->succeed("ls -la /var/lib/containers/blynk/var/lib/blynk >&2");
+          # $portal->succeed("openssl s_client blynk.arnoldarts.de:8443 >&2");
         };''
       }
 
