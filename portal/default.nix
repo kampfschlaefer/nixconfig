@@ -13,7 +13,6 @@ in {
       #/etc/nixos/hardware-configuration.nix
       ../lib/machines/base.nix
       ../lib/users/arnold.nix
-      ./containers/blynk.nix
       ./containers/cups.nix
       ./containers/firewall.nix
       ./containers/gitolite.nix
