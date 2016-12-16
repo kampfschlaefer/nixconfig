@@ -7,7 +7,6 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_pyheim = true;
     run_ntp = true;
     run_selfoss = true;
-    run_blynk = true;
 
     run_postgres = run_selfoss || false;
 
@@ -365,27 +364,6 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->succeed("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/config.ini >&2");
 
           $outside->succeed("journalctl -u nginx >&2");
-        };''
-      }
-      ${lib.optionalString run_blynk
-        ''subtest "Check Blynk", sub {
-          $portal->succeed("ping -c 2 -n blynk.arnoldarts.de >&2");
-          $portal->execute("journalctl -M blynk -u prepare-blynk-server -n 50 -l >&2");
-          $portal->execute("journalctl -M blynk -u blynk-server -n 50 -l >&2");
-          $portal->succeed("systemctl -M blynk status prepare-blynk-server.service >&2");
-          $portal->succeed("systemctl -M blynk status blynk-server.service >&2");
-          $portal->waitUntilSucceeds("nc -z blynk 8443");
-          #$portal->execute("nmap -n blynk.arnoldarts.de -p 80,8440-8443,8080-8082,9443,7443 >&2");
-          $portal->succeed("nmap -n blynk.arnoldarts.de -p 80,8440-8443,8080-8082,9443,7443 |grep open |wc -l") == 9 or die;
-          $portal->succeed("ls -la /var/lib/containers/blynk/var/lib/blynk >&2");
-        };''
-      }
-      ${lib.optionalString (run_blynk && debug)
-        ''subtest "Debug blynk", sub {
-          $portal->execute("echo \"\" |${pkgs.openssl}/bin/openssl s_client -connect blynk.arnoldarts.de:8443 -showcerts >&2");
-          $portal->execute("nixos-container run blynk -- systemctl list-dependencies blynk-server >&2");
-          $portal->execute("ls -la /var/lib/containers/blynk/var/lib/blynk/ >&2");
-          $portal->execute('for file in /var/lib/containers/blynk/var/lib/blynk/logs/*; do echo "--- $file --- "; cat $file; done >&2');
         };''
       }
 
