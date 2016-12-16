@@ -5,7 +5,7 @@ let
 in
 {
   containers.blynk = {
-    autoStart = lib.mkOverride 100 true;
+    autoStart = lib.mkOverride 100 false;
 
     privateNetwork = true;
     hostBridge = "lan";
