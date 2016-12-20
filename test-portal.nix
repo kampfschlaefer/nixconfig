@@ -17,7 +17,12 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt;
 
     testspkg = import ./lib/tests/default.nix {
-      stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl; git = pkgs.git; jq = pkgs.jq;
+      stdenv = pkgs.stdenv;
+      bats = pkgs.bats;
+      curl = pkgs.curl;
+      git = pkgs.git;
+      jq = pkgs.jq;
+      bishbosh = pkgs.callPackage ./lib/software/bishbosh {};
     };
 
     extraHosts = ''
@@ -379,6 +384,8 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("nmap -4 mqtt -n -p 1883 |grep open >&2");
 
           $portal->succeed("[ -d /var/lib/containers/mqtt/var/lib/mosquitto ]");
+
+          $inside->succeed("mqtt_client.bishbosh >&2");
         };''
       }
 

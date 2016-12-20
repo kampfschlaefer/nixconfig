@@ -1,0 +1,4 @@
+#!@bishbosh@/bin/bish-bosh
+
+bishbosh_server=mqtt.arnoldarts.de
+bishbosh_clientId=testclient

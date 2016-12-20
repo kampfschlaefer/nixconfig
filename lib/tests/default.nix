@@ -1,4 +1,4 @@
-{ stdenv, bats, curl, git, jq }:
+{ stdenv, bats, curl, git, jq, bishbosh }:
 
 let
   install_script = script: ''
@@ -15,14 +15,20 @@ stdenv.mkDerivation rec {
   inherit curl;
   inherit git;
   inherit bats;
+  inherit bishbosh;
 
   configurePhase = false;
   dontBuild = true;
 
   installPhase = ''
     mkdir -p $out/bin
+
+    install -m 0755 mqtt_client.bishbosh $out/bin/mqtt_client.bishbosh
+    substituteAllInPlace $out/bin/mqtt_client.bishbosh
+
     install -m 0755 test_gitolite.sh $out/bin/test_gitolite
     substituteAllInPlace $out/bin/test_gitolite
+
     ${install_script "test_selfoss"}
 
     mkdir -p $out/data
