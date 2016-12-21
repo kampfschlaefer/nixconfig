@@ -7,16 +7,22 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_pyheim = true;
     run_ntp = true;
     run_selfoss = true;
+    run_mqtt = true;
 
     run_postgres = run_selfoss || false;
 
     debug = false;
 
     outside_needed = run_firewall || run_torproxy || run_selfoss;
-    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp;
+    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt;
 
     testspkg = import ./lib/tests/default.nix {
-      stdenv = pkgs.stdenv; bats = pkgs.bats; curl = pkgs.curl; git = pkgs.git; jq = pkgs.jq;
+      stdenv = pkgs.stdenv;
+      bats = pkgs.bats;
+      curl = pkgs.curl;
+      git = pkgs.git;
+      jq = pkgs.jq;
+      mqtt_client = pkgs.callPackage ./lib/software/mqtt_client {};
     };
 
     extraHosts = ''
@@ -364,6 +370,22 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->succeed("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/config.ini >&2");
 
           $outside->succeed("journalctl -u nginx >&2");
+        };''
+      }
+
+      ${lib.optionalString run_mqtt
+        ''subtest "mqtt testing", sub {
+          $portal->succeed("host -t a mqtt >&2");
+          $portal->succeed("host -t aaaa mqtt >&2");
+          $portal->succeed("ping -n -c 2 mqtt >&2");
+          $portal->succeed("ping6 -n -c 2 mqtt >&2");
+
+          $portal->execute("nmap -4 mqtt -n -p 1883 >&2");
+          $portal->succeed("nmap -4 mqtt -n -p 1883 |grep open >&2");
+
+          $portal->succeed("[ -d /var/lib/containers/mqtt/var/lib/mosquitto ]");
+
+          $inside->succeed("test_mqtt >&2");
         };''
       }
 
