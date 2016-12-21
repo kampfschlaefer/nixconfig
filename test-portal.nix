@@ -68,6 +68,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
           containers.postgres.autoStart = lib.mkOverride 10 run_postgres;
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
+          containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.imap.autoStart = lib.mkOverride 10 false;
           containers.cups.autoStart = lib.mkOverride 10 false;
         };
@@ -387,6 +388,11 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           $inside->succeed("test_mqtt >&2");
         };''
+      }
+      ${lib.optionalString (!run_mqtt)
+        ''subtest "mqtt not reachable", sub {
+          $portal->fail("ping -n -c 1 mqtt >&2");
+        }''
       }
 
       #$inside->shutdown();
