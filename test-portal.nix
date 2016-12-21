@@ -23,6 +23,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       git = pkgs.git;
       jq = pkgs.jq;
       bishbosh = pkgs.callPackage ./lib/software/bishbosh {};
+      mqtt_client = pkgs.callPackage ./lib/software/mqtt_client {};
     };
 
     extraHosts = ''
@@ -385,7 +386,8 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           $portal->succeed("[ -d /var/lib/containers/mqtt/var/lib/mosquitto ]");
 
-          $inside->succeed("mqtt_client.bishbosh >&2");
+          # $inside->succeed("mqtt_client.bishbosh >&2");
+          $inside->succeed("test_mqtt >&2");
         };''
       }
 
