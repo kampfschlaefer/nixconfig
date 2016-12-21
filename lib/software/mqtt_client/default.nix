@@ -24,8 +24,6 @@ buildPythonApplication rec {
   '';
 
   installPhase = ''
-    #mkdir -p $out
-
     install -D -m 0755 mqtt_client.py $out/bin/mqtt_client
   '';
 }
