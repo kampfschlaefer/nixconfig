@@ -28,6 +28,7 @@ in
         host = "0.0.0.0";
         port = 1883;
 
+        allowAnonymous = true;
         users = {};
       };
     };
