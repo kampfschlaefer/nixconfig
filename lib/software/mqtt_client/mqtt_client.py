@@ -1,13 +1,9 @@
 #!/usr/bin/python3
 
 import argparse
-import logging
 import time
 
 import paho.mqtt.client as mqtt
-
-logging.basicConfig()
-logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -36,15 +32,27 @@ def stop_loop(client, *args, **kwargs):
 
 
 def recv_message(client, userdata, message):
-    logger.warn("receiving message on topic %s", message.topic)
-    print(message.message)
+    print(message.payload.decode())
+
+
+def on_connect(client, userdata, rc):
+    # print("Connect with status %s" % str(rc))
+    pass
+
+
+def on_subscribe(client, userdata, mid, granted_qos):
+    # print("Success subscribing to mid %i" % mid)
+    pass
 
 
 client = mqtt.Client(client_id="nixos_test_client", clean_session=False)
-client.connect('mqtt.arnoldarts.de', port=1883)
 
 client.on_publish = stop_loop
 client.on_message = recv_message
+client.on_connect = on_connect
+client.on_subscribe = on_subscribe
+
+client.connect('mqtt.arnoldarts.de', port=1883)
 
 client.loop_start()
 
@@ -55,7 +63,5 @@ elif args.command == 'send_persisting':
 elif args.command == 'recv':
     client.subscribe(args.topic, 0)
     time.sleep(2)
-    client.loop_stop()
-    # raise NotImplementedError
 else:
     raise NotImplementedError
