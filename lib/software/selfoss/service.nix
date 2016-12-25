@@ -120,8 +120,8 @@ let
       server {
         server_name ${opts.servername};
 
-        listen 80
-        listen [::]:80
+        listen 80;
+        listen [::]:80;
 
         root /var/lib/selfoss/${name};
 
