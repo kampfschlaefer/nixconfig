@@ -351,7 +351,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           # access selfoss webinterface from container and from inside
           $portal->succeed("curl -s -f http://selfoss/");
           $inside->waitForUnit("default.target");
-          $inside->succeed("curl -s -f http://selfoss/");
+          $inside->succeed("curl -4 -s -f http://selfoss/");
+          $inside->succeed("curl -6 -s -f http://selfoss/");
 
           # Add Feed, fetch Feed
           $inside->succeed("test_selfoss >&2");
