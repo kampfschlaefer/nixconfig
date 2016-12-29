@@ -118,7 +118,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
               eth1 = lib.mkOverride 10 {
                 useDHCP = true;
                 ip4 = [];
-                ip6 = [];
+                ip6 = [ { address = "2001:470:1f0b:1033::696e:7369:6465"; prefixLength = 64; } ];
                 macAddress = "7e:e2:63:7f:f0:0e";
               };
             };
