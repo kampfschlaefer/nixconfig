@@ -27,6 +27,8 @@ let
     { hostName = "raspimate";     ethernetAddress = "7c:dd:90:73:6a:56"; }
     { hostName = "raspio";        ethernetAddress = "7c:dd:90:5d:91:97"; }
     { hostName = "touchpi";       ethernetAddress = "b8:27:eb:73:38:22"; ipAddress = "192.168.1.70"; }
+    { hostName = "octopi";        ethernetAddress = "b8:27:eb:4b:bc:72"; ipAddress = "192.168.1.71"; } # wireless
+    { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
     { hostName = "android-lg";    ethernetAddress = "f8:a9:d0:1e:b7:29"; }
     { hostName = "android-ines";  ethernetAddress = "60:be:b5:0a:73:d3"; }
     { hostName = "flachmann";     ethernetAddress = "00:22:f4:4e:5e:8e"; }
@@ -37,10 +39,10 @@ let
     { hostName = "ebookold";      ethernetAddress = "ac:a2:13:a1:46:c3"; }
     { hostName = "ebook";         ethernetAddress = "28:f3:66:9c:13:71"; }
     { hostName = "steuer";        ethernetAddress = "08:00:27:1f:06:82"; }
-    { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
+    { hostName = "arduino";       ethernetAddress = "18:fe:34:cf:a7:26"; }
     { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; }
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; }
-    { hostName = "arduino";       ethernetAddress = "18:fe:34:cf:a7:26"; }
+    { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; }
   ] ++ (if config.testdata then [
     { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
   ] else []);
