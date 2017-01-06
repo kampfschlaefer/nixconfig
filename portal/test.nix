@@ -1,28 +1,28 @@
-import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
+import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
+    run_firewall = true;
     run_gitolite = true;
     run_mpd = true;
-    run_firewall = true;
-    run_torproxy = true;
-    run_pyheim = true;
-    run_ntp = true;
-    run_selfoss = true;
     run_mqtt = true;
+    run_ntp = true;
+    run_pyheim = true;
+    run_selfoss = true;
+    run_torproxy = true;
 
     run_postgres = run_selfoss || false;
 
     debug = false;
 
-    outside_needed = run_firewall || run_torproxy || run_selfoss;
     inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt;
+    outside_needed = run_firewall || run_torproxy || run_selfoss;
 
-    testspkg = import ./lib/tests/default.nix {
+    testspkg = import ../lib/tests/default.nix {
       stdenv = pkgs.stdenv;
       bats = pkgs.bats;
       curl = pkgs.curl;
       git = pkgs.git;
       jq = pkgs.jq;
-      mqtt_client = pkgs.callPackage ./lib/software/mqtt_client {};
+      mqtt_client = pkgs.callPackage ../lib/software/mqtt_client {};
     };
 
     extraHosts = ''
@@ -37,7 +37,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         {
           testdata = true;
           imports = [
-            ./portal/default.nix
+            ../portal/default.nix
           ];
           virtualisation.memorySize = 2*1024;
           virtualisation.vlans = [ 1 2 ];
@@ -62,13 +62,14 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           };
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
-          containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
-          containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
-          containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
-          containers.postgres.autoStart = lib.mkOverride 10 run_postgres;
-          containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
+          containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
+          containers.postgres.autoStart = lib.mkOverride 10 run_postgres;
+          containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
+          containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
+          containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
+
           containers.imap.autoStart = lib.mkOverride 10 false;
           containers.cups.autoStart = lib.mkOverride 10 false;
         };
@@ -79,7 +80,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           boot.kernelParams = [ "quiet" ];
 
           imports = [
-            ./lib/tests/outsideweb.nix
+            ../lib/tests/outsideweb.nix
           ];
 
           networking = {
@@ -104,7 +105,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           boot.kernelParams = [ "quiet" ];
 
           imports = [
-            ./lib/users/arnold.nix
+            ../lib/users/arnold.nix
           ];
 
           networking = {
@@ -117,7 +118,7 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
               eth1 = lib.mkOverride 10 {
                 useDHCP = true;
                 ip4 = [];
-                ip6 = [];
+                ip6 = [ { address = "2001:470:1f0b:1033::696e:7369:6465"; prefixLength = 64; } ];
                 macAddress = "7e:e2:63:7f:f0:0e";
               };
             };
@@ -350,7 +351,8 @@ import ./nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           # access selfoss webinterface from container and from inside
           $portal->succeed("curl -s -f http://selfoss/");
           $inside->waitForUnit("default.target");
-          $inside->succeed("curl -s -f http://selfoss/");
+          $inside->succeed("curl -4 -s -f http://selfoss/");
+          $inside->succeed("curl -6 -s -f http://selfoss/");
 
           # Add Feed, fetch Feed
           $inside->succeed("test_selfoss >&2");
