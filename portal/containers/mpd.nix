@@ -42,9 +42,9 @@
             name            "My HTTP Stream"
             encoder         "vorbis"                # optional, vorbis or lame
             port            "8000"
-            always_on       yes
-            tags            yes
-            replay_gain_handler software
+            always_on       "yes"
+            tags            "yes"
+            replay_gain_handler "software"
             quality         "5.0"                   # do not define if bitrate is defined
             #bitrate         "192"                   # do not define if quality is defined
             format          "48000:16:2"
