@@ -33,13 +33,25 @@ in {
 
   config = {
     # Use the GRUB 2 boot loader.
-    boot.loader.grub.enable = true;
-    boot.loader.grub.version = 2;
-    boot.loader.grub.efiSupport = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+    boot.loader = {
+      efi.canTouchEfiVariables = true;
 
-    # Define on which hard drive you want to install Grub.
-    boot.loader.grub.device = "/dev/sda";
+      grub = {
+        enable = true;
+        version = 2;
+        efiSupport = true;
+
+        # Define on which hard drive you want to install Grub.
+        mirroredBoots = [
+          { devices = [ "/dev/disk/by-path/pci-0000:00:1f.2-ata-1" ]; path = "/boot"; }
+          { devices = [ "/dev/disk/by-path/pci-0000:00:1f.2-ata-2" ]; path = "/boot2"; }
+        ];
+        /*devices = [
+          "/dev/disk/by-path/pci-0000:00:1f.2-ata-3"
+          "/dev/disk/by-path/pci-0000:00:1f.2-ata-4"
+        ];*/
+      };
+    };
 
     boot.kernelModules = [ "dm-mirror" "dm-snapshot" ];
     boot.extraModprobeConfig = ''
