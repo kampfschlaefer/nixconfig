@@ -44,12 +44,8 @@ in {
         # Define on which hard drive you want to install Grub.
         mirroredBoots = [
           { devices = [ "/dev/disk/by-path/pci-0000:00:1f.2-ata-1" ]; path = "/boot"; }
-          { devices = [ "/dev/disk/by-path/pci-0000:00:1f.2-ata-2" ]; path = "/boot2"; }
+          /*{ devices = [ "/dev/disk/by-path/pci-0000:00:1f.2-ata-2" ]; path = "/boot2"; }*/
         ];
-        /*devices = [
-          "/dev/disk/by-path/pci-0000:00:1f.2-ata-3"
-          "/dev/disk/by-path/pci-0000:00:1f.2-ata-4"
-        ];*/
       };
     };
 
