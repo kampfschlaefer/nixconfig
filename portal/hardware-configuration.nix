@@ -22,14 +22,14 @@
       fsType = "ext4";
     };
 
-  fileSystems."/boot" =
+  /*fileSystems."/boot" =
     { device = "/dev/disk/by-path/pci-0000:00:1f.2-ata-1-part2";
       fsType = "vfat";
-    };
-  /*fileSystems."/boot2" =
+    };*/
+  fileSystems."/boot2" =
     { device = "/dev/disk/by-uuid/5679-21C3";
       fsType = "vfat";
-    };*/
+    };
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/c2edd44c-fe0e-4a7d-abe4-e2433e537d60"; }
