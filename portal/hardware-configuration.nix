@@ -5,12 +5,8 @@
 
 {
   imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+    [ ../nixpkgs/nixos/modules/installer/scan/not-detected.nix
     ];
-
-  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "uhci_hcd" "xhci_pci" "usbhid" "usb_storage" ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/47adcd08-5a1e-4d15-9ae1-97459638e903";
@@ -22,12 +18,12 @@
       fsType = "ext4";
     };
 
-  /*fileSystems."/boot" =
-    { device = "/dev/disk/by-path/pci-0000:00:1f.2-ata-1-part2";
+  fileSystems."/boot1" =
+    { device = "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN-part2";
       fsType = "vfat";
-    };*/
+    };
   fileSystems."/boot2" =
-    { device = "/dev/disk/by-uuid/5679-21C3";
+    { device = "/dev/disk/by-id/ata-INTEL_SSDSC2BW180A4_CVDA447006A31802GN-part2";
       fsType = "vfat";
     };
 

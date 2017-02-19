@@ -9,8 +9,8 @@ in {
   };
 
   imports =
-    [ # Include the results of the hardware scan.
-      #/etc/nixos/hardware-configuration.nix
+    [
+      ./hardware-configuration.nix
       ../lib/machines/base.nix
       ../lib/users/arnold.nix
       ./containers/cups.nix
@@ -43,16 +43,18 @@ in {
 
         # Define on which hard drive you want to install Grub.
         mirroredBoots = [
-          { devices = [ "/dev/disk/by-path/pci-0000:00:1f.2-ata-1" ]; path = "/boot2"; }
-          /*{ devices = [ "/dev/disk/by-path/pci-0000:00:1f.2-ata-2" ]; path = "/boot2"; }*/
+          { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2BW180A4_CVDA447006A31802GN" ]; path = "/boot2"; }
+          { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN" ]; path = "/boot1"; }
         ];
       };
     };
 
-    boot.kernelModules = [ "dm-mirror" "dm-snapshot" ];
+    boot.kernelModules = [ "dm-mirror" "dm-snapshot" "kvm-intel" ];
+    boot.extraModulePackages = [ ];
     boot.extraModprobeConfig = ''
       options kvm_intel nested=y
     '';
+    boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "uhci_hcd" "xhci_pci" "usbhid" "usb_storage" ];
 
     fileSystems = {
       "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
