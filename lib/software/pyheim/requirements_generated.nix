@@ -63,10 +63,10 @@ self: {
 
 
   "phue" = python.mkDerivation {
-    name = "phue-0.8";
+    name = "phue-0.9";
     src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/84/8a/c10bd162ef44dfabef89a52649c0802a0212ff84567960300d17f6f0f76b/phue-0.8.tar.gz";
-      sha256 = "520cc47fcde328e26edf3e7d59deda5640ad868c0f446d058751a6c8e096e2e0";
+      url = "https://pypi.python.org/packages/e6/b6/4392f863fcad4f3dbecec580ff8e7915b9a5cc28c1f7a51067e2cbdfa5f5/phue-0.9.tar.gz";
+      sha256 = "1mrcia8wffcl4d5wr3bjfa76bqpfyj2l37sl10kpn9nkzmsm9dsq";
     };
     doCheck = commonDoCheck;
     buildInputs = commonBuildInputs;
