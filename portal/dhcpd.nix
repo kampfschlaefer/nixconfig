@@ -25,7 +25,7 @@ let
     { hostName = "watering-lan";  ethernetAddress = "b8:27:eb:c3:4c:ae"; } # lan
     { hostName = "watering-wifi"; ethernetAddress = "7c:dd:90:73:6b:6b"; } # wifi
     { hostName = "raspimate";     ethernetAddress = "7c:dd:90:73:6a:56"; }
-    { hostName = "raspio";        ethernetAddress = "7c:dd:90:5d:91:97"; }
+    { hostName = "weatherpi";     ethernetAddress = "7c:dd:90:5d:91:97"; ipAddress = "192.168.1.72"; }
     { hostName = "touchpi";       ethernetAddress = "b8:27:eb:73:38:22"; ipAddress = "192.168.1.70"; }
     { hostName = "octopi";        ethernetAddress = "b8:27:eb:4b:bc:72"; ipAddress = "192.168.1.71"; } # wireless
     { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
