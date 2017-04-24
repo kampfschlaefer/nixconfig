@@ -35,7 +35,7 @@
       SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     };
     script = ''
-      duply portaldisk cleanup --force
+      # duply portaldisk cleanup --force
       duply portaldisk purge_purgeFull --force
       duply portaldisk backup
     '';
