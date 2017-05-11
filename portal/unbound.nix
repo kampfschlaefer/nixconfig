@@ -6,6 +6,7 @@ let
   addresses = [
     { name = "laserjet"; a = "192.168.1.10"; }
     { name = "fonera";   a = "192.168.1.20"; }
+    { name = "td-29";    a = "192.168.1.30"; }
 
     # client machines
     { name = "xingu";     a = "192.168.1.65"; aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07"; }
