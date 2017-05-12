@@ -44,6 +44,7 @@ let
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; }
     { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; }
     { hostName = "td-29";         ethernetAddress = "00:60:e0:66:64:95"; ipAddress = "192.168.1.30"; }
+    { hostName = "worknuc";       ethernetAddress = "b8:ae:ed:78:da:ce"; }
   ] ++ (if config.testdata then [
     { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
   ] else []);
