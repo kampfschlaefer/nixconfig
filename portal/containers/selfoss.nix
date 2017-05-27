@@ -4,6 +4,8 @@ let
   selfosspkg = pkgs.callPackage ../../lib/software/selfoss {};
 in
 {
+  systemd.services."container@selfoss".after = [ "container@postgres.service" "container@firewall.service" ];
+
   containers.selfoss = {
     autoStart = lib.mkOverride 100 true;
 

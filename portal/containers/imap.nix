@@ -7,8 +7,10 @@
     };
   };
 
+  systemd.services."container@imap".after = [ "container@firewall.service" ];
+
   containers.imap = {
-    autoStart = lib.mkOverride 100 true;
+    autoStart = lib.mkOverride 100 false;
 
     privateNetwork = true;
     hostBridge = "lan";
@@ -28,7 +30,7 @@
 
       environment.systemPackages = with pkgs; [
         offlineimap
-        vimNox
+        vim_configurable
       ];
 
       networking.firewall = {

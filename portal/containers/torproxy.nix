@@ -5,6 +5,8 @@ let
   lanIf = "eth0";
 in
 {
+  systemd.services."container@torproxy".after = [ "container@firewall.service" ];
+
   containers.torproxy = {
     autoStart = lib.mkOverride 100 true;
 

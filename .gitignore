@@ -1,3 +1,4 @@
 .*.swp
 /vde*.ctl
 /result*
+/outputs
