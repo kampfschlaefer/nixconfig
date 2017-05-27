@@ -2,14 +2,16 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
     run_firewall = true;
     run_gitolite = true;
-    run_mpd = true;
     run_mqtt = true;
     run_ntp = true;
     run_pyheim = true;
     run_selfoss = true;
     run_torproxy = true;
 
-    run_postgres = run_selfoss || false;
+    # No advanced tests yet, not even if the service is up and reachable
+    run_mpd = false;
+
+    run_postgres = true;
 
     debug = false;
 
@@ -65,7 +67,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
-          containers.postgres.autoStart = lib.mkOverride 10 run_postgres;
+          containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
           containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
@@ -75,7 +77,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         };
       outside = {config, pkgs, ...}:
         {
-          virtualisation.memorySize = 512;
+          virtualisation.memorySize = 256;
           virtualisation.vlans = [ 2 ];
           boot.kernelParams = [ "quiet" ];
 
@@ -138,9 +140,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     testScript = ''
 
       subtest "set up", sub {
-        ${lib.optionalString outside_needed
-          ''$outside->start();''
-        }
         $portal->start();
 
         $portal->waitForUnit("default.target");
@@ -185,6 +184,9 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       };
 
       subtest "start other machines as needed", sub {
+        ${lib.optionalString outside_needed
+          ''$outside->start();''
+        }
         ${lib.optionalString inside_needed
           ''$inside->start();''
         }
