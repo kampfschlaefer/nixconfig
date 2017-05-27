@@ -12,6 +12,8 @@ let
   };
 in
 {
+  systemd.services."container@pyheim".after = [ "container@mqtt.service" ];
+
   containers.pyheim = {
     autoStart = lib.mkOverride 100 true;
 

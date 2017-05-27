@@ -7,6 +7,8 @@
     };
   };
 
+  systemd.services."container@mpd".after = [ "container@postgres.service" ];
+
   containers.mpd = {
     autoStart = lib.mkOverride 100 true;
 
