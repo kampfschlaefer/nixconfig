@@ -1,7 +1,8 @@
 import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
-    run_firewall = true;
-    run_gitolite = false;
+    run_unbound = false;
+    run_firewall = false;
+    run_gitolite = true;
     run_mqtt = false;
     run_ntp = false;
     run_pyheim = false;
@@ -162,13 +163,22 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->succeed("ip -6 r >&2");
       };
 
-      subtest "check unbound/dhcp", sub {
-        $portal->succeed("unbound-checkconf /var/lib/unbound/unbound.conf >&2");
+      ${lib.optionalString run_unbound
+        ''subtest "check unbound/dhcp", sub {
+          $portal->succeed("unbound-checkconf /var/lib/unbound/unbound.conf >&2");
+          $portal->succeed("systemctl is-active unbound >&2");
+          #$portal->succeed("journalctl -u unbound >&2");
+          #$portal->succeed("netstat -l -nv >&2");
+          #$portal->succeed("iptables -L -nv >&2");
+          $portal->succeed("host -v -t a portal.arnoldarts.de 127.0.0.1 >&2");
+          $portal->succeed("host -v -t a portal.arnoldarts.de 192.168.1.240 >&2");
 
-        $portal->succeed("systemctl is-active unbound >&2");
+          $portal->succeed("systemctl is-active dhcpd4 >&2");
+        };''
+      }
+      #$portal->succeed("iptables -L -nv >&2");
+      #$portal->succeed("journalctl -u unbound >&2");
 
-        $portal->succeed("systemctl is-active dhcpd >&2");
-      };
 
       subtest "check libvirtd", sub {
         $portal->succeed("getent group |grep libvirtd >&2");
