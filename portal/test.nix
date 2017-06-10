@@ -222,38 +222,40 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->waitForUnit("container\@firewall");
 
           $portal->execute("ip link >&2");
-          $portal->succeed("ping -n -c 1 -w 2 outside >&2");
-          $portal->succeed("ping -n -c 1 -w 2 outsideweb >&2");
-          $portal->succeed("curl -s -f http://outsideweb >&2");
+          $portal->succeed("ping -4 -n -c 1 -w 2 outside >&2");
+          $portal->succeed("ping -4 -n -c 1 -w 2 outsideweb >&2");
+          $portal->succeed("curl --connect-timeout 1 -s -f http://outsideweb >&2");
 
           $outside->execute("ip link >&2");
           $outside->execute("ip -4 a >&2");
-          $outside->succeed("ping -n -c 1 -w 2 192.168.2.220 >&2");
+          $outside->succeed("ping -4 -n -c 1 -w 2 192.168.2.220 >&2");
 
           $portal->execute("nixos-container run firewall -- ip link >&2");
           $portal->execute("nixos-container run firewall -- ip -4 a >&2");
-          $portal->fail("nixos-container run firewall -- ping -n -c 1 -w 2 192.168.2.10 >&2");
+          $portal->fail("nixos-container run firewall -- ping -4 -n -c 1 -w 2 192.168.2.10 >&2");
 
           $inside->execute("ip -4 a >&2");
           $inside->execute("ip -4 r >&2");
           $inside->succeed("ip r get 192.168.2.10 >&2");
 
-          $inside->succeed("ping -c 1 -w 2 -n outsideweb >&2");
-          $inside->succeed("curl -s -f http://outsideweb >&2");
+          $inside->execute("cat /etc/resolv.conf >&2");
+          $inside->execute("host -v -t any outsideweb.arnoldarts.de >&2");
+          $inside->succeed("ping -4 -c 1 -w 2 -n outsideweb >&2");
+          $inside->succeed("curl --connect-timeout 1 -s -f http://outsideweb >&2");
         };''
       }
 
       subtest "check containers connectivity", sub {
         ${lib.optionalString run_gitolite
-          ''$portal->succeed("ping -n -c 1 -w 2 gitolite >&2");
+          ''$portal->succeed("ping -4 -n -c 1 -w 2 gitolite >&2");
           $portal->succeed("ping -6 -n -c 1 -w 2 gitolite >&2");''
         }
         ${lib.optionalString run_mpd
-          ''$portal->succeed("ping -n -c 1 -w 2 mpd >&2");
+          ''$portal->succeed("ping -4 -n -c 1 -w 2 mpd >&2");
           $portal->succeed("ping -6 -n -c 1 -w 2 mpd >&2");''
         }
         ${lib.optionalString run_firewall
-          ''$portal->succeed("ping -n -c 1 -w 2 firewall >&2");
+          ''$portal->succeed("ping -4 -n -c 1 -w 2 firewall >&2");
           # The firewall machine doesn't yet answer ipv6 pings
           $portal->fail("ping -6 -n -c 1 -w 2 firewall >&2");''
         }
@@ -264,7 +266,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           # $portal->succeed("nixos-container run torproxy -- iptables -L -nv >&2");
           # $portal->succeed("nixos-container run torproxy -- ip6tables -L -nv >&2");
 
-          $portal->succeed("ping -n -c 1 -w 2 torproxy >&2");
+          $portal->succeed("ping -4 -n -c 1 -w 2 torproxy >&2");
           $portal->succeed("ping -6 -n -c 1 -w 2 torproxy >&2");
           $portal->succeed("nmap --open -n -p 9050 torproxy -oG - |grep \"/open\"");
           $portal->succeed("nmap --open -n -p 9063 torproxy -oG - |grep \"/open\"");
@@ -279,7 +281,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       ${lib.optionalString run_mpd
         ''subtest "check mpd container shutdown", sub {
           $portal->execute("nixos-container stop mpd >&2");
-          $portal->fail("ping -n -c 1 -w 2 mpd >&2");
+          $portal->fail("ping -4 -n -c 1 -w 2 mpd >&2");
         };''
       }
 
@@ -296,8 +298,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           # $portal->succeed("nixos-container run gitolite -- cat /var/lib/gitolite/.gitolite.rc >&2");
           $portal->succeed("grep 0027 /var/lib/containers/gitolite/var/lib/gitolite/.gitolite.rc >&2");
           $inside->waitForUnit("default.target");
-          # $inside->succeed("curl -s http://gitolite/gitweb/ |grep \"404 - No projects found\" >&2");
-          $inside->fail("curl -s http://gitolite/gitweb/ >&2");
+          # $inside->succeed("curl --connect-timeout 1 -s http://gitolite/gitweb/ |grep \"404 - No projects found\" >&2");
+          $inside->fail("curl --connect-timeout 1 -s http://gitolite/gitweb/ >&2");
           $inside->succeed("test_gitolite >&2");
         };
         # $portal->succeed("nixos-container run gitolite -- ls -la /var/lib/gitolite >&2");
@@ -341,14 +343,14 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           # Preparation
           $outside->succeed("systemctl status -l -n 40 nginx >&2");
           $portal->succeed("nixos-container run selfoss -- ip r get 192.168.2.10 >&2");
-          $portal->succeed("nixos-container run selfoss -- ping -n -c 1 -w 2 outsideweb >&2");
-          $portal->succeed("nixos-container run selfoss -- curl -s -f http://outsideweb >&2");
-          $portal->succeed("nixos-container run selfoss -- curl -s -f http://outsideweb/feed.atom >&2");
+          $portal->succeed("nixos-container run selfoss -- ping -4 -n -c 1 -w 2 outsideweb >&2");
+          $portal->succeed("nixos-container run selfoss -- curl --connect-timeout 1 -s -f http://outsideweb >&2");
+          $portal->succeed("nixos-container run selfoss -- curl --connect-timeout 1 -s -f http://outsideweb/feed.atom >&2");
 
           # Services
           $portal->waitForUnit("container\@selfoss");
-          $portal->succeed("ping -n -c 1 selfoss >&2");
-          $portal->succeed("nixos-container run selfoss -- ping -n -c 2 192.168.6.1 >&2");
+          $portal->succeed("ping -4 -n -c 1 selfoss >&2");
+          $portal->succeed("nixos-container run selfoss -- ping -4 -n -c 2 192.168.6.1 >&2");
           $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
           $portal->succeed("systemctl -M selfoss status nginx >&2");
@@ -361,7 +363,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl -M selfoss status selfoss_update.service >&2");
 
           # access selfoss webinterface from container and from inside
-          $portal->succeed("curl -s -f http://selfoss/");
+          $portal->succeed("curl --connect-timeout 1 -s -f http://selfoss/");
           $inside->waitForUnit("default.target");
           $inside->succeed("curl -4 -s -f http://selfoss/");
           $inside->succeed("curl -6 -s -f http://selfoss/");
@@ -373,7 +375,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       ${lib.optionalString (run_selfoss && debug)
         ''subtest "selfoss debugging", sub {
           #$portal->succeed("curl -f http://selfoss/ >&2");
-          #$portal->succeed("curl -s http://selfoss/sources/list >&2");
+          #$portal->succeed("curl --connect-timeout 1 -s http://selfoss/sources/list >&2");
           $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
           #$portal->succeed("nixos-container run postgres -- psql -l >&2");
@@ -392,7 +394,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         ''subtest "mqtt testing", sub {
           $portal->succeed("host -t a mqtt >&2");
           $portal->succeed("host -t aaaa mqtt >&2");
-          $portal->succeed("ping -n -c 2 mqtt >&2");
+          $portal->succeed("ping -4 -n -c 2 mqtt >&2");
           $portal->succeed("ping -6 -n -c 2 mqtt >&2");
 
           $portal->execute("nmap -4 mqtt -n -p 1883 >&2");
@@ -405,7 +407,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       }
       ${lib.optionalString (!run_mqtt)
         ''subtest "mqtt not reachable", sub {
-          $portal->fail("ping -n -c 1 mqtt >&2");
+          $portal->fail("ping -4 -n -c 1 mqtt >&2");
         }''
       }
 
