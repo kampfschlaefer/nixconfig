@@ -18,7 +18,7 @@ in {
       ./containers/gitolite.nix
       ./containers/imap.nix
       /*./containers/mpd.nix*/
-      /*./containers/mqtt.nix*/
+      ./containers/mqtt.nix
       /*./containers/postgres.nix*/
       /*./containers/pyheim.nix*/
       /*./containers/selfoss.nix*/

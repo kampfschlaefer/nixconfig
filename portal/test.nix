@@ -2,8 +2,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
     run_unbound = false;
     run_firewall = false;
-    run_gitolite = true;
-    run_mqtt = false;
+    run_gitolite = false;
+    run_mqtt = true;
     run_ntp = false;
     run_pyheim = false;
     run_selfoss = false;
@@ -392,13 +392,15 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_mqtt
         ''subtest "mqtt testing", sub {
+          $portal->succeed("systemctl status container\@mqtt >&2");
+          $portal->succeed("systemctl -M mqtt status mosquitto >&2");
           $portal->succeed("host -t a mqtt >&2");
           $portal->succeed("host -t aaaa mqtt >&2");
           $portal->succeed("ping -4 -n -c 2 mqtt >&2");
           $portal->succeed("ping -6 -n -c 2 mqtt >&2");
 
           $portal->execute("nmap -4 mqtt -n -p 1883 >&2");
-          $portal->succeed("nmap -4 mqtt -n -p 1883 |grep open >&2");
+          $portal->succeed("nmap -4 mqtt -n -p 1883 |grep filtered >&2");
 
           $portal->succeed("[ -d /var/lib/containers/mqtt/var/lib/mosquitto ]");
 
