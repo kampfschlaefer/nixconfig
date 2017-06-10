@@ -13,15 +13,16 @@ in {
       ./hardware-configuration.nix
       ../lib/machines/base.nix
       ../lib/users/arnold.nix
+      ../lib/software/myfirewall.nix
       ./containers/cups.nix
       ./containers/firewall.nix
       ./containers/gitolite.nix
       ./containers/imap.nix
-      ./containers/mpd.nix
-      ./containers/mqtt.nix
-      ./containers/postgres.nix
-      ./containers/pyheim.nix
-      ./containers/selfoss.nix
+      /*./containers/mpd.nix*/
+      /*./containers/mqtt.nix*/
+      /*./containers/postgres.nix*/
+      /*./containers/pyheim.nix*/
+      /*./containers/selfoss.nix*/
       ./containers/testing.nix
       ./containers/torproxy.nix
       ./dhcpd.nix
@@ -120,7 +121,7 @@ in {
     networking.defaultGateway = "192.168.1.220";
     networking.defaultGateway6 = "2001:470:1f0b:1033::1";
 
-    networking.firewall = {
+    networking.myfirewall = {
       enable = true;
       allowPing = true;
       rejectPackets = true;

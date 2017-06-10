@@ -1,17 +1,17 @@
 import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
     run_firewall = true;
-    run_gitolite = true;
-    run_mqtt = true;
-    run_ntp = true;
-    run_pyheim = true;
-    run_selfoss = true;
-    run_torproxy = true;
+    run_gitolite = false;
+    run_mqtt = false;
+    run_ntp = false;
+    run_pyheim = false;
+    run_selfoss = false;
+    run_torproxy = false;
 
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
 
-    run_postgres = true;
+    run_postgres = false;
 
     debug = false;
 
@@ -65,11 +65,11 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
-          containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
-          containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
-          containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
-          containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
-          containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
+          /*containers.mpd.autoStart = lib.mkOverride 10 run_mpd;*/
+          /*containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;*/
+          /*containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);*/
+          /*containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;*/
+          /*containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;*/
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
 
           containers.imap.autoStart = lib.mkOverride 10 false;
@@ -236,16 +236,16 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       subtest "check containers connectivity", sub {
         ${lib.optionalString run_gitolite
           ''$portal->succeed("ping -n -c 1 -w 2 gitolite >&2");
-          $portal->succeed("ping6 -n -c 1 -w 2 gitolite >&2");''
+          $portal->succeed("ping -6 -n -c 1 -w 2 gitolite >&2");''
         }
         ${lib.optionalString run_mpd
           ''$portal->succeed("ping -n -c 1 -w 2 mpd >&2");
-          $portal->succeed("ping6 -n -c 1 -w 2 mpd >&2");''
+          $portal->succeed("ping -6 -n -c 1 -w 2 mpd >&2");''
         }
         ${lib.optionalString run_firewall
           ''$portal->succeed("ping -n -c 1 -w 2 firewall >&2");
           # The firewall machine doesn't yet answer ipv6 pings
-          $portal->fail("ping6 -n -c 1 -w 2 firewall >&2");''
+          $portal->fail("ping -6 -n -c 1 -w 2 firewall >&2");''
         }
         ${lib.optionalString run_torproxy
           ''$portal->execute("journalctl -M torproxy -u tor >&2");
@@ -255,7 +255,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           # $portal->succeed("nixos-container run torproxy -- ip6tables -L -nv >&2");
 
           $portal->succeed("ping -n -c 1 -w 2 torproxy >&2");
-          $portal->succeed("ping6 -n -c 1 -w 2 torproxy >&2");
+          $portal->succeed("ping -6 -n -c 1 -w 2 torproxy >&2");
           $portal->succeed("nmap --open -n -p 9050 torproxy -oG - |grep \"/open\"");
           $portal->succeed("nmap --open -n -p 9063 torproxy -oG - |grep \"/open\"");
           $portal->succeed("nmap --open -n -p 8118 torproxy -oG - |grep \"/open\"");
@@ -383,7 +383,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("host -t a mqtt >&2");
           $portal->succeed("host -t aaaa mqtt >&2");
           $portal->succeed("ping -n -c 2 mqtt >&2");
-          $portal->succeed("ping6 -n -c 2 mqtt >&2");
+          $portal->succeed("ping -6 -n -c 2 mqtt >&2");
 
           $portal->execute("nmap -4 mqtt -n -p 1883 >&2");
           $portal->succeed("nmap -4 mqtt -n -p 1883 |grep open >&2");

@@ -19,6 +19,10 @@ in
     };
 
     config = { config, pkgs, ... }: {
+      imports = [
+        ../../lib/software/myfirewall.nix
+      ];
+
       networking.domain = "arnoldarts.de";
       networking.defaultGateway = "192.168.2.10";
 
@@ -37,7 +41,7 @@ in
 
       networking.nat.enable = false;
 
-      networking.firewall = {
+      networking.myfirewall = {
         /*enable = false;*/
         allowPing = true;
         rejectPackets = true;
