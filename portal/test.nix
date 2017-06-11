@@ -67,10 +67,10 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           /*containers.mpd.autoStart = lib.mkOverride 10 run_mpd;*/
-          /*containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;*/
-          /*containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);*/
-          /*containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;*/
-          /*containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;*/
+          containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
+          containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
+          containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
+          containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
 
           containers.imap.autoStart = lib.mkOverride 10 false;

@@ -19,9 +19,9 @@ in {
       ./containers/imap.nix
       /*./containers/mpd.nix*/
       ./containers/mqtt.nix
-      /*./containers/postgres.nix*/
-      /*./containers/pyheim.nix*/
-      /*./containers/selfoss.nix*/
+      ./containers/pyheim.nix
+      ./containers/postgres.nix
+      ./containers/selfoss.nix
       ./containers/testing.nix
       ./containers/torproxy.nix
       ./dhcpd.nix
