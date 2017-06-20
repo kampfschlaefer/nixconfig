@@ -42,7 +42,7 @@ in
       networking.nat.enable = false;
 
       networking.myfirewall = {
-        /*enable = false;*/
+        enable = true;
         allowPing = true;
         rejectPackets = true;
         # log target doesn't work inside network-namespaces
