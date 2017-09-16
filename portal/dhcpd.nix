@@ -29,6 +29,7 @@ let
     { hostName = "touchpi";       ethernetAddress = "b8:27:eb:73:38:22"; ipAddress = "192.168.1.70"; }
     { hostName = "octopi";        ethernetAddress = "b8:27:eb:4b:bc:72"; ipAddress = "192.168.1.71"; } # wireless
     { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
+    { hostName = "pibot";         ethernetAddress = "b8:27:eb:db:c8:b6"; ipAddress = "192.168.1.73"; } # raspi w
 
     { hostName = "android-lg";    ethernetAddress = "f8:a9:d0:1e:b7:29"; }
     { hostName = "android-ines";  ethernetAddress = "60:be:b5:0a:73:d3"; }
