@@ -1,13 +1,13 @@
 import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
-    run_unbound = false;
-    run_firewall = false;
-    run_gitolite = false;
+    run_unbound = true;
+    run_firewall = true;
+    run_gitolite = true;
     run_mqtt = true;
-    run_ntp = false;
-    run_pyheim = false;
-    run_selfoss = false;
-    run_torproxy = false;
+    run_ntp = true;
+    run_pyheim = true;
+    run_selfoss = true;
+    run_torproxy = true;
 
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
@@ -355,10 +355,10 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->waitForUnit("container\@selfoss");
           $portal->succeed("ping -4 -n -c 1 selfoss >&2");
           $portal->succeed("nixos-container run selfoss -- ping -4 -n -c 2 192.168.6.1 >&2");
-          $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
+          $portal->succeed("journalctl -M selfoss -u phpfpm-selfoss >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
           $portal->succeed("systemctl -M selfoss status nginx >&2");
-          $portal->succeed("systemctl -M selfoss status phpfpm >&2");
+          $portal->succeed("systemctl -M selfoss status phpfpm-selfoss >&2");
 
           # check update service
           $portal->succeed("systemctl -M selfoss status selfoss_update.timer >&2");
@@ -380,7 +380,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         ''subtest "selfoss debugging", sub {
           #$portal->succeed("curl -f http://selfoss/ >&2");
           #$portal->succeed("curl --connect-timeout 1 -s http://selfoss/sources/list >&2");
-          $portal->succeed("journalctl -M selfoss -u phpfpm >&2");
+          $portal->succeed("journalctl -M selfoss -u phpfpm-selfoss >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
           #$portal->succeed("nixos-container run postgres -- psql -l >&2");
           #$portal->succeed("nixos-container run postgres -- psql selfoss -c \"\\dp\" >&2");
