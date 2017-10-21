@@ -17,9 +17,10 @@ in
     };
 
     config = { config, pkgs, ... }: {
-      /*imports = [
-        ../../lib/users/arnold.nix
-      ];*/
+      imports = [
+        /*../../lib/users/arnold.nix*/
+        ../../lib/software/myfirewall.nix
+      ];
 
       networking.domain = "arnoldarts.de";
 
@@ -45,7 +46,7 @@ in
         externalIP = "192.168.2.220";
       };
 
-      networking.firewall = {
+      networking.myfirewall = {
         allowPing = true;
         rejectPackets = true;
         # log target doesn't work inside network-namespaces

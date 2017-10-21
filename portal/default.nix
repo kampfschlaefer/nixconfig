@@ -19,8 +19,8 @@ in {
       ./containers/imap.nix
       ./containers/mpd.nix
       ./containers/mqtt.nix
-      ./containers/postgres.nix
       ./containers/pyheim.nix
+      ./containers/postgres.nix
       ./containers/selfoss.nix
       ./containers/testing.nix
       ./containers/torproxy.nix
@@ -126,13 +126,6 @@ in {
       rejectPackets = true;
       allowedTCPPorts = [ 111 2049 4001 4002 ];
       allowedUDPPorts = [ 111 123 2049 4001 4002 60001 ];
-      rules = [
-        {
-          fromInterface = "lan";
-          toInterface = "ve-gitolite";
-          target = "ACCEPT";
-        }
-      ];
       extraPackages = [ pkgs.procps ];
       extraCommands = ''
         sysctl net.ipv4.conf.all.forwarding=1

@@ -91,7 +91,7 @@ in
       verbosity: 1
 
       # Is it the dns that makes it so slow here?
-      log-queries: no
+      log-queries: ${if config.testdata then "yes" else "no"}
       statistics-interval: 300
       extended-statistics: yes
 
@@ -99,7 +99,7 @@ in
       cache-max-ttl: 3600
       prefetch: yes
 
-      local-zone: "arnoldarts.de." typetransparent
+      local-zone: "arnoldarts.de." ${if config.testdata then "refuse" else "typetransparent"}
 
       ${localdata addresses}
 
