@@ -15,6 +15,7 @@ let
     { name = "touchpi";   a = "192.168.1.70"; /*aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07";*/ }
     { name = "octopi";    a = "192.168.1.71"; } # wireless
     { name = "weatherpi"; a = "192.168.1.72"; } # wireless raspi A
+    { name = "pibot";     a = "192.168.1.73"; } # raspi w
 
     # containers
     { name = "firewall"; a = "192.168.1.220"; aaaa = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; }
