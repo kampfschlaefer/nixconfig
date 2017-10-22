@@ -59,7 +59,7 @@ let
     { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
   ] else []);
 in {
-  services.dhcpd = {
+  services.dhcpd4 = {
     enable = true;
     interfaces = [ "lan" ];
     machines = [];  # filter (host: hasAttr "ipAddress" host) known_hosts;

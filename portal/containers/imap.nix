@@ -25,6 +25,7 @@
 
       imports = [
         ../../lib/users/arnold.nix
+        ../../lib/software/myfirewall.nix
       ];
       users.users.arnold.group = lib.mkOverride 10 "dovecot2";
 
@@ -33,7 +34,7 @@
         vim_configurable
       ];
 
-      networking.firewall = {
+      networking.myfirewall = {
         enable = false;
         defaultPolicies = { input = "DROP"; output = "DROP"; forward="DROP"; };
         rules = [
