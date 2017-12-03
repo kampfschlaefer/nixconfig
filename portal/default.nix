@@ -13,10 +13,10 @@ in {
       ./hardware-configuration.nix
       ../lib/machines/base.nix
       ../lib/users/arnold.nix
-      ./containers/cups.nix
+      #./containers/cups.nix
       ./containers/firewall.nix
       ./containers/gitolite.nix
-      ./containers/imap.nix
+      #./containers/imap.nix
       ./containers/mpd.nix
       ./containers/mqtt.nix
       ./containers/pyheim.nix
