@@ -22,6 +22,7 @@ in {
       ./containers/pyheim.nix
       ./containers/postgres.nix
       ./containers/selfoss.nix
+      ./containers/syncthing.nix
       ./containers/testing.nix
       ./containers/torproxy.nix
       ./dhcpd.nix
