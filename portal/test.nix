@@ -8,6 +8,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_pyheim = true;
     run_selfoss = true;
     run_torproxy = true;
+    run_syncthing = true;
 
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
@@ -16,7 +17,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
     debug = false;
 
-    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt;
+    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt || run_syncthing;
     outside_needed = run_firewall || run_torproxy || run_selfoss;
 
     testspkg = import ../lib/tests/default.nix {
@@ -71,6 +72,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
+          containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
 
           #containers.imap.autoStart = lib.mkOverride 10 false;
@@ -391,6 +393,18 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->succeed("nixos-container run selfoss -- cat /var/lib/selfoss/arnold/config.ini >&2");
 
           $outside->succeed("journalctl -u nginx >&2");
+        };''
+      }
+
+      ${lib.optionalString run_syncthing
+        ''subtest "Check syncthing", sub {
+          $portal->execute("nixos-container run syncthing -- netstat -l -nv >&2");
+          $portal->execute("nixos-container run syncthing -- systemctl -l status syncthing >&2");
+          $portal->execute("nixos-container run syncthing -- ls -la /var/lib/syncthing >&2");
+          $portal->execute("nixos-container run syncthing -- ls -la /var/lib/ >&2");
+          $inside->succeed("ping -4 -n -c 1 syncthing >&2");
+          $inside->succeed("ping -6 -n -c 1 syncthing >&2");
+          $inside->succeed("curl -4 -s -f http://syncthing >&2");
         };''
       }
 
