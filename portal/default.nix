@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  vgfilesystems = [ "audiofiles" "je_pictures" "misc-system" "videos" ];
+  vgfilesystems = [ "je_pictures" "misc-system" ];
 in {
   options.testdata = lib.mkOption {
     type = lib.types.bool;
@@ -13,10 +13,10 @@ in {
       ./hardware-configuration.nix
       ../lib/machines/base.nix
       ../lib/users/arnold.nix
-      ./containers/cups.nix
+      #./containers/cups.nix
       ./containers/firewall.nix
       ./containers/gitolite.nix
-      ./containers/imap.nix
+      #./containers/imap.nix
       ./containers/mpd.nix
       ./containers/mqtt.nix
       ./containers/pyheim.nix
@@ -74,9 +74,9 @@ in {
     networking.nameservers = lib.mkOverride 100 [
       "192.168.1.240"
       #"2001:470:1f0b:1033::706f:7274:616c"
-      "8.8.4.4"              # Google DNS
+      #"8.8.4.4"              # Google DNS
       #"2001:4860:4860::8888" # Google DNS
-      "74.82.42.42"          # Hurricane Electric
+      #"74.82.42.42"          # Hurricane Electric
       #"2001:470:20::2"       # Hurricane Electric
     ];
     networking.search = [ "arnoldarts.de" ];

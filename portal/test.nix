@@ -73,8 +73,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
 
-          containers.imap.autoStart = lib.mkOverride 10 false;
-          containers.cups.autoStart = lib.mkOverride 10 false;
+          #containers.imap.autoStart = lib.mkOverride 10 false;
+          #containers.cups.autoStart = lib.mkOverride 10 false;
         };
       outside = {config, pkgs, ...}:
         {
