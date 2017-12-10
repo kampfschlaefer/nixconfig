@@ -405,6 +405,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $inside->succeed("ping -4 -n -c 1 syncthing >&2");
           $inside->succeed("ping -6 -n -c 1 syncthing >&2");
           $inside->succeed("curl -4 -s -f http://syncthing >&2");
+          $inside->succeed("curl -4 --insecure -s -f https://syncthing >&2");
         };''
       }
 

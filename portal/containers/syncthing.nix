@@ -33,12 +33,12 @@ in
         enable = true;
         virtualHosts = {
           "syncthing.arnoldarts.de" = {
-              #forceSSL = true;
-              #enableACME = true;
-              locations."/" = {
-                proxyPass = "http://localhost:8384";
-              };
+            forceSSL = true;
+            enableACME = true;
+            locations."/" = {
+              proxyPass = "http://localhost:8384";
             };
+          };
         };
       };
       /*services.openssh = {
