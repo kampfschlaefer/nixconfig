@@ -18,6 +18,25 @@ in
     localAddress6 = "2001:470:1f0b:1033:796e:6374:6869:6e67/64";
 
     config = { config, pkgs, ... }: {
+      nixpkgs.config.packageOverrides = pkgs: rec {
+        simp_le = pkgs.simp_le.overrideDerivation (oldAttrs: {
+          version = "0.6.1";
+          src = pkgs.pythonPackages.fetchPypi {
+            pname = "simp_le-client";
+            version = "0.6.1";
+            sha256 = "0x4fky9jizs3xi55cdy217cvm3ikpghiabysan71b07ackkdfj6k";
+          };
+        });
+        certbot = pkgs.certbot.overrideDerivation (oldAttrs: {
+          version = "0.19.0";
+          src = pkgs.fetchFromGitHub {
+            owner = "certbot";
+            repo = "certbot";
+            rev = "v0.19.0";
+            sha256 = "14i3q59v7j0q2pa1dri420fhil4h0vgl4vb471hp81f4y14gq6h7";
+          };
+        });
+      };
       time.timeZone = "Europe/Berlin";
 
       networking.domain = "arnoldarts.de";
