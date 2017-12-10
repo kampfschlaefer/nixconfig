@@ -51,6 +51,8 @@ in
       services.nginx = {
         enable = true;
         sslCiphers = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:!RSA+AES:!aNULL:!MD5:!DSS";
+        recommendedTlsSettings = true;
+        recommendedProxySettings = true;
         virtualHosts = {
           "syncthing.arnoldarts.de" = {
             forceSSL = true;
