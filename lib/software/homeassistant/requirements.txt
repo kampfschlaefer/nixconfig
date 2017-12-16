@@ -1,0 +1,10 @@
+#pytz
+homeassistant
+sqlalchemy
+paho-mqtt
+phue
+denonavr
+#pip
+netdisco
+home-assistant-frontend
+xmltodict
