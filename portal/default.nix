@@ -92,7 +92,7 @@ in {
 
       nat = {
         # enable nat to enable ip forwarding
-        enable = true;
+        enable = false;
       };
 
       bridges = {
