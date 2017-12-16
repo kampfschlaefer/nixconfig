@@ -73,6 +73,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
+          containers.syncthing2.autoStart = lib.mkOverride 10 run_syncthing;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
 
           #containers.imap.autoStart = lib.mkOverride 10 false;
