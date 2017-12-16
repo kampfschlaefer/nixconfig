@@ -9,6 +9,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_selfoss = true;
     run_torproxy = true;
     run_syncthing = true;
+    run_homeassistant = true;
 
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
@@ -417,6 +418,15 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $inside->succeed("ping -6 -n -c 1 syncthing2 >&2");
           $inside->succeed("curl -4 -s -f http://syncthing2 >&2");
           $inside->succeed("curl -4 --insecure -s -f https://syncthing2 >&2");
+        };''
+      }
+
+      ${lib.optionalString run_homeassistant
+        ''subtest "Check homeassistant", sub {
+          $portal->succeed("host -t a homeassistant >&2");
+          $portal->succeed("host -t aaaa homeassistant >&2");
+          $portal->succeed("ping -4 -n -c 1 homeassistant >&2");
+          $portal->succeed("ping -6 -n -c 1 homeassistant >&2");
         };''
       }
 
