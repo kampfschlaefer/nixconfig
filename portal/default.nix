@@ -20,11 +20,12 @@ in {
       #./containers/cups.nix
       ./containers/firewall.nix
       ./containers/gitolite.nix
+      ./containers/homeassistant.nix
       #./containers/imap.nix
       ./containers/mpd.nix
       ./containers/mqtt.nix
-      ./containers/pyheim.nix
       ./containers/postgres.nix
+      ./containers/pyheim.nix
       ./containers/selfoss.nix
       ./containers/syncthing.nix
       ./containers/testing.nix
