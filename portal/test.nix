@@ -406,6 +406,16 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $inside->succeed("ping -6 -n -c 1 syncthing >&2");
           $inside->succeed("curl -4 -s -f http://syncthing >&2");
           $inside->succeed("curl -4 --insecure -s -f https://syncthing >&2");
+        };
+        subtest "Check syncthing for ines", sub {
+          #$portal->execute("nixos-container run syncthing2 -- netstat -l -nv >&2");
+          #$portal->execute("nixos-container run syncthing2 -- systemctl -l status syncthing >&2");
+          #$portal->execute("nixos-container run syncthing2 -- ls -la /var/lib/syncthing >&2");
+          #$portal->execute("nixos-container run syncthing2 -- ls -la /var/lib/ >&2");
+          $inside->succeed("ping -4 -n -c 1 syncthing2 >&2");
+          $inside->succeed("ping -6 -n -c 1 syncthing2 >&2");
+          $inside->succeed("curl -4 -s -f http://syncthing2 >&2");
+          $inside->succeed("curl -4 --insecure -s -f https://syncthing2 >&2");
         };''
       }
 

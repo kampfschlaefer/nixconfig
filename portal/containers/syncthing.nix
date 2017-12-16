@@ -1,21 +1,13 @@
 { config, lib, pkgs, ... }:
 
 let
-in
-{
-  fileSystems = {
-    "/var/lib/containers/syncthing/var/lib/syncthing" = {
-      device = "/dev/portalgroup/syncthing";
-    };
-  };
-
-  containers.syncthing = {
+  container = name: ip: ip6: rec {
     autoStart = lib.mkOverride 100 true;
 
     privateNetwork = true;
     hostBridge = "lan";
-    localAddress = "192.168.1.230/24";
-    localAddress6 = "2001:470:1f0b:1033:796e:6374:6869:6e67/64";
+    localAddress = "${ip}/24";
+    localAddress6 = "${ip6}/64";
 
     config = { config, pkgs, ... }: {
       nixpkgs.config.packageOverrides = pkgs: rec {
@@ -40,21 +32,21 @@ in
       time.timeZone = "Europe/Berlin";
 
       networking.domain = "arnoldarts.de";
-      networking.firewall.enable = false;
+      networking.firewall.enable = true;
+      networking.firewall.allowedTCPPorts = [ 80 443 ];
 
       services.syncthing = {
         enable = true;
-        #user = "arnold";
-        #group = "syncthing";
+        openDefaultPorts = true;
       };
 
       services.nginx = {
         enable = true;
         sslCiphers = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:!RSA+AES:!aNULL:!MD5:!DSS";
         recommendedTlsSettings = true;
-        /*recommendedProxySettings = true;*/
+        recommendedProxySettings = false;
         virtualHosts = {
-          "syncthing.arnoldarts.de" = {
+          "${name}.arnoldarts.de" = {
             forceSSL = true;
             enableACME = true;
             locations."/" = {
@@ -63,20 +55,19 @@ in
           };
         };
       };
-      /*services.openssh = {
-        enable = true;
-        allowSFTP = true;
-        startWhenNeeded = true;
-      };
-
-      services.mosquitto = {
-        enable = true;
-        host = "0.0.0.0";
-        port = 1883;
-
-        allowAnonymous = true;
-        users = {};
-      };*/
     };
   };
+in
+{
+  fileSystems = {
+    "/var/lib/containers/syncthing/var/lib/syncthing" = {
+      device = "/dev/portalgroup/syncthing";
+    };
+    "/var/lib/containers/syncthing2/var/lib/syncthing" = {
+      device = "/dev/portalgroup/syncthing2";
+    };
+  };
+
+  containers.syncthing = container "syncthing" "192.168.1.230" "2001:470:1f0b:1033:796e:6374:6869:6e67";
+  containers.syncthing2 = container "syncthing2" "192.168.1.231" "2001:470:1f0b:1033:796e:6374:6869:6e68";
 }
