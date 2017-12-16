@@ -1,7 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  vgfilesystems = [ "je_pictures" "misc-system" ];
+  vgfilesystems = [
+    "je_pictures"
+    "misc-system"
+    "videos"
+  ];
 in {
   options.testdata = lib.mkOption {
     type = lib.types.bool;
