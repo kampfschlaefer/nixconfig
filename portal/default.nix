@@ -69,69 +69,71 @@ in {
       ) vgfilesystems
     );
 
-    networking.hostName = lib.mkOverride 10 "portal"; # Define your hostname.
-    networking.domain = "arnoldarts.de";
-
-    networking.nameservers = lib.mkOverride 100 [
-      "192.168.1.240"
-      #"2001:470:1f0b:1033::706f:7274:616c"
-      #"8.8.4.4"              # Google DNS
-      #"2001:4860:4860::8888" # Google DNS
-      #"74.82.42.42"          # Hurricane Electric
-      #"2001:470:20::2"       # Hurricane Electric
-    ];
-    networking.search = [ "arnoldarts.de" ];
-
-    networking.enableIPv6 = true;
-    networking.useDHCP = false;
-    networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
-    networking.networkmanager.enable = false;
-    networking.wicd.enable = false;
     services.hostapd.enable = false;
+    networking = {
+      hostName = lib.mkOverride 10 "portal"; # Define your hostname.
+      domain = "arnoldarts.de";
 
-    networking.nat = {
-      # enable nat to enable ip forwarding
-      enable = true;
-    };
+      nameservers = lib.mkOverride 100 [
+        "192.168.1.240"
+        #"2001:470:1f0b:1033::706f:7274:616c"
+        #"8.8.4.4"              # Google DNS
+        #"2001:4860:4860::8888" # Google DNS
+        #"74.82.42.42"          # Hurricane Electric
+        #"2001:470:20::2"       # Hurricane Electric
+      ];
+      search = [ "arnoldarts.de" ];
 
-    networking.bridges = {
-      lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
-      dmz = { interfaces = lib.mkOverride 100 [ "eno2" ]; };
-      backend = { interfaces = []; };
-    };
+      enableIPv6 = true;
+      useDHCP = false;
+      wireless.enable = false;  # Enables wireless support via wpa_supplicant.
+      networkmanager.enable = false;
+      wicd.enable = false;
 
-    networking.interfaces = {
-      lan = {
-        useDHCP = false;
-        ip4 = [ { address = "192.168.1.240"; prefixLength = 24; } ];
-        ip6 = [ { address = "2001:470:1f0b:1033::706f:7274:616c"; prefixLength = 64; } ];
+      nat = {
+        # enable nat to enable ip forwarding
+        enable = true;
       };
-      dmz = {
-        useDHCP = false;
-        ip4 = [];
-        ip6 = [];
-      };
-      backend = {
-        useDHCP = false;
-        ip4 = [];
-        ip6 = [];
-      };
-    };
 
-    networking.defaultGateway = "192.168.1.220";
-    networking.defaultGateway6 = "2001:470:1f0b:1033::1";
+      bridges = {
+        lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
+        dmz = { interfaces = lib.mkOverride 100 [ "eno2" ]; };
+        backend = { interfaces = []; };
+      };
 
-    networking.firewall = {
-      enable = true;
-      allowPing = true;
-      rejectPackets = true;
-      allowedTCPPorts = [ 111 2049 4001 4002 ];
-      allowedUDPPorts = [ 111 123 2049 4001 4002 60001 ];
-      extraPackages = [ pkgs.procps ];
-      extraCommands = ''
-        sysctl net.ipv4.conf.all.forwarding=1
-        sysctl net.ipv6.conf.all.forwarding=1
-      '';
+      interfaces = {
+        lan = {
+          useDHCP = false;
+          ip4 = [ { address = "192.168.1.240"; prefixLength = 24; } ];
+          ip6 = [ { address = "2001:470:1f0b:1033::706f:7274:616c"; prefixLength = 64; } ];
+        };
+        dmz = {
+          useDHCP = false;
+          ip4 = [];
+          ip6 = [];
+        };
+        backend = {
+          useDHCP = false;
+          ip4 = [];
+          ip6 = [];
+        };
+      };
+
+      defaultGateway = "192.168.1.220";
+      defaultGateway6 = "2001:470:1f0b:1033::1";
+
+      firewall = {
+        enable = true;
+        allowPing = true;
+        rejectPackets = true;
+        allowedTCPPorts = [ 111 2049 4001 4002 ];
+        allowedUDPPorts = [ 111 123 2049 4001 4002 60001 ];
+        extraPackages = [ pkgs.procps ];
+        extraCommands = ''
+          sysctl net.ipv4.conf.all.forwarding=1
+          sysctl net.ipv6.conf.all.forwarding=1
+        '';
+      };
     };
 
     # List packages installed in system profile. To search by name, run:
