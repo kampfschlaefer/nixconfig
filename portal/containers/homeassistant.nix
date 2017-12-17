@@ -78,6 +78,17 @@ in
             enableACME = true;
             locations."/" = {
               proxyPass = "http://localhost:8123";
+              # TODO: use this in 17.09?
+              #proxyWebsockets = true;
+            };
+            # TODO: can be removed with 17.09?
+            locations."/api/websocket" = {
+              proxyPass = "http://localhost:8123/api/websocket";
+              extraConfig = ''
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+              '';
             };
           };
         };
