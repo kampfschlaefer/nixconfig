@@ -360,6 +360,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->waitForUnit("container\@selfoss");
           $portal->succeed("ping -4 -n -c 1 selfoss >&2");
           $portal->succeed("nixos-container run selfoss -- ping -4 -n -c 2 192.168.6.1 >&2");
+          $portal->succeed("nixos-container run selfoss -- netstat -l -nv >&2");
           $portal->succeed("journalctl -M selfoss -u phpfpm-selfoss >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
           $portal->succeed("systemctl -M selfoss status nginx >&2");
@@ -372,10 +373,10 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl -M selfoss status selfoss_update.service >&2");
 
           # access selfoss webinterface from container and from inside
-          $portal->succeed("curl --connect-timeout 1 -s -f http://selfoss/");
+          $portal->succeed("curl --insecure --connect-timeout 1 -s -f https://selfoss/ >&2");
           $inside->waitForUnit("default.target");
-          $inside->succeed("curl -4 -s -f http://selfoss/");
-          $inside->succeed("curl -6 -s -f http://selfoss/");
+          $inside->succeed("curl -4 --insecure -s -f https://selfoss.arnoldarts.de/ >&2");
+          $inside->succeed("curl -6 --insecure -s -f https://selfoss/ >&2");
 
           # Add Feed, fetch Feed
           $inside->succeed("test_selfoss >&2");
@@ -432,6 +433,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->execute("nixos-container run homeassistant -- netstat -l -nv >&2");
           $portal->execute("nixos-container run homeassistant -- systemctl -l status homeassistant >&2");
           $portal->execute("nixos-container run homeassistant -- journalctl -u homeassistant >&2");
+          $portal->execute("nixos-container run homeassistant -- systemctl -l status nginx >&2");
+          $portal->execute("nixos-container run homeassistant -- journalctl -u nginx >&2");
           #$portal->execute("nixos-container run homeassistant -- ls -la ~root >&2");
           #$portal->execute("nixos-container run homeassistant -- ls -la ~root/.homeassistant >&2");
           #$portal->execute("nixos-container run homeassistant -- cat /root/.homeassistant/home-assistant.log >&2");
