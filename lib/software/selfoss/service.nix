@@ -91,7 +91,7 @@ let
     ''db_file=data/sqlite/selfoss.db
     ''}
     allow_public_update_access=1
-    base_url=http://${opts.servername}
+    base_url=https://${opts.servername}
     items_lifetime=3000
     homepage=unread
   '';

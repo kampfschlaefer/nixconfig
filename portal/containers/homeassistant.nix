@@ -73,7 +73,7 @@ in
         recommendedProxySettings = false;
         virtualHosts = {
           "homeassistant" = {
-            serverAliases = [ "homeassistant.arnoldarts.de" ];
+            serverName = "homeassistant.arnoldarts.de";
             forceSSL = true;
             enableACME = true;
             locations."/" = {
