@@ -9,6 +9,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_selfoss = true;
     run_torproxy = true;
     run_syncthing = true;
+    run_homeassistant = true;
 
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
@@ -67,12 +68,14 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
+          containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
-          containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
+          containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
+          containers.syncthing2.autoStart = lib.mkOverride 10 run_syncthing;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
 
           #containers.imap.autoStart = lib.mkOverride 10 false;
@@ -357,6 +360,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->waitForUnit("container\@selfoss");
           $portal->succeed("ping -4 -n -c 1 selfoss >&2");
           $portal->succeed("nixos-container run selfoss -- ping -4 -n -c 2 192.168.6.1 >&2");
+          $portal->succeed("nixos-container run selfoss -- netstat -l -nv >&2");
           $portal->succeed("journalctl -M selfoss -u phpfpm-selfoss >&2");
           $portal->succeed("journalctl -M selfoss -u nginx >&2");
           $portal->succeed("systemctl -M selfoss status nginx >&2");
@@ -369,10 +373,10 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl -M selfoss status selfoss_update.service >&2");
 
           # access selfoss webinterface from container and from inside
-          $portal->succeed("curl --connect-timeout 1 -s -f http://selfoss/");
+          $portal->succeed("curl --insecure --connect-timeout 1 -s -f https://selfoss/ >&2");
           $inside->waitForUnit("default.target");
-          $inside->succeed("curl -4 -s -f http://selfoss/");
-          $inside->succeed("curl -6 -s -f http://selfoss/");
+          $inside->succeed("curl -4 --insecure -s -f https://selfoss.arnoldarts.de/ >&2");
+          $inside->succeed("curl -6 --insecure -s -f https://selfoss/ >&2");
 
           # Add Feed, fetch Feed
           $inside->succeed("test_selfoss >&2");
@@ -416,6 +420,28 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $inside->succeed("ping -6 -n -c 1 syncthing2 >&2");
           $inside->succeed("curl -4 -s -f http://syncthing2 >&2");
           $inside->succeed("curl -4 --insecure -s -f https://syncthing2 >&2");
+        };''
+      }
+
+      ${lib.optionalString run_homeassistant
+        ''subtest "Check homeassistant", sub {
+          $portal->succeed("host -t a homeassistant >&2");
+          $portal->succeed("host -t aaaa homeassistant >&2");
+          $portal->succeed("ping -4 -n -c 1 homeassistant >&2");
+          $portal->succeed("ping -6 -n -c 1 homeassistant >&2");
+          $portal->waitUntilSucceeds("nixos-container run homeassistant -- netstat -l -nv |grep 8123 ");
+          #$portal->execute("nixos-container run homeassistant -- netstat -l -nv >&2");
+          $portal->execute("nixos-container run homeassistant -- systemctl -l status homeassistant >&2");
+          $portal->execute("nixos-container run homeassistant -- journalctl -u homeassistant >&2");
+          #$portal->execute("nixos-container run homeassistant -- ls -la ~root >&2");
+          #$portal->execute("nixos-container run homeassistant -- ls -la ~root/.homeassistant >&2");
+          #$portal->execute("nixos-container run homeassistant -- cat /root/.homeassistant/home-assistant.log >&2");
+          #$portal->execute("nixos-container run homeassistant -- netstat -l -nv >&2");
+          #$portal->execute("nixos-container run homeassistant -- ls -la /var/lib/syncthing >&2");
+          #$portal->execute("nixos-container run homeassistant -- ls -la /var/lib/ >&2");
+          $portal->fail("curl -4 -s -f --max-time 5 http://homeassistant:8123 >&2");
+          $portal->succeed("curl -4 --insecure -s -f https://homeassistant >&2");
+          $portal->succeed("curl -6 --insecure -s -f https://homeassistant >&2");
         };''
       }
 
