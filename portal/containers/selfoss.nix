@@ -41,7 +41,7 @@ in
         };
       };
       networking.firewall.enable = true;
-      networking.firewall.allowedTCPPorts = [ 80 ];
+      networking.firewall.allowedTCPPorts = [ 80 443 ];
 
       services.selfoss.updateinterval = "hourly";
       services.selfoss.instances.arnold = {

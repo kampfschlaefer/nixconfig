@@ -115,53 +115,6 @@ let
     '') cfg.instances
   );
 
-  httpconfig = concatStringsSep "\n" (
-    mapAttrsToList (name: opts: ''
-      server {
-        server_name ${opts.servername};
-
-        listen 80;
-        listen [::]:80;
-
-        root /var/lib/selfoss/${name};
-
-        location ~* \ (gif|jpg|png) {
-          expires 30d;
-        }
-        location ~ ^/favicons/.*$ {
-          root /var/lib/selfoss/${name}/data;
-        }
-        location ~ ^/thumbnails/.*$ {
-          try_files $uri /var/lib/selfoss/${name}/data/$uri;
-        }
-        location ~* ^/(data\/logs|data\/sqlite|config\.ini|\.ht) {
-          deny all;
-        }
-        location / {
-          index index.php index.html index.htm;
-          try_files $uri /public/$uri /index.php$is_args$args;
-        }
-        location ~ \.php$ {
-          fastcgi_split_path_info ^(.+\.php)(/.+)$;
-          fastcgi_pass unix:/run/phpfpm/selfoss;
-          fastcgi_index index.php;
-          fastcgi_param SCRIPT_FILENAME /var/lib/selfoss/${name}/$fastcgi_script_name;
-          fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
-          fastcgi_param DOCUMENT_ROOT   $document_root;
-          fastcgi_param QUERY_STRING    $query_string;
-          fastcgi_param REQUEST_METHOD  $request_method;
-          fastcgi_param CONTENT_TYPE    $content_type;
-          fastcgi_param CONTENT_LENGTH  $content_length;
-          fastcgi_param REQUEST_URI     $request_uri;
-          fastcgi_param SERVER_PORT     $server_port;
-        }
-
-        access_log syslog:server=unix:/dev/log;
-        error_log syslog:server=unix:/dev/log;
-      }
-    '') cfg.instances
-  );
-
   updateservice = cfg: {
     path = [ phppkg ];
     serviceConfig = {
@@ -230,10 +183,52 @@ in
     };
     services.nginx = {
       enable = true;
-      httpConfig = ''
-        #disable_symlinks off;
-        ${httpconfig}
-      '';
+      virtualHosts = mapAttrs (name: opts: {
+        serverName = opts.servername;
+        enableACME = true;
+        forceSSL = true;
+        root = "/var/lib/selfoss/${name}";
+        locations = {
+          "~* \ (gif|jpg|png)" = {
+            extraConfig = ''
+              expires 30d;
+            '';
+          };
+          "~ ^/favicons/.*$" = {
+            root = "/var/lib/selfoss/${name}/data";
+          };
+          "~ ^/thumbnails/.*$" = {
+            tryFiles = "$uri /var/lib/selfoss/${name}/data/$uri";
+          };
+          "~* ^/(data\/logs|data\/sqlite|config\.ini|\.ht)" = {
+            extraConfig = "deny all;";
+          };
+          "/" = {
+            index = "index.php index.html index.htm";
+            tryFiles = "$uri /public/$uri /index.php$is_args$args";
+          };
+          "~ \.php$" = {
+            extraConfig = ''
+              fastcgi_split_path_info ^(.+\.php)(/.+)$;
+              fastcgi_pass unix:/run/phpfpm/selfoss;
+              fastcgi_index index.php;
+              fastcgi_param SCRIPT_FILENAME /var/lib/selfoss/${name}/$fastcgi_script_name;
+              fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
+              fastcgi_param DOCUMENT_ROOT   $document_root;
+              fastcgi_param QUERY_STRING    $query_string;
+              fastcgi_param REQUEST_METHOD  $request_method;
+              fastcgi_param CONTENT_TYPE    $content_type;
+              fastcgi_param CONTENT_LENGTH  $content_length;
+              fastcgi_param REQUEST_URI     $request_uri;
+              fastcgi_param SERVER_PORT     $server_port;
+            '';
+          };
+        };
+        extraConfig = ''
+          access_log syslog:server=unix:/dev/log;
+          error_log syslog:server=unix:/dev/log;
+        '';
+      }) cfg.instances;
     };
 
     systemd.services.nginx.preStart = selfossprestarts;
