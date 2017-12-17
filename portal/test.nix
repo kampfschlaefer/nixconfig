@@ -433,6 +433,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->execute("nixos-container run homeassistant -- netstat -l -nv >&2");
           $portal->execute("nixos-container run homeassistant -- systemctl -l status homeassistant >&2");
           $portal->execute("nixos-container run homeassistant -- journalctl -u homeassistant >&2");
+          $portal->execute("nixos-container run homeassistant -- systemctl -l status nginx >&2");
+          $portal->execute("nixos-container run homeassistant -- journalctl -u nginx >&2");
           #$portal->execute("nixos-container run homeassistant -- ls -la ~root >&2");
           #$portal->execute("nixos-container run homeassistant -- ls -la ~root/.homeassistant >&2");
           #$portal->execute("nixos-container run homeassistant -- cat /root/.homeassistant/home-assistant.log >&2");
