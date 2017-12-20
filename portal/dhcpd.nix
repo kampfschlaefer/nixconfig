@@ -49,7 +49,7 @@ let
     { hostName = "arduino";       ethernetAddress = "18:fe:34:cf:a7:26"; }
     { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; }
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; }
-    { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; }
+    { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.68"; }
 
     { hostName = "td-29";         ethernetAddress = "00:60:e0:66:64:95"; ipAddress = "192.168.1.30"; }
     { hostName = "worknuc";       ethernetAddress = "b8:ae:ed:78:da:ce"; }

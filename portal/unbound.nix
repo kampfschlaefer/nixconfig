@@ -12,6 +12,7 @@ let
     { name = "xingu";     a = "192.168.1.65"; aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07"; }
     { name = "orinoco";   a = "192.168.1.66"; } # wireless
     { name = "amazonas";  a = "192.168.1.67"; } # wireless
+    { name = "denon";     a = "192.168.1.68"; }
     { name = "touchpi";   a = "192.168.1.70"; /*aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07";*/ }
     { name = "octopi";    a = "192.168.1.71"; } # wireless
     { name = "weatherpi"; a = "192.168.1.72"; } # wireless raspi A
