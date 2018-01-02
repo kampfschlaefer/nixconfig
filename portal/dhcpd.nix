@@ -51,6 +51,8 @@ let
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; }
     { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.68"; }
 
+    { hostName = "huebridge";     ethernetAddress = "00:17:88:1a:21:a5"; ipAddress = "192.168.1.131"; noroute=true; }
+
     { hostName = "td-29";         ethernetAddress = "00:60:e0:66:64:95"; ipAddress = "192.168.1.30"; }
     { hostName = "worknuc";       ethernetAddress = "b8:ae:ed:78:da:ce"; }
     { hostName = "worklaptopeth"; ethernetAddress = "80:fa:5b:43:56:fe"; }
@@ -84,7 +86,19 @@ in {
                 host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; fixed-address ${machine.ipAddress}; }
               ''
             )
-            (filter (host: hasAttr "ipAddress" host) known_hosts)
+            (filter (host: hasAttr "ipAddress" host && !hasAttr "noroute" host) known_hosts)
+          }
+        }
+        group {
+          default-lease-time 3600;
+          max-lease-time 14400;
+          ${lib.concatMapStrings
+            (machine:
+              ''
+                host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; fixed-address ${machine.ipAddress}; }
+              ''
+            )
+            (filter (host: hasAttr "ipAddress" host && hasAttr "noroute" host) known_hosts)
           }
         }
         pool {
