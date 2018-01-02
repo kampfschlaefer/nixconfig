@@ -47,11 +47,11 @@ let
     { hostName = "ebook";         ethernetAddress = "28:f3:66:9c:13:71"; }
     { hostName = "steuer";        ethernetAddress = "08:00:27:1f:06:82"; }
     { hostName = "arduino";       ethernetAddress = "18:fe:34:cf:a7:26"; }
-    { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; }
-    { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; }
-    { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.68"; }
 
-  { hostName = "huebridge";     ethernetAddress = "00:17:88:1a:21:a5"; /*ipAddress = "192.168.1.131"; noroute=true;*/ }
+    { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; ipAddress = "192.168.1.80"; }
+    { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.81"; }
+    { hostName = "huebridge";     ethernetAddress = "00:17:88:1a:21:a5"; ipAddress = "192.168.1.82"; noroute=true; }
+    { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; ipAddress = "192.168.1.83"; }
 
     { hostName = "td-29";         ethernetAddress = "00:60:e0:66:64:95"; ipAddress = "192.168.1.30"; }
     { hostName = "worknuc";       ethernetAddress = "b8:ae:ed:78:da:ce"; }

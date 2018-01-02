@@ -13,11 +13,17 @@ let
     { name = "orinoco";   a = "192.168.1.66"; } # wireless
     { name = "amazonas";  a = "192.168.1.67"; } # wireless
     { name = "denon";     a = "192.168.1.68"; }
-    { name = "huebridge"; a = "192.168.1.131"; }
+
     { name = "touchpi";   a = "192.168.1.70"; /*aaaa = "2001:470:1f0b:1033:d250:99ff:fe4f:3b07";*/ }
     { name = "octopi";    a = "192.168.1.71"; aaaa = "2001:470:1f0b:1033::6f63:746f:7069"; } # wireless
     { name = "weatherpi"; a = "192.168.1.72"; } # wireless raspi A
     { name = "pibot";     a = "192.168.1.73"; } # raspi w
+
+    { name = "firestick"; a = "192.168.1.80"; }
+    { name = "denon";     a = "192.168.1.81"; }
+    { name = "huebridge"; a = "192.168.1.82"; }
+    { name = "blueray";   a = "192.168.1.83"; }
+
 
     # containers
     { name = "firewall";      a = "192.168.1.220"; aaaa = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; }
