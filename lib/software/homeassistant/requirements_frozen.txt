@@ -8,7 +8,7 @@ colorlog==3.1.0
 denonavr==0.5.5
 enum-compat==0.0.2
 home-assistant-frontend==20180102.0
-homeassistant==0.60.0
+homeassistant==0.60.1
 idna==2.6
 Jinja2==2.10
 MarkupSafe==1.0
@@ -25,7 +25,9 @@ requests==2.18.4
 six==1.11.0
 SQLAlchemy==1.2.0
 typing==3.6.2
+ua-parser==0.7.3
 urllib3==1.22
+user-agents==1.1.0
 voluptuous==0.10.5
 xmltodict==0.11.0
 yarl==0.16.0

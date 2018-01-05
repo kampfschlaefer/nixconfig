@@ -272,8 +272,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.60.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/49/76/c1e539e92541332f35065f446f70b36bb0b9160a2d3559511b7a7cdc802d/homeassistant-0.60.0.tar.gz"; sha256 = "56d6c2f9f28ac4857189570128b47c6b1b7c3e60ff4ddc62e7bf340cbf16d24d"; };
+      name = "homeassistant-0.60.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3f/e3/b99c57b2636fe4ba12cea506b16b2b27f0f7e79433c342726f47d9fdf34f/homeassistant-0.60.1.tar.gz"; sha256 = "cbf5737a0e4609b431974ee3c4133f11a7d3c56f4ecc0ec8b5987611d1cf2f04"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -457,6 +457,21 @@ let
 
 
 
+    "ua-parser" = python.mkDerivation {
+      name = "ua-parser-0.7.3";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a3/b4/3d31176d3cb2807635175004e0381fb72351173ec8c9c043b80399cf33a6/ua-parser-0.7.3.tar.gz"; sha256 = "0aafb05a67b621eb4d69f6c1c3972f2d9443982bcd9132a8b665d90cd48a1add"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = "License :: OSI Approved :: Apache Software License";
+        description = "Python port of Browserscope's user agent parser";
+      };
+    };
+
+
+
     "urllib3" = python.mkDerivation {
       name = "urllib3-1.22";
       src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ee/11/7c59620aceedcc1ef65e156cc5ce5a24ef87be4107c2b74458464e437a5d/urllib3-1.22.tar.gz"; sha256 = "cc44da8e1145637334317feebd728bd869a35285b93cbb4cca2577da7e62db4f"; };
@@ -470,6 +485,23 @@ let
         homepage = "";
         license = licenses.mit;
         description = "HTTP library with thread-safe connection pooling, file post, and more.";
+      };
+    };
+
+
+
+    "user-agents" = python.mkDerivation {
+      name = "user-agents-1.1.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/be/ff/886a1e2570784ee63b1c4b0fd77037b84087ffe7b7b45f9751285418be34/user-agents-1.1.0.tar.gz"; sha256 = "643d16772280052b546d956971d719989ef6dc9b17d9ff0386aa21391a038039"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."ua-parser"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.mit;
+        description = "A library to identify devices (phones, tablets) and their capabilities by parsing (browser/HTTP) user agent strings";
       };
     };
 
