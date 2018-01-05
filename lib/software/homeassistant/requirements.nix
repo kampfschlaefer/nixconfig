@@ -113,8 +113,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.1.15";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c2/f6/11fcc1ce19a7cb81b1c9377f4e27ce3813265611922e355905e57c44d164/SQLAlchemy-1.1.15.tar.gz"; sha256 = "8b79a5ed91cdcb5abe97b0045664c55c140aec09e5dd5c01303e23de5fe7a95a"; };
+      name = "SQLAlchemy-1.2.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/be/d1/0008f4ee8d8eaae328efbf9cc513c1bee6f6793de11ab82cb31b3045ee06/SQLAlchemy-1.2.0.tar.gz"; sha256 = "7dda3e0b1b12215e3bb05368d1abbf7d747112a43738e0a4e6deb466b83fd88e"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -128,8 +128,8 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-2.3.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/6f/2c/0a84048729d9703a155b360664bb1216e111c63a38178c27664c4b61e499/aiohttp-2.3.5.tar.gz"; sha256 = "044e4d610a5ab6bd46a04f431f000d0b5074f1aa38df5e326cff031635af6ad7"; };
+      name = "aiohttp-2.3.6";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3c/1d/a7479eee24e13ed4cfe543f5c1417972c4db5f24c9adbb87fa52f5e0eb1a/aiohttp-2.3.6.tar.gz"; sha256 = "0111b4c71d1121bfcbd392bbabd573d20f133f491161b87718a07976e0459c32"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -209,6 +209,21 @@ let
 
 
 
+    "colorlog" = python.mkDerivation {
+      name = "colorlog-3.1.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/64/cf/9d2d7dba6cc4a877155d224441d3af2b6cab3d6c9c3c03811894395268fc/colorlog-3.1.0.tar.gz"; sha256 = "f7c0efd9d960b43929027aa2b5a6c80d8ebec3e8d87cdec8b92696bf57428284"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.mit;
+        description = "Log formatting with colors!";
+      };
+    };
+
+
+
     "denonavr" = python.mkDerivation {
       name = "denonavr-0.5.5";
       src = pkgs.fetchurl { url = "https://pypi.python.org/packages/39/b4/1663ca5f75726e3bd2fdd454236138dca146b49d50af1327bcc3d3c1e681/denonavr-0.5.5.tar.gz"; sha256 = "bc7d92680b33c8497ce019f3184e03d61cef0438adeb006f5ea8b5d8c76036e4"; };
@@ -242,8 +257,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20171216.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/df/c2/a12b56261c87d8dd977ca502ccf8e6c5de9f75787ec4af18e5f075195104/home-assistant-frontend-20171216.0.tar.gz"; sha256 = "426743ed53508617a8db168e01152b1fe1c004c09de2e855e3f86697c6744148"; };
+      name = "home-assistant-frontend-20180102.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/d6/7a/85dfb39fef97a244da3368e602d8ce7361068557f0a178c4cdf57970ee54/home-assistant-frontend-20180102.0.tar.gz"; sha256 = "94e372af91fe10a5386b56945374017fbf3b4f95a5362073dc56bc3a5ffbac3a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -257,8 +272,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.59.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/09/d4/f85d7a39411e24c7ef8b32ac7bc5945aebf2667bcb9d2e90f48840b20dac/homeassistant-0.59.2.tar.gz"; sha256 = "6e4f08ba6df191c06eaeaa4838cfc345871813cf1a06f3edd9c72e00ad2794a4"; };
+      name = "homeassistant-0.60.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3f/e3/b99c57b2636fe4ba12cea506b16b2b27f0f7e79433c342726f47d9fdf34f/homeassistant-0.60.1.tar.gz"; sha256 = "cbf5737a0e4609b431974ee3c4133f11a7d3c56f4ecc0ec8b5987611d1cf2f04"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -442,6 +457,21 @@ let
 
 
 
+    "ua-parser" = python.mkDerivation {
+      name = "ua-parser-0.7.3";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a3/b4/3d31176d3cb2807635175004e0381fb72351173ec8c9c043b80399cf33a6/ua-parser-0.7.3.tar.gz"; sha256 = "0aafb05a67b621eb4d69f6c1c3972f2d9443982bcd9132a8b665d90cd48a1add"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = "License :: OSI Approved :: Apache Software License";
+        description = "Python port of Browserscope's user agent parser";
+      };
+    };
+
+
+
     "urllib3" = python.mkDerivation {
       name = "urllib3-1.22";
       src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ee/11/7c59620aceedcc1ef65e156cc5ce5a24ef87be4107c2b74458464e437a5d/urllib3-1.22.tar.gz"; sha256 = "cc44da8e1145637334317feebd728bd869a35285b93cbb4cca2577da7e62db4f"; };
@@ -455,6 +485,23 @@ let
         homepage = "";
         license = licenses.mit;
         description = "HTTP library with thread-safe connection pooling, file post, and more.";
+      };
+    };
+
+
+
+    "user-agents" = python.mkDerivation {
+      name = "user-agents-1.1.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/be/ff/886a1e2570784ee63b1c4b0fd77037b84087ffe7b7b45f9751285418be34/user-agents-1.1.0.tar.gz"; sha256 = "643d16772280052b546d956971d719989ef6dc9b17d9ff0386aa21391a038039"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."ua-parser"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.mit;
+        description = "A library to identify devices (phones, tablets) and their capabilities by parsing (browser/HTTP) user agent strings";
       };
     };
 
@@ -491,8 +538,8 @@ let
 
 
     "yarl" = python.mkDerivation {
-      name = "yarl-0.15.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/04/d9/662fceeb7abd366116bff2d79561b67d7f4f95f1629ca980c205176f687a/yarl-0.15.0.tar.gz"; sha256 = "06b3a0d00aebf64b269a3410ec079386f5091e7603796da6644dff08f427737a"; };
+      name = "yarl-0.16.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/43/7e/c32e170922822223ebf2b2bd3d0d2c63a0bc70ea79d342eb00cde04dadd6/yarl-0.16.0.tar.gz"; sha256 = "47622985ecd9b15335d65c1acd54aeb3ba449e6d09b36e37ecfe334c7e7b8d0b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
