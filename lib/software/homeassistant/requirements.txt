@@ -10,3 +10,4 @@ home-assistant-frontend
 user-agents
 xmltodict
 colorlog
+distro
