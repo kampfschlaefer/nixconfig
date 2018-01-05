@@ -7,4 +7,6 @@ denonavr
 #pip
 netdisco
 home-assistant-frontend
+user-agents
 xmltodict
+colorlog

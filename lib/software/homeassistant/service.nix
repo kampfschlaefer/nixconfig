@@ -23,6 +23,7 @@ in {
 
   config = mkIf cfg.enable {
     systemd.services.homeassistant = {
+      path = [ pkgs.iputils ];
       script = ''
         ${homeassistant_env.interpreter.out}/bin/python -m homeassistant --skip-pip
       '';
