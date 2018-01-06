@@ -8,6 +8,7 @@ self: super: {
       super."phue"
       super."home-assistant-frontend"
       super."colorlog"
+      super."luftdaten"
     ];
   });
   "home-assistant-frontend" = python.overrideDerivation super."home-assistant-frontend" (old: {

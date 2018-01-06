@@ -329,6 +329,23 @@ let
 
 
 
+    "luftdaten" = python.mkDerivation {
+      name = "luftdaten-0.1.3";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/42/0f/badbf4b134ce7debb57a0c8e4df80b9c0d57b31d84105254a8cb69bba460/luftdaten-0.1.3.tar.gz"; sha256 = "7a905e0b28b42250659c85aa9e3df93c4f0611ee2c6a7b96a69cae6d8eb3c258"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."aiohttp"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.mit;
+        description = "Python API for interacting with luftdaten.info.";
+      };
+    };
+
+
+
     "multidict" = python.mkDerivation {
       name = "multidict-3.3.2";
       src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4d/1d/7e4d852ea24298cd008128b21ea00d8e7bc087d2f604127b7ed6d7cd6ec7/multidict-3.3.2.tar.gz"; sha256 = "f82e61c7408ed0dce1862100db55595481911f159d6ddec0b375d35b6449509b"; };
