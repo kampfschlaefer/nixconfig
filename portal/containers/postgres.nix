@@ -38,6 +38,8 @@ in
         enable = true;
         enableTCPIP = true;
         package = pg_pkg;
+        dataDir = "/var/db/postgresql";
+        superUser = "root";
         authentication = ''
           host selfoss selfoss 192.168.6.2/32 trust
         '';

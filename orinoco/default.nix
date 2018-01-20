@@ -17,7 +17,7 @@
 
   fileSystems."/home" = { device = "/dev/orinocogroup/home"; };
 
-  nix.binaryCaches = [ http://xingu.arnoldarts.de:8800/ /*https://cache.nixos.org/*/ ];
+  nix.binaryCaches = [ http://xingu.arnoldarts.de:8800/ https://cache.nixos.org/ ];
   nix.requireSignedBinaryCaches = false;
 
   nix.useSandbox = true;
