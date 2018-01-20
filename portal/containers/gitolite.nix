@@ -51,21 +51,22 @@ in
       services.gitDaemon = {
         enable = true;
         basePath = config.services.gitolite.dataDir + "/repositories";
+        group = config.services.gitolite.group;
       };
 
-      users.extraUsers.lighttpd.extraGroups = [ config.services.gitDaemon.group ];
-      users.extraUsers.gitolite.group = config.services.gitDaemon.group;
+      /*users.extraUsers.lighttpd.extraGroups = [ config.services.gitolite.group ];*/
 
       # Make gitolite and lighttpd and gitweb play toghether
       systemd.services."gitolite-init".preStart = ''
-        chmod g+rx /var/lib/gitolite
+        chown :${config.services.gitolite.group} ${config.services.gitolite.dataDir}
+        chmod g+rx ${config.services.gitolite.dataDir}
       '';
       systemd.services."gitolite-init".postStart = "
         gitolite print-default-rc > ~/.gitolite.rc
         sed -e 's/UMASK                           =>  0077,/UMASK => 0027,/' -i ~/.gitolite.rc
         sed -e \"s/GIT_CONFIG_KEYS                 =>  '',/GIT_CONFIG_KEYS => '.*',/\" -i ~/.gitolite.rc
 
-        chmod g+rx /var/lib/gitolite/repositories
+        chmod g+rx ${config.services.gitolite.dataDir}/repositories
       ";
       systemd.services."git-daemon".preStart = "[ -d ${config.services.gitolite.dataDir}/repositories ] || sleep 2";
       systemd.services."git-daemon".requires = [ "gitolite-init.service" ];
