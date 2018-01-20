@@ -241,6 +241,21 @@ let
 
 
 
+    "distro" = python.mkDerivation {
+      name = "distro-1.2.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b2/2e/e4b8b7f947465474e58bc9dbaa6ea8c4b4cc9e845711c0fc2f66601e464b/distro-1.2.0.tar.gz"; sha256 = "d94370e43b676ac44fbe1ab68ca903a6147eaba3a9e8eff85b2c05556a455b76"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.asl20;
+        description = "Linux Distribution - a Linux OS platform information API";
+      };
+    };
+
+
+
     "enum-compat" = python.mkDerivation {
       name = "enum-compat-0.0.2";
       src = pkgs.fetchurl { url = "https://pypi.python.org/packages/95/6e/26bdcba28b66126f66cf3e4cd03bcd63f7ae330d29ee68b1f6b623550bfa/enum-compat-0.0.2.tar.gz"; sha256 = "939ceff18186a5762ae4db9fa7bfe017edbd03b66526b798dd8245394c8a4192"; };
@@ -309,6 +324,23 @@ let
         homepage = "";
         license = licenses.bsdOriginal;
         description = "Internationalized Domain Names in Applications (IDNA)";
+      };
+    };
+
+
+
+    "luftdaten" = python.mkDerivation {
+      name = "luftdaten-0.1.3";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/42/0f/badbf4b134ce7debb57a0c8e4df80b9c0d57b31d84105254a8cb69bba460/luftdaten-0.1.3.tar.gz"; sha256 = "7a905e0b28b42250659c85aa9e3df93c4f0611ee2c6a7b96a69cae6d8eb3c258"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."aiohttp"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.mit;
+        description = "Python API for interacting with luftdaten.info.";
       };
     };
 
