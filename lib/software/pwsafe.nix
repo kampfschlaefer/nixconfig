@@ -9,6 +9,8 @@
         sha256 = "1205rgc064bxwbw14yjbjf0z3kkdbxa47c07q8jz3rs6fnxv17lq";
       };
 
+      __noChroot = true;
+
       enableParallelBuilding = true;
 
       installPhase = ''

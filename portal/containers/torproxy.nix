@@ -5,6 +5,8 @@ let
   lanIf = "eth0";
 in
 {
+  systemd.services."container@torproxy".after = [ "container@firewall.service" ];
+
   containers.torproxy = {
     autoStart = lib.mkOverride 100 true;
 
@@ -17,6 +19,10 @@ in
     };
 
     config = { config, pkgs, ... }: {
+      imports = [
+        ../../lib/software/myfirewall.nix
+      ];
+
       networking.domain = "arnoldarts.de";
       networking.defaultGateway = "192.168.2.10";
 
@@ -35,8 +41,8 @@ in
 
       networking.nat.enable = false;
 
-      networking.firewall = {
-        /*enable = false;*/
+      networking.myfirewall = {
+        enable = true;
         allowPing = true;
         rejectPackets = true;
         # log target doesn't work inside network-namespaces

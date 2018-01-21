@@ -7,8 +7,10 @@
     };
   };
 
+  systemd.services."container@imap".after = [ "container@firewall.service" ];
+
   containers.imap = {
-    autoStart = lib.mkOverride 100 true;
+    autoStart = lib.mkOverride 100 false;
 
     privateNetwork = true;
     hostBridge = "lan";
@@ -23,15 +25,16 @@
 
       imports = [
         ../../lib/users/arnold.nix
+        ../../lib/software/myfirewall.nix
       ];
       users.users.arnold.group = lib.mkOverride 10 "dovecot2";
 
       environment.systemPackages = with pkgs; [
         offlineimap
-        vimNox
+        vim_configurable
       ];
 
-      networking.firewall = {
+      networking.myfirewall = {
         enable = false;
         defaultPolicies = { input = "DROP"; output = "DROP"; forward="DROP"; };
         rules = [

@@ -24,7 +24,7 @@
     wget tcpdump nmap
     htop atop psmisc sysstat which
     lshw usbutils dmidecode
-    vimNox byobu tmux python
+    vim_configurable byobu tmux python
     gptfdisk parted hdparm
     git gitAndTools.git-crypt
   ];

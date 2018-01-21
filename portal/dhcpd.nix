@@ -25,27 +25,43 @@ let
     { hostName = "watering-lan";  ethernetAddress = "b8:27:eb:c3:4c:ae"; } # lan
     { hostName = "watering-wifi"; ethernetAddress = "7c:dd:90:73:6b:6b"; } # wifi
     { hostName = "raspimate";     ethernetAddress = "7c:dd:90:73:6a:56"; }
-    { hostName = "raspio";        ethernetAddress = "7c:dd:90:5d:91:97"; }
+    { hostName = "weatherpi";     ethernetAddress = "7c:dd:90:5d:91:97"; ipAddress = "192.168.1.72"; }
     { hostName = "touchpi";       ethernetAddress = "b8:27:eb:73:38:22"; ipAddress = "192.168.1.70"; }
+    { hostName = "octopi";        ethernetAddress = "b8:27:eb:4b:bc:72"; ipAddress = "192.168.1.71"; } # wireless
+    { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
+    { hostName = "pibot";         ethernetAddress = "b8:27:eb:db:c8:b6"; ipAddress = "192.168.1.73"; } # raspi w
+
     { hostName = "android-lg";    ethernetAddress = "f8:a9:d0:1e:b7:29"; }
     { hostName = "android-ines";  ethernetAddress = "60:be:b5:0a:73:d3"; }
+    { hostName = "fairphone1-je"; ethernetAddress = "6c:ad:f8:20:16:e3"; }
+    { hostName = "fairphone2-ak"; ethernetAddress = "84:cf:bf:8a:6b:fd"; }
+    { hostName = "arnolddienst";  ethernetAddress = "f0:d7:aa:31:e1:23"; }
+
     { hostName = "flachmann";     ethernetAddress = "00:22:f4:4e:5e:8e"; }
     { hostName = "xingu";         ethernetAddress = "d0:50:99:4f:3b:07"; ipAddress = "192.168.1.65"; }
     { hostName = "amazonas";      ethernetAddress = "ac:b5:7d:3a:0f:ce"; ipAddress = "192.168.1.67"; }
     { hostName = "orinoco";       ethernetAddress = "78:e4:00:90:74:79"; ipAddress = "192.168.1.66"; }
     { hostName = "orinoco-wire";  ethernetAddress = "b8:ac:6f:75:bf:d3"; }
+
     { hostName = "ebookold";      ethernetAddress = "ac:a2:13:a1:46:c3"; }
     { hostName = "ebook";         ethernetAddress = "28:f3:66:9c:13:71"; }
     { hostName = "steuer";        ethernetAddress = "08:00:27:1f:06:82"; }
-    { hostName = "pi-top";        ethernetAddress = "b8:27:eb:89:25:ec"; }
-    { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; }
-    { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; }
     { hostName = "arduino";       ethernetAddress = "18:fe:34:cf:a7:26"; }
+
+    { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; ipAddress = "192.168.1.80"; }
+    { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.81"; }
+    { hostName = "huebridge";     ethernetAddress = "00:17:88:1a:21:a5"; ipAddress = "192.168.1.82"; noroute=true; }
+    { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; ipAddress = "192.168.1.83"; }
+
+    { hostName = "td-29";         ethernetAddress = "00:60:e0:66:64:95"; ipAddress = "192.168.1.30"; }
+    { hostName = "worknuc";       ethernetAddress = "b8:ae:ed:78:da:ce"; }
+    { hostName = "worklaptopeth"; ethernetAddress = "80:fa:5b:43:56:fe"; }
+    { hostName = "worklaptop";    ethernetAddress = "00:28:f8:73:bc:25"; }
   ] ++ (if config.testdata then [
     { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
   ] else []);
 in {
-  services.dhcpd = {
+  services.dhcpd4 = {
     enable = true;
     interfaces = [ "lan" ];
     machines = [];  # filter (host: hasAttr "ipAddress" host) known_hosts;
@@ -70,7 +86,19 @@ in {
                 host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; fixed-address ${machine.ipAddress}; }
               ''
             )
-            (filter (host: hasAttr "ipAddress" host) known_hosts)
+            (filter (host: hasAttr "ipAddress" host && !hasAttr "noroute" host) known_hosts)
+          }
+        }
+        group {
+          default-lease-time 3600;
+          max-lease-time 14400;
+          ${lib.concatMapStrings
+            (machine:
+              ''
+                host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; fixed-address ${machine.ipAddress}; }
+              ''
+            )
+            (filter (host: hasAttr "ipAddress" host && hasAttr "noroute" host) known_hosts)
           }
         }
         pool {

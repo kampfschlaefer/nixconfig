@@ -1,7 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  vgfilesystems = [ "audiofiles" "je_pictures" "misc-system" "videos" ];
+  vgfilesystems = [
+    "je_pictures"
+    "misc-system"
+    "videos"
+  ];
 in {
   options.testdata = lib.mkOption {
     type = lib.types.bool;
@@ -9,19 +13,21 @@ in {
   };
 
   imports =
-    [ # Include the results of the hardware scan.
-      #/etc/nixos/hardware-configuration.nix
+    [
+      ./hardware-configuration.nix
       ../lib/machines/base.nix
       ../lib/users/arnold.nix
-      ./containers/cups.nix
+      #./containers/cups.nix
       ./containers/firewall.nix
       ./containers/gitolite.nix
-      ./containers/imap.nix
+      ./containers/homeassistant.nix
+      #./containers/imap.nix
       ./containers/mpd.nix
       ./containers/mqtt.nix
       ./containers/postgres.nix
       ./containers/pyheim.nix
       ./containers/selfoss.nix
+      ./containers/syncthing.nix
       ./containers/testing.nix
       ./containers/torproxy.nix
       ./dhcpd.nix
@@ -33,18 +39,28 @@ in {
 
   config = {
     # Use the GRUB 2 boot loader.
-    boot.loader.grub.enable = true;
-    boot.loader.grub.version = 2;
-    boot.loader.grub.efiSupport = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+    boot.loader = {
+      efi.canTouchEfiVariables = true;
 
-    # Define on which hard drive you want to install Grub.
-    boot.loader.grub.device = "/dev/sda";
+      grub = {
+        enable = true;
+        version = 2;
+        efiSupport = true;
 
-    boot.kernelModules = [ "dm-mirror" "dm-snapshot" ];
+        # Define on which hard drive you want to install Grub.
+        mirroredBoots = [
+          { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2BW180A4_CVDA447006A31802GN" ]; path = "/boot2"; }
+          { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN" ]; path = "/boot1"; }
+        ];
+      };
+    };
+
+    boot.kernelModules = [ "dm-mirror" "dm-snapshot" "kvm-intel" ];
+    boot.extraModulePackages = [ ];
     boot.extraModprobeConfig = ''
       options kvm_intel nested=y
     '';
+    boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "uhci_hcd" "xhci_pci" "usbhid" "usb_storage" ];
 
     fileSystems = {
       "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
@@ -58,76 +74,71 @@ in {
       ) vgfilesystems
     );
 
-    networking.hostName = lib.mkOverride 10 "portal"; # Define your hostname.
-    networking.domain = "arnoldarts.de";
-
-    networking.nameservers = lib.mkOverride 100 [
-      "192.168.1.240"
-      #"2001:470:1f0b:1033::706f:7274:616c"
-      "8.8.4.4"              # Google DNS
-      #"2001:4860:4860::8888" # Google DNS
-      "74.82.42.42"          # Hurricane Electric
-      #"2001:470:20::2"       # Hurricane Electric
-    ];
-    networking.search = [ "arnoldarts.de" ];
-
-    networking.enableIPv6 = true;
-    networking.useDHCP = false;
-    networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
-    networking.networkmanager.enable = false;
-    networking.wicd.enable = false;
     services.hostapd.enable = false;
+    networking = {
+      hostName = lib.mkOverride 10 "portal"; # Define your hostname.
+      domain = "arnoldarts.de";
 
-    networking.nat = {
-      # enable nat to enable ip forwarding
-      enable = true;
-    };
-
-    networking.bridges = {
-      lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
-      dmz = { interfaces = lib.mkOverride 100 [ "eno2" ]; };
-      backend = { interfaces = []; };
-    };
-
-    networking.interfaces = {
-      lan = {
-        useDHCP = false;
-        ip4 = [ { address = "192.168.1.240"; prefixLength = 24; } ];
-        ip6 = [ { address = "2001:470:1f0b:1033::706f:7274:616c"; prefixLength = 64; } ];
-      };
-      dmz = {
-        useDHCP = false;
-        ip4 = [];
-        ip6 = [];
-      };
-      backend = {
-        useDHCP = false;
-        ip4 = [];
-        ip6 = [];
-      };
-    };
-
-    networking.defaultGateway = "192.168.1.220";
-    networking.defaultGateway6 = "2001:470:1f0b:1033::1";
-
-    networking.firewall = {
-      enable = true;
-      allowPing = true;
-      rejectPackets = true;
-      allowedTCPPorts = [ 111 2049 4001 4002 ];
-      allowedUDPPorts = [ 111 123 2049 4001 4002 60001 ];
-      rules = [
-        {
-          fromInterface = "lan";
-          toInterface = "ve-gitolite";
-          target = "ACCEPT";
-        }
+      nameservers = lib.mkOverride 100 [
+        "192.168.1.240"
+        #"2001:470:1f0b:1033::706f:7274:616c"
+        #"8.8.4.4"              # Google DNS
+        #"2001:4860:4860::8888" # Google DNS
+        #"74.82.42.42"          # Hurricane Electric
+        #"2001:470:20::2"       # Hurricane Electric
       ];
-      extraPackages = [ pkgs.procps ];
-      extraCommands = ''
-        sysctl net.ipv4.conf.all.forwarding=1
-        sysctl net.ipv6.conf.all.forwarding=1
-      '';
+      search = [ "arnoldarts.de" ];
+
+      enableIPv6 = true;
+      useDHCP = false;
+      wireless.enable = false;  # Enables wireless support via wpa_supplicant.
+      networkmanager.enable = false;
+      wicd.enable = false;
+
+      nat = {
+        # enable nat to enable ip forwarding
+        enable = false;
+      };
+
+      bridges = {
+        lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
+        dmz = { interfaces = lib.mkOverride 100 [ "eno2" ]; };
+        backend = { interfaces = []; };
+      };
+
+      interfaces = {
+        lan = {
+          useDHCP = false;
+          ip4 = [ { address = "192.168.1.240"; prefixLength = 24; } ];
+          ip6 = [ { address = "2001:470:1f0b:1033::706f:7274:616c"; prefixLength = 64; } ];
+        };
+        dmz = {
+          useDHCP = false;
+          ip4 = [];
+          ip6 = [];
+        };
+        backend = {
+          useDHCP = false;
+          ip4 = [];
+          ip6 = [];
+        };
+      };
+
+      defaultGateway = "192.168.1.220";
+      defaultGateway6 = "2001:470:1f0b:1033::1";
+
+      firewall = {
+        enable = true;
+        allowPing = true;
+        rejectPackets = true;
+        allowedTCPPorts = [ 111 2049 4001 4002 ];
+        allowedUDPPorts = [ 111 123 2049 4001 4002 60001 ];
+        extraPackages = [ pkgs.procps ];
+        extraCommands = ''
+          sysctl net.ipv4.conf.all.forwarding=1
+          sysctl net.ipv6.conf.all.forwarding=1
+        '';
+      };
     };
 
     # List packages installed in system profile. To search by name, run:

@@ -1,25 +1,24 @@
 { config, lib, pkgs, ... }:
 
 let
-  selfosspkg = pkgs.callPackage ../../lib/software/selfoss {};
 in
 {
-  systemd.services."container@selfoss".after = [ "container@postgres.service" "container@firewall.service" ];
+  /*systemd.services."container@selfoss".after = [ "container@postgres.service" "container@firewall.service" ];*/
 
-  containers.selfoss = {
+  containers.homeassistant = {
     autoStart = lib.mkOverride 100 true;
 
     privateNetwork = true;
     hostBridge = "lan";
-    extraVeths = {
+    /*extraVeths = {
       backendpg = {
         hostBridge = "backend";
       };
-    };
+    };*/
 
     config = { config, pkgs, ... }: {
       imports = [
-        ../../lib/software/selfoss/service.nix
+        ../../lib/software/homeassistant/service.nix
       ];
       nixpkgs.config.packageOverrides = pkgs: rec {
         simp_le = pkgs.simp_le.overrideDerivation (oldAttrs: {
@@ -50,19 +49,51 @@ in
       networking.interfaces = {
         eth0 = {
           useDHCP = false;
-          ip4 = [{ address="192.168.1.227"; prefixLength=24; }];
-          ip6 = [{ address="2001:470:1f0b:1033:73:656c:666f:7373"; prefixLength=64; }];
+          ip4 = [{ address="192.168.1.232"; prefixLength=24; }];
+          ip6 = [{ address="2001:470:1f0b:1033:686f:6d65:6173:7369"; prefixLength=64; }];
         };
-        backendpg = {
+        /*backendpg = {
           useDHCP = false;
           ip4 = [{ address="192.168.6.2"; prefixLength=23; }];
           ip6 = [];
-        };
+        };*/
       };
       networking.firewall.enable = true;
       networking.firewall.allowedTCPPorts = [ 80 443 ];
+      /*networking.firewall.allowedTCPPorts = [ 8123 ];*/
 
-      services.selfoss.updateinterval = "hourly";
+      services.homeassistant = {
+        enable = true;
+      };
+
+      services.nginx = {
+        enable = true;
+        sslCiphers = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:!RSA+AES:!aNULL:!MD5:!DSS";
+        recommendedTlsSettings = true;
+        recommendedProxySettings = false;
+        virtualHosts = {
+          "homeassistant" = {
+            serverName = "homeassistant.arnoldarts.de";
+            forceSSL = true;
+            enableACME = true;
+            locations."/" = {
+              proxyPass = "http://localhost:8123";
+              # TODO: use this in 17.09?
+              #proxyWebsockets = true;
+            };
+            # TODO: can be removed with 17.09?
+            locations."/api/websocket" = {
+              proxyPass = "http://localhost:8123/api/websocket";
+              extraConfig = ''
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+              '';
+            };
+          };
+        };
+      };
+      /*services.selfoss.updateinterval = "hourly";
       services.selfoss.instances.arnold = {
         servername = "selfoss.arnoldarts.de";
         dbtype = "pgsql";
@@ -70,13 +101,13 @@ in
         dbname = "selfoss";
         dbusername = "selfoss";
         dbpassword = "";
-      };
+      };*/
       /*services.selfoss.sqlite = {
         dbtype = "sqlite";
         servername = "sqlite_selfoss.arnoldarts.de";
       };*/
 
-      environment.systemPackages = [ selfosspkg ];
+      /*environment.systemPackages = [ selfosspkg ];*/
     };
   };
 }

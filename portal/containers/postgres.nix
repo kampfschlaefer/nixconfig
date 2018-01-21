@@ -6,6 +6,11 @@ let
   db_list_command = "psql -l -t -A |cut -d'|' -f 1 |grep -v -e template0 -e template1 -e 'root=CT'";
 in
 {
+  systemd.services."container@postgres".serviceConfig = {
+    TimeoutStartSec = "3min";
+    RestartSec = 30;
+  };
+
   containers.postgres = {
     autoStart = lib.mkOverride 100 true;
 
@@ -33,6 +38,8 @@ in
         enable = true;
         enableTCPIP = true;
         package = pg_pkg;
+        dataDir = "/var/db/postgresql";
+        superUser = "root";
         authentication = ''
           host selfoss selfoss 192.168.6.2/32 trust
         '';

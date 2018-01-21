@@ -5,8 +5,7 @@
 #   pypi2nix -I /home/arnold/programme/nixconfig -V 3.5 -e . -e pytest-runner==2.6.2 -e setuptools_scm -v
 #
 
-{ pkgs ? import <nixpkgs> {}
-}:
+{ pkgs }:
 
 let
 
@@ -17,7 +16,6 @@ let
     inherit pkgs;
     inherit (pkgs) stdenv;
     python = pkgs.python35;
-    self = pythonPackages;
   };
 
   commonBuildInputs = [];

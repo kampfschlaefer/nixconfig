@@ -17,7 +17,7 @@
 
   fileSystems."/home" = { device = "/dev/orinocogroup/home"; };
 
-  nix.binaryCaches = [ http://xingu.arnoldarts.de:8800/ /*https://cache.nixos.org/*/ ];
+  nix.binaryCaches = [ http://xingu.arnoldarts.de:8800/ https://cache.nixos.org/ ];
   nix.requireSignedBinaryCaches = false;
 
   nix.useSandbox = true;
@@ -41,10 +41,10 @@
     atom zeal
     seafile-client
     gitAndTools.tig
-    python27 python33 python35
+    python27 python35
     python27Packages.virtualenv
     python35Packages.virtualenv
-    kde5.networkmanager-qt
+    # kde5.networkmanager-qt
     # connman
   ];
 
@@ -58,6 +58,6 @@
   };
 
   services.xserver.desktopManager.enlightenment.enable = true;
-  services.xserver.desktopManager.kde5.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
 }

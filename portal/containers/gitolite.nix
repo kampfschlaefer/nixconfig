@@ -25,7 +25,8 @@ in
           ip4 = [{ address = "192.168.1.223"; prefixLength = 24; }];
           ip6 = [{ address = "2001:470:1f0b:1033::67:6974"; prefixLength = 64; }];
         };
-        firewall.enable = false;
+        firewall.enable = true;
+        firewall.allowedTCPPorts = [ 22 9418 ];
       };
 
       services.openssh = {
@@ -50,21 +51,22 @@ in
       services.gitDaemon = {
         enable = true;
         basePath = config.services.gitolite.dataDir + "/repositories";
+        group = config.services.gitolite.group;
       };
 
-      users.extraUsers.lighttpd.extraGroups = [ config.services.gitDaemon.group ];
-      users.extraUsers.gitolite.group = config.services.gitDaemon.group;
+      /*users.extraUsers.lighttpd.extraGroups = [ config.services.gitolite.group ];*/
 
       # Make gitolite and lighttpd and gitweb play toghether
       systemd.services."gitolite-init".preStart = ''
-        chmod g+rx /var/lib/gitolite
+        chown :${config.services.gitolite.group} ${config.services.gitolite.dataDir}
+        chmod g+rx ${config.services.gitolite.dataDir}
       '';
       systemd.services."gitolite-init".postStart = "
         gitolite print-default-rc > ~/.gitolite.rc
         sed -e 's/UMASK                           =>  0077,/UMASK => 0027,/' -i ~/.gitolite.rc
         sed -e \"s/GIT_CONFIG_KEYS                 =>  '',/GIT_CONFIG_KEYS => '.*',/\" -i ~/.gitolite.rc
 
-        chmod g+rx /var/lib/gitolite/repositories
+        chmod g+rx ${config.services.gitolite.dataDir}/repositories
       ";
       systemd.services."git-daemon".preStart = "[ -d ${config.services.gitolite.dataDir}/repositories ] || sleep 2";
       systemd.services."git-daemon".requires = [ "gitolite-init.service" ];
