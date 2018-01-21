@@ -66,15 +66,15 @@ let
   generated = self: {
 
     "paho-mqtt" = python.mkDerivation {
-      name = "paho-mqtt-1.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/83/96/dacc2b78bc9c5cd83eed178e9ce35d7bceecf2dd38db079c0190423efd4a/paho-mqtt-1.1.tar.gz"; sha256 = "0f7a629efe6e3a2c61b59d3550aa9f2c4529b5689a65fde45e6f1ac36b9a261e"; };
+      name = "paho-mqtt-1.3.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/2a/5f/cf14b8f9f8ed1891cda893a2a7d1d6fa23de2a9fb4832f05cef02b79d01f/paho-mqtt-1.3.1.tar.gz"; sha256 = "31911f6031de306c27ed79dc77b690d7c55b0dcb0f0434ca34ec6361d0371122"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
         license = "License :: OSI Approved";
-        description = "MQTT version 3.1/3.1.1 client class";
+        description = "MQTT version 3.1.1 client class";
       };
     };
 
