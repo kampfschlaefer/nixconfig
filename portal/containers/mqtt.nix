@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
+  mqtt_users = {
+  } // (if config.testdata then {
+    testclient = { acl = []; password = "password"; };
+  } else {});
 in
 {
   containers.mqtt = {
@@ -28,8 +32,7 @@ in
         host = "0.0.0.0";
         port = 1883;
 
-        allowAnonymous = true;
-        users = {};
+        users = mqtt_users;
       };
     };
   };

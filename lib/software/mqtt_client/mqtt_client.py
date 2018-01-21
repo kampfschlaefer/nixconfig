@@ -22,6 +22,16 @@ parser.add_argument(
     default=1.0,
 )
 parser.add_argument(
+    '--user',
+    type=str,
+    default="",
+)
+parser.add_argument(
+    '--password',
+    type=str,
+    default="",
+)
+parser.add_argument(
     "command",
     type=str,
     choices=['send', 'send_persisting', 'recv'],
@@ -40,6 +50,9 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
+
+if args.user != "" and args.password == "":
+    raise ValueError("You have to give a password when using a username")
 
 
 def stop_loop(client, *args, **kwargs):
@@ -115,6 +128,9 @@ client.on_connect = on_connect
 client.on_disconnect = on_disconnect
 client.on_subscribe = on_subscribe
 client.on_publish = on_publish
+
+if args.user != "" and args.password != "":
+    client.username_pw_set(username=args.user, password=args.password)
 
 print("do connect")
 client.connect(args.server, port=args.port, keepalive=5)
