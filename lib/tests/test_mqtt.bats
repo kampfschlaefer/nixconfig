@@ -6,9 +6,19 @@ PATH=@mqtt_client@/bin:$PATH
     mqtt_client --help
 }
 @test "Fail to send message anonymous" {
-    run mqtt_client send "nixtest/goes_away" "you should never see this"
+    run mqtt_client send "nixtest/goes_away" "should never reach the server"
     [ $status -ne 0 ]
 }
+@test "Fail to send with empty password" {
+    run mqtt_client --user testclient --password "" send "nixtest/goes_away" "should never reach the server"
+}
+@test "Fail to send with wrong password" {
+    run mqtt_client --user testclient --password blablablub send "nixtest/goes_away" "should never reach the server"
+}
+@test "Fail to send with unknown user" {
+    run mqtt_client --user unknown --password password send "nixtest/goes_away" "should never reach the server"
+}
+
 @test "Send message that goes away" {
     run mqtt_client --user testclient --password password send "nixtest/goes_away" "you should never see this"
     [ $status -eq 0 ]
