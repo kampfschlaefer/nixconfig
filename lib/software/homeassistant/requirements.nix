@@ -113,8 +113,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/be/d1/0008f4ee8d8eaae328efbf9cc513c1bee6f6793de11ab82cb31b3045ee06/SQLAlchemy-1.2.0.tar.gz"; sha256 = "7dda3e0b1b12215e3bb05368d1abbf7d747112a43738e0a4e6deb466b83fd88e"; };
+      name = "SQLAlchemy-1.2.2";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b9/fb/a56d2fc0ce3571328fa872734ad124cae25a4cea422088987f865fb71787/SQLAlchemy-1.2.2.tar.gz"; sha256 = "64b4720f0a8e033db0154d3824f5bf677cf2797e11d44743cf0aebd2a0499d9d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -128,8 +128,8 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-2.3.6";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3c/1d/a7479eee24e13ed4cfe543f5c1417972c4db5f24c9adbb87fa52f5e0eb1a/aiohttp-2.3.6.tar.gz"; sha256 = "0111b4c71d1121bfcbd392bbabd573d20f133f491161b87718a07976e0459c32"; };
+      name = "aiohttp-2.3.7";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/5e/67/c66a608cd61f49f71cedea2bb2e479c9da5bfaf4b83948b2b7a475e8ac8f/aiohttp-2.3.7.tar.gz"; sha256 = "fe294df38e9c67374263d783a7a29c79372030f5962bd5734fa51c6f4bbfee3b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -180,14 +180,14 @@ let
 
 
     "certifi" = python.mkDerivation {
-      name = "certifi-2017.11.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/23/3f/8be01c50ed24a4bd6b8da799839066ce0288f66f5e11f0367323467f0cbc/certifi-2017.11.5.tar.gz"; sha256 = "5ec74291ca1136b40f0379e1128ff80e866597e4e2c1e755739a913bbc3613c0"; };
+      name = "certifi-2018.1.18";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/15/d4/2f888fc463d516ff7bf2379a4e9a552fef7f22a94147655d9b1097108248/certifi-2018.1.18.tar.gz"; sha256 = "edbc3f203427eef571f79a7692bb160a2b0f7ccaa31953e99bd17e307cf63f7d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
-        license = "MPL-2.0";
+        license = licenses.mpl20;
         description = "Python package for providing Mozilla's CA Bundle.";
       };
     };
@@ -210,8 +210,8 @@ let
 
 
     "colorlog" = python.mkDerivation {
-      name = "colorlog-3.1.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/64/cf/9d2d7dba6cc4a877155d224441d3af2b6cab3d6c9c3c03811894395268fc/colorlog-3.1.0.tar.gz"; sha256 = "f7c0efd9d960b43929027aa2b5a6c80d8ebec3e8d87cdec8b92696bf57428284"; };
+      name = "colorlog-3.1.2";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b8/a3/d181e256fba34d07ac3a052269cc0a43a61cfec14674bceaa1cca1f5fdb0/colorlog-3.1.2.tar.gz"; sha256 = "7f94b6a88e789e68025b84f2581c17a52c8fb3c07e07a23e7e22bf774dd34144"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -272,8 +272,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180102.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/d6/7a/85dfb39fef97a244da3368e602d8ce7361068557f0a178c4cdf57970ee54/home-assistant-frontend-20180102.0.tar.gz"; sha256 = "94e372af91fe10a5386b56945374017fbf3b4f95a5362073dc56bc3a5ffbac3a"; };
+      name = "home-assistant-frontend-20180126.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/d6/97/3183e4c44e7eca60521e1219c2a364067ac42f72deac9925c51149d8f6d5/home-assistant-frontend-20180126.0.tar.gz"; sha256 = "1d971c3a69f97e4fea1bbf58a1619c58d3257060b942f367dcafd43fe04fdd3a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -287,8 +287,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.60.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3f/e3/b99c57b2636fe4ba12cea506b16b2b27f0f7e79433c342726f47d9fdf34f/homeassistant-0.60.1.tar.gz"; sha256 = "cbf5737a0e4609b431974ee3c4133f11a7d3c56f4ecc0ec8b5987611d1cf2f04"; };
+      name = "homeassistant-0.62.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/30/95/2e0d2c67025195fd0505a3d5cc98142e59bff4d74c77e06b6ca8e61a3fb5/homeassistant-0.62.0.tar.gz"; sha256 = "07fb3962e2219fdfa3be3dd1f680f372b9dcdaf6805e085b13921554c9886c7a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -330,12 +330,13 @@ let
 
 
     "luftdaten" = python.mkDerivation {
-      name = "luftdaten-0.1.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/42/0f/badbf4b134ce7debb57a0c8e4df80b9c0d57b31d84105254a8cb69bba460/luftdaten-0.1.3.tar.gz"; sha256 = "7a905e0b28b42250659c85aa9e3df93c4f0611ee2c6a7b96a69cae6d8eb3c258"; };
+      name = "luftdaten-0.1.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/28/5a/fd150bfabef6bbfbdfecc8eb45acc0a8775c35a34031d29e777bcf8fcec6/luftdaten-0.1.4.tar.gz"; sha256 = "d3e3af830ad2b731c36af223bbb5d47d68aa3786b2965411216917a7381e1179"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."aiohttp"
+      self."async-timeout"
     ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
@@ -347,8 +348,8 @@ let
 
 
     "multidict" = python.mkDerivation {
-      name = "multidict-3.3.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4d/1d/7e4d852ea24298cd008128b21ea00d8e7bc087d2f604127b7ed6d7cd6ec7/multidict-3.3.2.tar.gz"; sha256 = "f82e61c7408ed0dce1862100db55595481911f159d6ddec0b375d35b6449509b"; };
+      name = "multidict-4.0.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/57/a6/922761f00b360ce7555f5bd00f7e80d811f1f552e522efd0691f402f2f20/multidict-4.0.0.tar.gz"; sha256 = "b72486b3ad2b8444f7afebdafda8b111c1803e37203dfe81b7765298f2781778"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -362,8 +363,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.2.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/78/6a/b2c7d91e7515969da62704ff264090eed0b4d36599d4fe574ed5c229a8e6/netdisco-1.2.3.tar.gz"; sha256 = "b18548e717b23fc1e6d4f42631232213e59d0fc926bc52d077d6f352aa4601b5"; };
+      name = "netdisco-1.2.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/81/50/24b4d1e87d26da6787e01bbd00cc47750ad8863088990da2d710e7cf6372/netdisco-1.2.4.tar.gz"; sha256 = "749aecca5787f7f9e3f18de339099284b6ed821f29325009b807b3949f184900"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -475,8 +476,8 @@ let
 
 
     "typing" = python.mkDerivation {
-      name = "typing-3.6.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ca/38/16ba8d542e609997fdcd0214628421c971f8c395084085354b11ff4ac9c3/typing-3.6.2.tar.gz"; sha256 = "d514bd84b284dd3e844f0305ac07511f097e325171f6cc4a20878d11ad771849"; };
+      name = "typing-3.6.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ec/cc/28444132a25c113149cec54618abc909596f0b272a74c55bab9593f8876c/typing-3.6.4.tar.gz"; sha256 = "d400a9344254803a2368533e4533a4200d21eb7b6b729c173bc38201a74db3f2"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -570,11 +571,12 @@ let
 
 
     "yarl" = python.mkDerivation {
-      name = "yarl-0.16.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/43/7e/c32e170922822223ebf2b2bd3d0d2c63a0bc70ea79d342eb00cde04dadd6/yarl-0.16.0.tar.gz"; sha256 = "47622985ecd9b15335d65c1acd54aeb3ba449e6d09b36e37ecfe334c7e7b8d0b"; };
+      name = "yarl-0.18.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/65/e9/24738bbbf003e812f802d5700c41efe47b0b7cae40556a6ec74af0afc13e/yarl-0.18.0.tar.gz"; sha256 = "baa0d3f7982fa0c03a55433109c405e79a597141f2e2d6ee7e16c03eabd74886"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
+      self."idna"
       self."multidict"
     ];
       meta = with pkgs.stdenv.lib; {
