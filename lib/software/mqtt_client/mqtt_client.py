@@ -7,6 +7,31 @@ import paho.mqtt.client as mqtt
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
+    "--server",
+    type=str,
+    default="mqtt.arnoldarts.de",
+)
+parser.add_argument(
+    '--port',
+    type=int,
+    default=1883,
+)
+parser.add_argument(
+    '--wait',
+    type=float,
+    default=1.0,
+)
+parser.add_argument(
+    '--user',
+    type=str,
+    default="",
+)
+parser.add_argument(
+    '--password',
+    type=str,
+    default="",
+)
+parser.add_argument(
     "command",
     type=str,
     choices=['send', 'send_persisting', 'recv'],
@@ -26,18 +51,53 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+if args.user != "" and args.password == "":
+    raise ValueError("You have to give a password when using a username")
+
 
 def stop_loop(client, *args, **kwargs):
+    print("Does this get called?")
     client.loop_stop()
 
 
-def recv_message(client, userdata, message):
-    print(message.payload.decode())
+def on_message(client, userdata, message):
+    print("Received message on topic %s: %s" % (
+        message.topic,
+        message.payload  # .decode()
+    ))
 
 
-def on_connect(client, userdata, rc):
-    # print("Connect with status %s" % str(rc))
-    pass
+def on_connect(client, userdata, flags, rc):
+    print("Connected")
+    if (rc != 0):
+        raise ValueError("Connect with status %s" % str(rc))
+
+    if userdata.command == 'send':
+        sendmsg(client, userdata)
+    elif userdata.command == 'send_persisting':
+        sendmsg(client, userdata, persisting=True)
+    elif userdata.command == 'recv':
+        subscribe_topics(client, userdata)
+    else:
+        raise NotImplementedError
+
+
+def on_disconnect(*args, **kwargs):
+    print("Got disconnected")
+
+
+def sendmsg(client, args, persisting=False):
+    rc, mid = client.publish(
+        args.topic, args.message, qos=0, retain=persisting
+    )
+    print("Sent message mid %i: rc %i" % (mid, rc))
+    if rc != 0:
+        raise ValueError("Failed to send message (rc=%i)" % rc)
+
+
+def subscribe_topics(client, args):
+    results = client.subscribe(args.topic, 0)
+    print("Subscribed to topic %s: %s" % (args.topic, str(results)))
 
 
 def on_subscribe(client, userdata, mid, granted_qos):
@@ -45,23 +105,40 @@ def on_subscribe(client, userdata, mid, granted_qos):
     pass
 
 
-client = mqtt.Client(client_id="nixos_test_client", clean_session=False)
+def on_publish(*args, **kwargs):
+    global run
+    run = False
+    print("Should stop now")
 
-client.on_publish = stop_loop
-client.on_message = recv_message
+
+client_id = ""
+clean_session = True
+if args.command == 'recv':
+    client_id = "nixos_test_client"
+    clean_session = False
+
+client = mqtt.Client(
+    client_id=client_id,
+    clean_session=clean_session,
+    userdata=args
+)
+
+client.on_message = on_message
 client.on_connect = on_connect
+client.on_disconnect = on_disconnect
 client.on_subscribe = on_subscribe
+client.on_publish = on_publish
 
-client.connect('mqtt.arnoldarts.de', port=1883)
+if args.user != "" and args.password != "":
+    client.username_pw_set(username=args.user, password=args.password)
 
-client.loop_start()
+print("do connect")
+client.connect(args.server, port=args.port, keepalive=5)
 
-if args.command == 'send':
-    client.publish(args.topic, args.message, qos=0, retain=False)
-elif args.command == 'send_persisting':
-    client.publish(args.topic, args.message, qos=0, retain=True)
-elif args.command == 'recv':
-    client.subscribe(args.topic, 0)
-    time.sleep(2)
-else:
-    raise NotImplementedError
+run = True
+
+till = time.time() + args.wait
+print("Should loop until %i" % till)
+while run and till > time.time():
+    # print("loop")
+    client.loop(timeout=1.)
