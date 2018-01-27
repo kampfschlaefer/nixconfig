@@ -2,6 +2,14 @@
 
 let
   mqtt_users = {
+    homeassistant = {
+      acl = [];
+      hashedPassword = "$6$qk8CJ.6G5.v$z1Rlj8ngtF4wyHDrrdG4f5e6sJ9V.Ra8l5Bto/RI9843sKq5AtMvq/QGsprOFFaIbJDzXpxuslx9KE1gE8v0e1";
+    };
+    arnold = {
+      acl = [];
+      hashedPassword = "$6$CHag5zouOUPC$ecdfyuTz0uObdIA/t7e2zwnMtR1kYG9/nWpUhUbOw94brizo8GitRKmC874RYdSe/8vxSqW5G/reaj0FOQT6f0";
+    };
   } // (if config.testdata then {
     testclient = { acl = []; password = "password"; };
   } else {});
