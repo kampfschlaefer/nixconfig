@@ -1,0 +1,2 @@
+portal/secrets.* filter=git-crypt diff=git-crypt
+**/*_secrets.nix filter=git-crypt diff=git-crypt
