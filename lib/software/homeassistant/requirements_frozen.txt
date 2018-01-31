@@ -8,13 +8,13 @@ colorlog==3.1.2
 denonavr==0.5.5
 distro==1.2.0
 enum-compat==0.0.2
-home-assistant-frontend==20180126.0
-homeassistant==0.62.0
+home-assistant-frontend==20180130.0
+homeassistant==0.62.1
 idna==2.6
 Jinja2==2.10
 luftdaten==0.1.4
 MarkupSafe==1.0
-multidict==4.0.0
+multidict==4.1.0
 netdisco==1.2.4
 netifaces==0.10.6
 packaging==16.8

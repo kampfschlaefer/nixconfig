@@ -272,8 +272,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180126.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/d6/97/3183e4c44e7eca60521e1219c2a364067ac42f72deac9925c51149d8f6d5/home-assistant-frontend-20180126.0.tar.gz"; sha256 = "1d971c3a69f97e4fea1bbf58a1619c58d3257060b942f367dcafd43fe04fdd3a"; };
+      name = "home-assistant-frontend-20180130.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/fa/fd/b97a752130bc4b951021018c7db767536972f50e7390e0514ff0a3c4cc07/home-assistant-frontend-20180130.0.tar.gz"; sha256 = "f1878f92061391c956dfa1dd22d04a7f8c7f5fba9962446b0603c24375a4332d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -287,8 +287,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.62.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/30/95/2e0d2c67025195fd0505a3d5cc98142e59bff4d74c77e06b6ca8e61a3fb5/homeassistant-0.62.0.tar.gz"; sha256 = "07fb3962e2219fdfa3be3dd1f680f372b9dcdaf6805e085b13921554c9886c7a"; };
+      name = "homeassistant-0.62.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/53/63/670ee76b94cd260c37b2fc539fd9f14e2f39b8a7d17a2a44e48969d8282e/homeassistant-0.62.1.tar.gz"; sha256 = "73d74d9511fcf0b5408ccc847836f54166dbce044bc7be3afe0082a972f6b8c9"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -348,8 +348,8 @@ let
 
 
     "multidict" = python.mkDerivation {
-      name = "multidict-4.0.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/57/a6/922761f00b360ce7555f5bd00f7e80d811f1f552e522efd0691f402f2f20/multidict-4.0.0.tar.gz"; sha256 = "b72486b3ad2b8444f7afebdafda8b111c1803e37203dfe81b7765298f2781778"; };
+      name = "multidict-4.1.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ea/eb/c79ed6ff320ac8e935dcbff8a8833f1afb35c2433bff5bf1c9dabbd631b2/multidict-4.1.0.tar.gz"; sha256 = "fb4412490324705dcd2172baa8a3ea58ae23c5f982476805cad58ae929fe2a52"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
