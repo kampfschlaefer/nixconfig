@@ -47,7 +47,7 @@ let
     { hostName = "ebook";         ethernetAddress = "28:f3:66:9c:13:71"; }
     { hostName = "steuer";        ethernetAddress = "08:00:27:1f:06:82"; }
     { hostName = "arduino";       ethernetAddress = "18:fe:34:cf:a7:26"; }
-    { hostName = "dash-button1";  ethernetAddress = "ac:63:be:be:01:93"; }
+    { hostName = "dash-button1";  ethernetAddress = "ac:63:be:be:01:93"; noroute=true; }
 
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; ipAddress = "192.168.1.80"; }
     { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.81"; }
