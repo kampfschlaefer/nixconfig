@@ -1,8 +1,7 @@
-{ stdenv ? null, fetchurl ? null, ... }:
+{ pkgs }:
 
 let
 
-  pkgs = import ../../../nixpkgs {};
   python = import ./requirements.nix { inherit pkgs; };
 
 in python.mkDerivation rec {

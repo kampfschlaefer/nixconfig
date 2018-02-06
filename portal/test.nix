@@ -27,7 +27,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       curl = pkgs.curl;
       git = pkgs.git;
       jq = pkgs.jq;
-      mqtt_client = pkgs.callPackage ../lib/software/mqtt_client {};
+      mqtt_client = pkgs.callPackage ../lib/software/mqtt_client { inherit pkgs; };
     };
 
     extraHosts = ''
