@@ -1,1 +1,4 @@
 *.egg*
+__pycache__
+/.python-version
+/.dash_button.cfg
