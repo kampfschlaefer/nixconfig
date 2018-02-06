@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 
 let
-  mqtt_users = (if config.testdata then {
+  mqtt_users = if config.testdata then {
     testclient = { acl = []; password = "password"; };
-  } else {}) // import ./mqtt_secrets.nix {};
+  } else import ./mqtt_secrets.nix {};
 in
 {
   containers.mqtt = {
