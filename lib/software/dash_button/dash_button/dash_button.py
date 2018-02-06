@@ -85,5 +85,5 @@ def run():
             prn=arp_handle,
             filter="arp",
             store=0,
-            count=1000,
+            count=0,
         )
