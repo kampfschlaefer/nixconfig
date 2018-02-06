@@ -453,8 +453,10 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->succeed("systemctl -M homeassistant status dash_button_daemon >&2");
 
           $portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
-          #$portal->succeed("journalctl -M homeassistant -u dash_button_daemon --boot >&2");
-          $portal->succeed("journalctl -M homeassistant -u homeassistant -n 10 |grep light.benachrichtigung");
+          $portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
+          $portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
+          $portal->succeed("journalctl -M homeassistant -u dash_button_daemon --boot >&2");
+          $portal->succeed("journalctl -M homeassistant -u homeassistant -n 10 |grep light.benachrichtigung >&2");
         };''
       }
 
