@@ -4,19 +4,25 @@ let
   dash_button_pkg = import ../../lib/software/dash_button { inherit lib pkgs; };
   secrets = import ./homeassistant_secrets.nix {};
 
-  dash_button_testconfig = pkgs.writeText "dash_button.cfg" ''
-  [DEFAULT]
-  interface=eth0
-  host=localhost
+  dash_button_testconfig = {
+    "DEFAULT" = {
+      "interface" = "eth0";
+      "host" = "localhost";
+    };
+    "ac:63:be:be:01:93" = {
+      "domain" = "light";
+      "action" = "toggle";
+      "data" = "{ \"entity_id\": \"light.benachrichtigung\" }";
+    };
+  };
 
-  [ac:63:be:be:01:93]
-  domain=light
-  action=toggle
-  data= \
-    { "entity_id": "light.benachrichtigung" }
-  '';
-
-  dash_button_config = if config.testdata then dash_button_testconfig else lib.mkINI {} secrets.dash_config;
+  dash_button_config = pkgs.writeText "dash_button.cfg" (
+    lib.generators.toINI {} (
+      if config.testdata
+      then dash_button_testconfig
+      else secrets.dash_config
+    )
+  );
 
 in
 {
