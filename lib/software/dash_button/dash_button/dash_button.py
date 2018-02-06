@@ -1,6 +1,7 @@
 
 import argparse
 import configparser
+import json
 from scapy.all import *
 import homeassistant.remote as ha
 
@@ -52,13 +53,6 @@ if not api.validate_api():
     print(config.items('DEFAULT'))
     sys.exit(2)
 
-# domain = 'persistent_notification'
-# action = 'create'
-# data = {"title": "Alarm!", "message": "Nerf button was pressed"}
-domain = "switch"
-action = "turn_off"
-data = {"entity_id": "switch.ines_medizin"}
-
 
 def arp_display(pkt):
     if ARP in pkt and pkt[ARP].op == 1:  # who-has (request)
@@ -66,16 +60,13 @@ def arp_display(pkt):
         if mac in config.sections():
             domain = config.get(mac, 'domain')
             action = config.get(mac, 'action')
-            data = config.get(mac, 'data')
+            data = json.loads(config.get(mac, 'data'))
             print(
                 "Found Button %s, will execute %s.%s with data %s" % (
                     mac, domain, action, data
                 )
             )
             ha.call_service(api, domain, action, data)
-        # if pkt[ARP].hwsrc.lower() == 'ac:63:be:be:01:93':  # Nerf
-        #     # print("Pushed Nerf")
-        #     ha.call_service(api, domain, action, data)
 
 
 def run():
