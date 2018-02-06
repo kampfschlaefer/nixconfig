@@ -2,6 +2,7 @@
 import argparse
 import configparser
 import json
+import time
 from scapy.all import *
 import homeassistant.remote as ha
 
@@ -54,8 +55,15 @@ if not api.validate_api():
     sys.exit(2)
 
 
-def arp_display(pkt):
-    if ARP in pkt and pkt[ARP].op == 1:  # who-has (request)
+last_trigger = time.time()
+
+
+def arp_handle(pkt):
+    global last_trigger
+    if (
+        ARP in pkt and pkt[ARP].op == 1 and  # who-has (request)
+        abs(time.time() - last_trigger) < 20
+    ):
         mac = pkt[ARP].hwsrc.lower()
         if mac in config.sections():
             domain = config.get(mac, 'domain')
@@ -67,14 +75,15 @@ def arp_display(pkt):
                 )
             )
             ha.call_service(api, domain, action, data)
+            last_trigger = time.time()
 
 
 def run():
     while True:
         sniff(
             iface=[config.get('DEFAULT', 'interface')],
-            prn=arp_display,
-            filter="arp and ether host ac:63:be:be:01:93",
+            prn=arp_handle,
+            filter="arp",
             store=0,
             count=1000,
         )
