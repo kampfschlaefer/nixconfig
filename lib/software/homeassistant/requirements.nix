@@ -128,13 +128,14 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-2.3.7";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/5e/67/c66a608cd61f49f71cedea2bb2e479c9da5bfaf4b83948b2b7a475e8ac8f/aiohttp-2.3.7.tar.gz"; sha256 = "fe294df38e9c67374263d783a7a29c79372030f5962bd5734fa51c6f4bbfee3b"; };
+      name = "aiohttp-2.3.10";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c0/b9/853b158f5cb5d218daaff0fb0dbc2bd7de45b2c6c5f563dff0ee530ec52a/aiohttp-2.3.10.tar.gz"; sha256 = "8adda6583ba438a4c70693374e10b60168663ffa6564c5c75d3c7a9055290964"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."async-timeout"
       self."chardet"
+      self."idna-ssl"
       self."multidict"
       self."yarl"
     ];
@@ -148,8 +149,8 @@ let
 
 
     "astral" = python.mkDerivation {
-      name = "astral-1.4";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a4/d6/c309f266677372964c6002a56a7bec2a90875338a71325e20b24d6d1e187/astral-1.4.zip"; sha256 = "e7f2c825ac101c0953812e0f4c617ca48bd9dd5f4ebf450f7ce9086ed8f5a1fe"; };
+      name = "astral-1.5";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/17/6f/844ec74588d7edb593c268b30226b0f7f1a26cbcf33d6de8b71676baca03/astral-1.5.tar.gz"; sha256 = "527628fbfe90c1596c3950ff84ebd07ecc10c8fb1044c903a0519b5057700cb6"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -272,8 +273,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180130.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/fa/fd/b97a752130bc4b951021018c7db767536972f50e7390e0514ff0a3c4cc07/home-assistant-frontend-20180130.0.tar.gz"; sha256 = "f1878f92061391c956dfa1dd22d04a7f8c7f5fba9962446b0603c24375a4332d"; };
+      name = "home-assistant-frontend-20180209.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/82/fd/bccc5e64821862220470f7fddcb27a0fbe110de3100405b91a1c95ae1de5/home-assistant-frontend-20180209.0.tar.gz"; sha256 = "b85f0e833871408a95619ae38d5344701a6466e8f7b5530e718ccc260b68d3ed"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -287,8 +288,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.62.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/53/63/670ee76b94cd260c37b2fc539fd9f14e2f39b8a7d17a2a44e48969d8282e/homeassistant-0.62.1.tar.gz"; sha256 = "73d74d9511fcf0b5408ccc847836f54166dbce044bc7be3afe0082a972f6b8c9"; };
+      name = "homeassistant-0.63.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4d/f4/66b2a84bf671b40bf5053d91ba6d47274d760ccedb76c37884d322bd43c3/homeassistant-0.63.0.tar.gz"; sha256 = "0928625733318d2ab8cd6d44d1ff636891c61b1d772f6743e9ee862d80fa03de"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -324,6 +325,23 @@ let
         homepage = "";
         license = licenses.bsdOriginal;
         description = "Internationalized Domain Names in Applications (IDNA)";
+      };
+    };
+
+
+
+    "idna-ssl" = python.mkDerivation {
+      name = "idna-ssl-1.0.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/44/f4/97f7a58e814b3523a5e68bc8095c36cfa6daffb35f01b25248ec4605f53e/idna_ssl-1.0.0.tar.gz"; sha256 = "1227e44039bd31e02adaeafdbba61281596d623d222643fb021f87f2144ea147"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."idna"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.mit;
+        description = "Patch ssl.match_hostname for Unicode(idna) domains support";
       };
     };
 
@@ -426,8 +444,8 @@ let
 
 
     "pytz" = python.mkDerivation {
-      name = "pytz-2017.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/60/88/d3152c234da4b2a1f7a989f89609ea488225eaea015bc16fbde2b3fdfefa/pytz-2017.3.zip"; sha256 = "fae4cffc040921b8a2d60c6cf0b5d662c1190fe54d718271db4eb17d44a185b7"; };
+      name = "pytz-2018.3";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/1b/50/4cdc62fc0753595fc16c8f722a89740f487c6e5670c644eb8983946777be/pytz-2018.3.tar.gz"; sha256 = "410bcd1d6409026fbaa65d9ed33bf6dd8b1e94a499e32168acfc7b332e4095c0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -571,8 +589,8 @@ let
 
 
     "yarl" = python.mkDerivation {
-      name = "yarl-0.18.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/65/e9/24738bbbf003e812f802d5700c41efe47b0b7cae40556a6ec74af0afc13e/yarl-0.18.0.tar.gz"; sha256 = "baa0d3f7982fa0c03a55433109c405e79a597141f2e2d6ee7e16c03eabd74886"; };
+      name = "yarl-1.1.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a3/08/05b2d731ef5163b3bcb993f569c4d2b303642f7ee3cbdea373f59e4bd42a/yarl-1.1.0.tar.gz"; sha256 = "6af895b45bd49254cc309ac0fe6e1595636a024953d710e01114257736184698"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
