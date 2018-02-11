@@ -1,7 +1,6 @@
-{ stdenv ? null, fetchurl ? null, ... }:
+{ pkgs, stdenv ? null, fetchurl ? null, ... }:
 
 let
-  pkgs = import ../../../nixpkgs {};
   mystdenv = if stdenv != null then stdenv else pkgs.stdenv;
   myfetchurl = if fetchurl != null then fetchurl else pkgs.fetchurl;
 
