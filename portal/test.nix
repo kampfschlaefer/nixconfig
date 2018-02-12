@@ -27,7 +27,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       curl = pkgs.curl;
       git = pkgs.git;
       jq = pkgs.jq;
-      mqtt_client = pkgs.callPackage ../lib/software/mqtt_client {};
+      mqtt_client = pkgs.callPackage ../lib/software/mqtt_client { inherit pkgs; };
     };
 
     extraHosts = ''
@@ -442,11 +442,21 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->execute("nixos-container run homeassistant -- netstat -l -nv >&2");
           #$portal->execute("nixos-container run homeassistant -- ls -la /var/lib/syncthing >&2");
           #$portal->execute("nixos-container run homeassistant -- ls -la /var/lib/ >&2");
+          $portal->succeed("nixos-container run homeassistant -- curl -4 -s -f --max-time 5 http://localhost:8123 >&2");
           $portal->fail("curl -4 -s -f --max-time 5 http://homeassistant:8123 >&2");
           $portal->succeed("curl -4 --insecure -s -f https://homeassistant/api/ >&2");
           $portal->succeed("curl -6 --insecure -s -f https://homeassistant/api/ >&2");
           $portal->execute("curl --insecure -s -f https://homeassistant/ || journalctl -M homeassistant -u homeassistant >&2");
           $portal->succeed("curl --insecure -s -f https://homeassistant/ >&2");
+
+          $portal->succeed("systemctl -M homeassistant status dash_button_daemon || journalctl -M homeassistant -u dash_button_daemon --boot >&2");
+          #$portal->succeed("systemctl -M homeassistant status dash_button_daemon >&2");
+
+          $portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
+          $portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
+          $portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
+          $portal->succeed("journalctl -M homeassistant -u dash_button_daemon --boot >&2");
+          $portal->succeed("journalctl -M homeassistant -u homeassistant -n 10 |grep light.benachrichtigung >&2");
         };''
       }
 

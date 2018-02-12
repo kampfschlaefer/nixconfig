@@ -113,8 +113,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/be/d1/0008f4ee8d8eaae328efbf9cc513c1bee6f6793de11ab82cb31b3045ee06/SQLAlchemy-1.2.0.tar.gz"; sha256 = "7dda3e0b1b12215e3bb05368d1abbf7d747112a43738e0a4e6deb466b83fd88e"; };
+      name = "SQLAlchemy-1.2.2";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b9/fb/a56d2fc0ce3571328fa872734ad124cae25a4cea422088987f865fb71787/SQLAlchemy-1.2.2.tar.gz"; sha256 = "64b4720f0a8e033db0154d3824f5bf677cf2797e11d44743cf0aebd2a0499d9d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -128,13 +128,14 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-2.3.6";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3c/1d/a7479eee24e13ed4cfe543f5c1417972c4db5f24c9adbb87fa52f5e0eb1a/aiohttp-2.3.6.tar.gz"; sha256 = "0111b4c71d1121bfcbd392bbabd573d20f133f491161b87718a07976e0459c32"; };
+      name = "aiohttp-2.3.10";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c0/b9/853b158f5cb5d218daaff0fb0dbc2bd7de45b2c6c5f563dff0ee530ec52a/aiohttp-2.3.10.tar.gz"; sha256 = "8adda6583ba438a4c70693374e10b60168663ffa6564c5c75d3c7a9055290964"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."async-timeout"
       self."chardet"
+      self."idna-ssl"
       self."multidict"
       self."yarl"
     ];
@@ -148,8 +149,8 @@ let
 
 
     "astral" = python.mkDerivation {
-      name = "astral-1.4";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a4/d6/c309f266677372964c6002a56a7bec2a90875338a71325e20b24d6d1e187/astral-1.4.zip"; sha256 = "e7f2c825ac101c0953812e0f4c617ca48bd9dd5f4ebf450f7ce9086ed8f5a1fe"; };
+      name = "astral-1.5";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/17/6f/844ec74588d7edb593c268b30226b0f7f1a26cbcf33d6de8b71676baca03/astral-1.5.tar.gz"; sha256 = "527628fbfe90c1596c3950ff84ebd07ecc10c8fb1044c903a0519b5057700cb6"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -180,14 +181,14 @@ let
 
 
     "certifi" = python.mkDerivation {
-      name = "certifi-2017.11.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/23/3f/8be01c50ed24a4bd6b8da799839066ce0288f66f5e11f0367323467f0cbc/certifi-2017.11.5.tar.gz"; sha256 = "5ec74291ca1136b40f0379e1128ff80e866597e4e2c1e755739a913bbc3613c0"; };
+      name = "certifi-2018.1.18";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/15/d4/2f888fc463d516ff7bf2379a4e9a552fef7f22a94147655d9b1097108248/certifi-2018.1.18.tar.gz"; sha256 = "edbc3f203427eef571f79a7692bb160a2b0f7ccaa31953e99bd17e307cf63f7d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
-        license = "MPL-2.0";
+        license = licenses.mpl20;
         description = "Python package for providing Mozilla's CA Bundle.";
       };
     };
@@ -210,8 +211,8 @@ let
 
 
     "colorlog" = python.mkDerivation {
-      name = "colorlog-3.1.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/64/cf/9d2d7dba6cc4a877155d224441d3af2b6cab3d6c9c3c03811894395268fc/colorlog-3.1.0.tar.gz"; sha256 = "f7c0efd9d960b43929027aa2b5a6c80d8ebec3e8d87cdec8b92696bf57428284"; };
+      name = "colorlog-3.1.2";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b8/a3/d181e256fba34d07ac3a052269cc0a43a61cfec14674bceaa1cca1f5fdb0/colorlog-3.1.2.tar.gz"; sha256 = "7f94b6a88e789e68025b84f2581c17a52c8fb3c07e07a23e7e22bf774dd34144"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -272,8 +273,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180102.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/d6/7a/85dfb39fef97a244da3368e602d8ce7361068557f0a178c4cdf57970ee54/home-assistant-frontend-20180102.0.tar.gz"; sha256 = "94e372af91fe10a5386b56945374017fbf3b4f95a5362073dc56bc3a5ffbac3a"; };
+      name = "home-assistant-frontend-20180209.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/82/fd/bccc5e64821862220470f7fddcb27a0fbe110de3100405b91a1c95ae1de5/home-assistant-frontend-20180209.0.tar.gz"; sha256 = "b85f0e833871408a95619ae38d5344701a6466e8f7b5530e718ccc260b68d3ed"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -287,8 +288,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.60.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3f/e3/b99c57b2636fe4ba12cea506b16b2b27f0f7e79433c342726f47d9fdf34f/homeassistant-0.60.1.tar.gz"; sha256 = "cbf5737a0e4609b431974ee3c4133f11a7d3c56f4ecc0ec8b5987611d1cf2f04"; };
+      name = "homeassistant-0.63.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4d/f4/66b2a84bf671b40bf5053d91ba6d47274d760ccedb76c37884d322bd43c3/homeassistant-0.63.0.tar.gz"; sha256 = "0928625733318d2ab8cd6d44d1ff636891c61b1d772f6743e9ee862d80fa03de"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -329,13 +330,31 @@ let
 
 
 
+    "idna-ssl" = python.mkDerivation {
+      name = "idna-ssl-1.0.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/44/f4/97f7a58e814b3523a5e68bc8095c36cfa6daffb35f01b25248ec4605f53e/idna_ssl-1.0.0.tar.gz"; sha256 = "1227e44039bd31e02adaeafdbba61281596d623d222643fb021f87f2144ea147"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."idna"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.mit;
+        description = "Patch ssl.match_hostname for Unicode(idna) domains support";
+      };
+    };
+
+
+
     "luftdaten" = python.mkDerivation {
-      name = "luftdaten-0.1.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/42/0f/badbf4b134ce7debb57a0c8e4df80b9c0d57b31d84105254a8cb69bba460/luftdaten-0.1.3.tar.gz"; sha256 = "7a905e0b28b42250659c85aa9e3df93c4f0611ee2c6a7b96a69cae6d8eb3c258"; };
+      name = "luftdaten-0.1.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/28/5a/fd150bfabef6bbfbdfecc8eb45acc0a8775c35a34031d29e777bcf8fcec6/luftdaten-0.1.4.tar.gz"; sha256 = "d3e3af830ad2b731c36af223bbb5d47d68aa3786b2965411216917a7381e1179"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."aiohttp"
+      self."async-timeout"
     ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
@@ -347,8 +366,8 @@ let
 
 
     "multidict" = python.mkDerivation {
-      name = "multidict-3.3.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4d/1d/7e4d852ea24298cd008128b21ea00d8e7bc087d2f604127b7ed6d7cd6ec7/multidict-3.3.2.tar.gz"; sha256 = "f82e61c7408ed0dce1862100db55595481911f159d6ddec0b375d35b6449509b"; };
+      name = "multidict-4.1.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ea/eb/c79ed6ff320ac8e935dcbff8a8833f1afb35c2433bff5bf1c9dabbd631b2/multidict-4.1.0.tar.gz"; sha256 = "fb4412490324705dcd2172baa8a3ea58ae23c5f982476805cad58ae929fe2a52"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -362,8 +381,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.2.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/78/6a/b2c7d91e7515969da62704ff264090eed0b4d36599d4fe574ed5c229a8e6/netdisco-1.2.3.tar.gz"; sha256 = "b18548e717b23fc1e6d4f42631232213e59d0fc926bc52d077d6f352aa4601b5"; };
+      name = "netdisco-1.2.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/81/50/24b4d1e87d26da6787e01bbd00cc47750ad8863088990da2d710e7cf6372/netdisco-1.2.4.tar.gz"; sha256 = "749aecca5787f7f9e3f18de339099284b6ed821f29325009b807b3949f184900"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -425,8 +444,8 @@ let
 
 
     "pytz" = python.mkDerivation {
-      name = "pytz-2017.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/60/88/d3152c234da4b2a1f7a989f89609ea488225eaea015bc16fbde2b3fdfefa/pytz-2017.3.zip"; sha256 = "fae4cffc040921b8a2d60c6cf0b5d662c1190fe54d718271db4eb17d44a185b7"; };
+      name = "pytz-2018.3";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/1b/50/4cdc62fc0753595fc16c8f722a89740f487c6e5670c644eb8983946777be/pytz-2018.3.tar.gz"; sha256 = "410bcd1d6409026fbaa65d9ed33bf6dd8b1e94a499e32168acfc7b332e4095c0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -475,8 +494,8 @@ let
 
 
     "typing" = python.mkDerivation {
-      name = "typing-3.6.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ca/38/16ba8d542e609997fdcd0214628421c971f8c395084085354b11ff4ac9c3/typing-3.6.2.tar.gz"; sha256 = "d514bd84b284dd3e844f0305ac07511f097e325171f6cc4a20878d11ad771849"; };
+      name = "typing-3.6.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ec/cc/28444132a25c113149cec54618abc909596f0b272a74c55bab9593f8876c/typing-3.6.4.tar.gz"; sha256 = "d400a9344254803a2368533e4533a4200d21eb7b6b729c173bc38201a74db3f2"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -570,11 +589,12 @@ let
 
 
     "yarl" = python.mkDerivation {
-      name = "yarl-0.16.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/43/7e/c32e170922822223ebf2b2bd3d0d2c63a0bc70ea79d342eb00cde04dadd6/yarl-0.16.0.tar.gz"; sha256 = "47622985ecd9b15335d65c1acd54aeb3ba449e6d09b36e37ecfe334c7e7b8d0b"; };
+      name = "yarl-1.1.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a3/08/05b2d731ef5163b3bcb993f569c4d2b303642f7ee3cbdea373f59e4bd42a/yarl-1.1.0.tar.gz"; sha256 = "6af895b45bd49254cc309ac0fe6e1595636a024953d710e01114257736184698"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
+      self."idna"
       self."multidict"
     ];
       meta = with pkgs.stdenv.lib; {

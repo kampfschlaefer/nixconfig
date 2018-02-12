@@ -1,18 +1,16 @@
-{ stdenv ? null, fetchurl ? null, ... }:
+{ pkgs }:
 
 let
-  pkgs = import ../../../nixpkgs {};
-in
 
-with pkgs.python35Packages;
+  python = import ./requirements.nix { inherit pkgs; };
 
-buildPythonApplication rec {
+in python.mkDerivation rec {
   name = "mqtt_client-${version}";
   version = "1";
 
   src = ./.;
 
-  propagatedBuildInputs = [ paho-mqtt ];
+  propagatedBuildInputs = [ python.packages."paho-mqtt" ];
 
   doCheck = false;
 

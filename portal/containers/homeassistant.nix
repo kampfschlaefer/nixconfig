@@ -1,9 +1,35 @@
 { config, lib, pkgs, ... }:
 
 let
+  dash_button_pkg = import ../../lib/software/dash_button { inherit lib pkgs; };
+  secrets = import ./homeassistant_secrets.nix {};
+
+  dash_button_testconfig = {
+    "DEFAULT" = {
+      "interface" = "eth0";
+      "host" = "localhost";
+    };
+    "ac:63:be:be:01:93" = {
+      "domain" = "light";
+      "action" = "toggle";
+      "data" = "{ \"entity_id\": \"light.benachrichtigung\" }";
+    };
+  };
+
+  dash_button_config = pkgs.writeText "dash_button.cfg" (
+    lib.generators.toINI {} (
+      if config.testdata
+      then dash_button_testconfig
+      else secrets.dash_config
+    )
+  );
+
 in
 {
-  /*systemd.services."container@selfoss".after = [ "container@postgres.service" "container@firewall.service" ];*/
+  systemd.services."container@homeassistant".after = [
+    "container@mqtt.service"
+    "container@firewall.service"
+  ];
 
   containers.homeassistant = {
     autoStart = lib.mkOverride 100 true;
@@ -20,7 +46,7 @@ in
       imports = [
         ../../lib/software/homeassistant/service.nix
       ];
-      nixpkgs.config.packageOverrides = pkgs: rec {
+      /*nixpkgs.config.packageOverrides = pkgs: rec {
         simp_le = pkgs.simp_le.overrideDerivation (oldAttrs: {
           version = "0.6.1";
           src = pkgs.pythonPackages.fetchPypi {
@@ -38,7 +64,7 @@ in
             sha256 = "14i3q59v7j0q2pa1dri420fhil4h0vgl4vb471hp81f4y14gq6h7";
           };
         });
-      };
+      };*/
 
       time.timeZone = "Europe/Berlin";
 
@@ -61,6 +87,8 @@ in
       networking.firewall.enable = true;
       networking.firewall.allowedTCPPorts = [ 80 443 ];
       /*networking.firewall.allowedTCPPorts = [ 8123 ];*/
+
+      security.acme.validMin = 864000;
 
       services.homeassistant = {
         enable = true;
@@ -93,21 +121,20 @@ in
           };
         };
       };
-      /*services.selfoss.updateinterval = "hourly";
-      services.selfoss.instances.arnold = {
-        servername = "selfoss.arnoldarts.de";
-        dbtype = "pgsql";
-        dbhost = "postgres";
-        dbname = "selfoss";
-        dbusername = "selfoss";
-        dbpassword = "";
-      };*/
-      /*services.selfoss.sqlite = {
-        dbtype = "sqlite";
-        servername = "sqlite_selfoss.arnoldarts.de";
-      };*/
 
-      /*environment.systemPackages = [ selfosspkg ];*/
+      systemd.services."dash_button_daemon" = {
+        enable = true;
+        script = "${dash_button_pkg}/bin/dash_button_daemon --config ${dash_button_config}";
+        after = [ "homeassistant.service" ];
+        wants = [ "homeassistant.service" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          RestartSec=10;
+          Restart="on-failure";
+        };
+      };
+
+      environment.systemPackages = [ dash_button_pkg ];
     };
   };
 }

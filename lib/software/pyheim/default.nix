@@ -1,7 +1,6 @@
-{ }:
+{ pkgs }:
 
 let
-  pkgs = import ../../../nixpkgs {};
   python = import ./requirements.nix { inherit pkgs; };
 in python.mkDerivation {
   name = "pyheim-0.1.0";

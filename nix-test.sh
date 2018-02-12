@@ -7,8 +7,21 @@ branch=${branch#*/}
 
 machine=${1:-portal}
 
+action=${2:-run}
+
 binary_caches=${BINARY_CACHES:-true}
+attribute=""
+
+if [ ${action} = "driver" ]; then
+    attribute="-A driver"
+fi
 
 mkdir -p outputs
 
-time nix-build --show-trace --option use-binary-caches ${binary_caches} --keep-going --max-jobs 3 --out-link outputs/${machine}-${branch} ${machine}/test.nix
+nixStable=`nix-build --no-out-link nixpkgs/default.nix -A pkgs.nixStable`
+
+time ${nixStable}/bin/nix-build --show-trace --option use-binary-caches ${binary_caches} --keep-going --max-jobs 3 --out-link outputs/${machine}-${branch} ${machine}/test.nix ${attribute}
+
+if [ ${action} = "driver" ]; then
+    ./outputs/${machine}-${branch}/bin/nixos-run-vms
+fi
