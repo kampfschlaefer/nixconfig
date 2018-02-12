@@ -46,7 +46,7 @@ in
       imports = [
         ../../lib/software/homeassistant/service.nix
       ];
-      nixpkgs.config.packageOverrides = pkgs: rec {
+      /*nixpkgs.config.packageOverrides = pkgs: rec {
         simp_le = pkgs.simp_le.overrideDerivation (oldAttrs: {
           version = "0.6.1";
           src = pkgs.pythonPackages.fetchPypi {
@@ -64,7 +64,7 @@ in
             sha256 = "14i3q59v7j0q2pa1dri420fhil4h0vgl4vb471hp81f4y14gq6h7";
           };
         });
-      };
+      };*/
 
       time.timeZone = "Europe/Berlin";
 
