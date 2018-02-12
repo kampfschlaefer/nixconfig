@@ -88,6 +88,8 @@ in
       networking.firewall.allowedTCPPorts = [ 80 443 ];
       /*networking.firewall.allowedTCPPorts = [ 8123 ];*/
 
+      security.acme.validMin = 864000;
+
       services.homeassistant = {
         enable = true;
       };

@@ -35,6 +35,8 @@ let
       networking.firewall.enable = true;
       networking.firewall.allowedTCPPorts = [ 80 443 ];
 
+      security.acme.validMin = 864000;
+
       services.syncthing = {
         enable = true;
         openDefaultPorts = true;

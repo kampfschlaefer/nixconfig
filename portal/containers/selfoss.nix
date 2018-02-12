@@ -62,6 +62,8 @@ in
       networking.firewall.enable = true;
       networking.firewall.allowedTCPPorts = [ 80 443 ];
 
+      security.acme.validMin = 864000;
+
       services.selfoss.updateinterval = "hourly";
       services.selfoss.instances.arnold = {
         servername = "selfoss.arnoldarts.de";
