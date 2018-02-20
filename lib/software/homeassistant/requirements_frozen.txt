@@ -9,8 +9,8 @@ colorlog==3.1.2
 denonavr==0.5.5
 distro==1.2.0
 enum-compat==0.0.2
-home-assistant-frontend==20180211.0
-homeassistant==0.63.2
+home-assistant-frontend==20180220.0
+homeassistant==0.63.3
 idna==2.6
 idna-ssl==1.0.0
 Jinja2==2.10
@@ -27,7 +27,7 @@ pytz==2018.3
 PyYAML==3.12
 requests==2.18.4
 six==1.11.0
-SQLAlchemy==1.2.2
+SQLAlchemy==1.2.3
 typing==3.6.4
 ua-parser==0.7.3
 urllib3==1.22
