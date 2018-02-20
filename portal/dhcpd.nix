@@ -36,6 +36,7 @@ let
     { hostName = "fairphone1-je"; ethernetAddress = "6c:ad:f8:20:16:e3"; }
     { hostName = "fairphone2-ak"; ethernetAddress = "84:cf:bf:8a:6b:fd"; }
     { hostName = "arnolddienst";  ethernetAddress = "f0:d7:aa:31:e1:23"; }
+    { hostName = "fairphone2-ines"; ethernetAddress = "84:cf:bf:8a:29:3a"; }
 
     { hostName = "flachmann";     ethernetAddress = "00:22:f4:4e:5e:8e"; }
     { hostName = "xingu";         ethernetAddress = "d0:50:99:4f:3b:07"; ipAddress = "192.168.1.65"; }
