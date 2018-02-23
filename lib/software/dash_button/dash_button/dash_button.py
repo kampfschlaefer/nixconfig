@@ -62,7 +62,7 @@ def arp_handle(pkt):
     global last_trigger
     if (
         ARP in pkt and pkt[ARP].op == 1 and  # who-has (request)
-        abs(time.time() - last_trigger) < 20
+        abs(time.time() - last_trigger) > 10
     ):
         mac = pkt[ARP].hwsrc.lower()
         if mac in config.sections():
@@ -85,5 +85,5 @@ def run():
             prn=arp_handle,
             filter="arp",
             store=0,
-            count=1000,
+            count=0,
         )
