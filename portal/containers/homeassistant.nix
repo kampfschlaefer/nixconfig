@@ -8,12 +8,14 @@ let
     "DEFAULT" = {
       "interface" = "eth0";
       "host" = "localhost";
+      "blackout_time" = 0;
     };
     "ac:63:be:be:01:93" = {
       "domain" = "light";
       "action" = "toggle";
       "data" = "{ \"entity_id\": \"light.benachrichtigung\" }";
     };
+  "ac:63:be:be:01:95" = {};
   };
 
   dash_button_config = pkgs.writeText "dash_button.cfg" (
