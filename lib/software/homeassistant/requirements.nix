@@ -113,8 +113,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/39/fb/de422365a4ec9e9ca2f94e8edf59f734de46e70cb158b7d86ff0a6cb8b61/SQLAlchemy-1.2.3.tar.gz"; sha256 = "9e9ec143e2e246f385cfb2de8daa89d2fa466279addcb7be9e102988fdf33d24"; };
+      name = "SQLAlchemy-1.2.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/f3/b7/d8725042f105cc6b71c7bae0ffd46e49f762e5a08f421f1eddd855a1f723/SQLAlchemy-1.2.4.tar.gz"; sha256 = "6997507af46b10630e13b605ac278b78885fd683d038896dbee0e7ec41d809d2"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -243,8 +243,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.5.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/39/b4/1663ca5f75726e3bd2fdd454236138dca146b49d50af1327bcc3d3c1e681/denonavr-0.5.5.tar.gz"; sha256 = "bc7d92680b33c8497ce019f3184e03d61cef0438adeb006f5ea8b5d8c76036e4"; };
+      name = "denonavr-0.6.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/6b/a7/209db17d8fac095b482bddecfa9e4ce032d88aa7fc393115554213e8b7d8/denonavr-0.6.1.tar.gz"; sha256 = "e99004462a65ff95063a4776f6462d1b26f5a4087488101351a90afa41330a77"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -290,11 +290,13 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180220.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/de/4d/14d0bb76c8d333502a795a0b8996a9a665afc5792201dc80f8ce27afaa85/home-assistant-frontend-20180220.0.tar.gz"; sha256 = "5389b0ffbed9ca01bd70b5fbac76ba0d7f9477bf44fd39dcc3735e410d89d58e"; };
+      name = "home-assistant-frontend-20180228.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/db/ef/4f984855c6c8d51969dc6d22f23c8786c3d030aab1f1d6a3c31199ea5604/home-assistant-frontend-20180228.1.tar.gz"; sha256 = "de819ce9aab239f45f35684f8e4462f7b3276ff0c85b67f3f5eab680acd2fc83"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
+      propagatedBuildInputs = [
+      self."user-agents"
+    ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
         license = licenses.asl20;
@@ -305,8 +307,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.63.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/0f/7f/735cbec4ed2080473c2d9eb5b413500220581ad5caf28d1b5bd4f0863016/homeassistant-0.63.3.tar.gz"; sha256 = "9767d7d9259ddb0f833b1a8d8b1f3ccdb511e7f73616f4de2645ee29f718b837"; };
+      name = "homeassistant-0.64.2";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/54/50/20ed786c217a6c4b603517501c4e32dbb96c4ab5e1766066859f06f08f20/homeassistant-0.64.2.tar.gz"; sha256 = "64105b949d1b19e4de5291d508b1f88baee1f41e4513c3d30b8ccfa97fd31a84"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -577,8 +579,8 @@ let
 
 
     "voluptuous" = python.mkDerivation {
-      name = "voluptuous-0.10.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c3/81/c84f8a3e723b760fdd1c41fc80201cb80cd29c1bce5159d8918c58df7d2a/voluptuous-0.10.5.tar.gz"; sha256 = "7a7466f8dc3666a292d186d1d871a47bf2120836ccb900d5ba904674957a2396"; };
+      name = "voluptuous-0.11.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/64/1a/bc658313d0a228ce474648c360bd06e28af3ed5e24029b1a4108739c23f4/voluptuous-0.11.1.tar.gz"; sha256 = "af7315c9fa99e0bfd195a21106c82c81619b42f0bd9b6e287b797c6b6b6a9918"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
