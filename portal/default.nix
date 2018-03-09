@@ -25,7 +25,6 @@ in {
       ./containers/mpd.nix
       ./containers/mqtt.nix
       ./containers/postgres.nix
-      ./containers/pyheim.nix
       ./containers/selfoss.nix
       ./containers/syncthing.nix
       ./containers/testing.nix
