@@ -12,8 +12,4 @@ Take a look, use it for inspiration, ask me questions about it via 'issues'.
 
 Hopefully I do not leak sensistive configuration in here without encrypting it. Don't worry, the initial hashed password in here is really just an initial password and gets changed as soon as a new machine is installed. Other secrets should be GPG encrypted…
 
-# Why can I not see the nixpkgs resource?
-
-I do use the nixpkgs tree as submodule. That way I can always reference an exact version of the whole system.
-
-*But* it links to my own branch in my private repo where I have custom patches on top of nix. Currently its based on the 16.03 release of nixos. And I am working on getting as many of my patches into mainline nixos as possible.
+And when I did not make any error, the tests should execute without the secrets using test data.
