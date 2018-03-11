@@ -449,8 +449,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("ping -4 -n -c 2 mqtt >&2");
           $portal->succeed("ping -6 -n -c 2 mqtt >&2");
 
-          $portal->execute("nmap -4 mqtt -n -p 1883 >&2");
-          $portal->succeed("nmap -4 mqtt -n -p 1883 |grep filtered >&2");
+          #$portal->execute("nmap -4 mqtt -n -p 1883 >&2");
+          #$portal->succeed("nmap -4 mqtt -n -p 1883 |grep filtered >&2");
 
           $portal->succeed("[ -d /var/lib/containers/mqtt/var/lib/mosquitto ]");
 
