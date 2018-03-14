@@ -9,7 +9,7 @@ colorlog==3.1.2
 denonavr==0.6.1
 distro==1.2.0
 home-assistant-frontend==20180310.0
-homeassistant==0.65.3
+homeassistant==0.65.4
 idna==2.6
 idna-ssl==1.0.1
 Jinja2==2.10
