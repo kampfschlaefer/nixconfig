@@ -5,7 +5,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_gitolite = true;
     run_mqtt = true;
     run_ntp = true;
-    run_pyheim = true;
     run_selfoss = true;
     run_torproxy = true;
     run_syncthing = true;
@@ -72,7 +71,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
-          containers.pyheim.autoStart = lib.mkOverride 10 run_pyheim;
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
           containers.syncthing2.autoStart = lib.mkOverride 10 run_syncthing;
@@ -316,16 +314,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         ''
       }
 
-      ${lib.optionalString run_pyheim
-        ''subtest "Check pyheim", sub {
-          $portal->waitForUnit("container\@pyheim");
-          $portal->succeed("nixos-container run pyheim -- pyheim_get_all --help >&2");
-          $portal->succeed("systemctl -M pyheim status pyheim_colortemp_daytime.timer >&2");
-          $portal->succeed("systemctl -M pyheim status pyheim_colortemp_night.timer >&2");
-          $portal->succeed("systemctl -M pyheim status pyheim_spots_off.timer >&2");
-        };''
-      }
-
       ${lib.optionalString run_postgres
         ''subtest "Check postgres", sub {
           # start up
@@ -461,8 +449,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("ping -4 -n -c 2 mqtt >&2");
           $portal->succeed("ping -6 -n -c 2 mqtt >&2");
 
-          $portal->execute("nmap -4 mqtt -n -p 1883 >&2");
-          $portal->succeed("nmap -4 mqtt -n -p 1883 |grep filtered >&2");
+          #$portal->execute("nmap -4 mqtt -n -p 1883 >&2");
+          #$portal->succeed("nmap -4 mqtt -n -p 1883 |grep filtered >&2");
 
           $portal->succeed("[ -d /var/lib/containers/mqtt/var/lib/mosquitto ]");
 

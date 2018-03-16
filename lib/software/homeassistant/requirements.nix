@@ -113,8 +113,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/39/fb/de422365a4ec9e9ca2f94e8edf59f734de46e70cb158b7d86ff0a6cb8b61/SQLAlchemy-1.2.3.tar.gz"; sha256 = "9e9ec143e2e246f385cfb2de8daa89d2fa466279addcb7be9e102988fdf33d24"; };
+      name = "SQLAlchemy-1.2.5";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/7e/57/435347429f4ff5016b72c9b179c70a6cc67e5f9b4d3f3e9b51362c40b356/SQLAlchemy-1.2.5.tar.gz"; sha256 = "249000654107a420a40200f1e0b555a79dfd4eff235b2ff60bc77714bd045f2d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -128,12 +128,13 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-2.3.10";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c0/b9/853b158f5cb5d218daaff0fb0dbc2bd7de45b2c6c5f563dff0ee530ec52a/aiohttp-2.3.10.tar.gz"; sha256 = "8adda6583ba438a4c70693374e10b60168663ffa6564c5c75d3c7a9055290964"; };
+      name = "aiohttp-3.0.6";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/32/39/3a2bb54a1061b32cb4b0ba585c873227e39c58754052c46c9493a0bf655e/aiohttp-3.0.6.tar.gz"; sha256 = "5b588d21b454aaeaf2debf3c4a37f0752fb91a5c15b621deca7e8c49316154fe"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."async-timeout"
+      self."attrs"
       self."chardet"
       self."idna-ssl"
       self."multidict"
@@ -185,9 +186,7 @@ let
       src = pkgs.fetchurl { url = "https://pypi.python.org/packages/8b/0b/a06cfcb69d0cb004fde8bc6f0fd192d96d565d1b8aa2829f0f20adb796e5/attrs-17.4.0.tar.gz"; sha256 = "1c7960ccfd6a005cd9f7ba884e6316b5e430a3f1a6c37c5f87d8b43f83b54ec9"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."six"
-    ];
+      propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
         license = licenses.mit;
@@ -243,8 +242,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.5.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/39/b4/1663ca5f75726e3bd2fdd454236138dca146b49d50af1327bcc3d3c1e681/denonavr-0.5.5.tar.gz"; sha256 = "bc7d92680b33c8497ce019f3184e03d61cef0438adeb006f5ea8b5d8c76036e4"; };
+      name = "denonavr-0.6.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/6b/a7/209db17d8fac095b482bddecfa9e4ce032d88aa7fc393115554213e8b7d8/denonavr-0.6.1.tar.gz"; sha256 = "e99004462a65ff95063a4776f6462d1b26f5a4087488101351a90afa41330a77"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -274,27 +273,14 @@ let
 
 
 
-    "enum-compat" = python.mkDerivation {
-      name = "enum-compat-0.0.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/95/6e/26bdcba28b66126f66cf3e4cd03bcd63f7ae330d29ee68b1f6b623550bfa/enum-compat-0.0.2.tar.gz"; sha256 = "939ceff18186a5762ae4db9fa7bfe017edbd03b66526b798dd8245394c8a4192"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "";
-        license = licenses.mit;
-        description = "enum/enum34 compatibility package";
-      };
-    };
-
-
-
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180220.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/de/4d/14d0bb76c8d333502a795a0b8996a9a665afc5792201dc80f8ce27afaa85/home-assistant-frontend-20180220.0.tar.gz"; sha256 = "5389b0ffbed9ca01bd70b5fbac76ba0d7f9477bf44fd39dcc3735e410d89d58e"; };
+      name = "home-assistant-frontend-20180310.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4b/9c/1f18cf78a92ffa52284df4c929dd459078d9c6d51deacb54212150e8bf6c/home-assistant-frontend-20180310.0.tar.gz"; sha256 = "5a7cca7ed461d650859df7d036ff4c579366bbcde5eb6407b1aff6a0dbbae2c2"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
+      propagatedBuildInputs = [
+      self."user-agents"
+    ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
         license = licenses.asl20;
@@ -305,8 +291,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.63.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/0f/7f/735cbec4ed2080473c2d9eb5b413500220581ad5caf28d1b5bd4f0863016/homeassistant-0.63.3.tar.gz"; sha256 = "9767d7d9259ddb0f833b1a8d8b1f3ccdb511e7f73616f4de2645ee29f718b837"; };
+      name = "homeassistant-0.65.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/78/99/44ca3c46d2d829b3a419d26019fa92a189a3fb9df41ed3e02aba8e905af7/homeassistant-0.65.4.tar.gz"; sha256 = "5e284232f7b25e94bf5d127ad14065a685b477350649856ac89f2e3a2f8fc7f5"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -317,12 +303,10 @@ let
       self."async-timeout"
       self."attrs"
       self."certifi"
-      self."chardet"
       self."pytz"
       self."requests"
       self."typing"
       self."voluptuous"
-      self."yarl"
     ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
@@ -349,8 +333,8 @@ let
 
 
     "idna-ssl" = python.mkDerivation {
-      name = "idna-ssl-1.0.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/44/f4/97f7a58e814b3523a5e68bc8095c36cfa6daffb35f01b25248ec4605f53e/idna_ssl-1.0.0.tar.gz"; sha256 = "1227e44039bd31e02adaeafdbba61281596d623d222643fb021f87f2144ea147"; };
+      name = "idna-ssl-1.0.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c4/3b/facf5a5009e577e7764e68a2af5ee25c63f41c78277260c2c42b8cfabf2e/idna-ssl-1.0.1.tar.gz"; sha256 = "1293f030bc608e9aa9cdee72aa93c1521bbb9c7698068c61c9ada6772162b979"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -399,8 +383,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.2.4";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/81/50/24b4d1e87d26da6787e01bbd00cc47750ad8863088990da2d710e7cf6372/netdisco-1.2.4.tar.gz"; sha256 = "749aecca5787f7f9e3f18de339099284b6ed821f29325009b807b3949f184900"; };
+      name = "netdisco-1.3";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/0e/d4/23f7340b00126cce2308561c3dc93f3cf94b99b13c2be96c2767c21effbb/netdisco-1.3.tar.gz"; sha256 = "ebea8618a41b46ae10cfe23cd8568f13c64a36089df44c4b79b1a0bd2639ba28"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -496,21 +480,6 @@ let
 
 
 
-    "six" = python.mkDerivation {
-      name = "six-1.11.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/16/d8/bc6316cf98419719bd59c91742194c111b6f2e85abac88e496adefaf7afe/six-1.11.0.tar.gz"; sha256 = "70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "";
-        license = licenses.mit;
-        description = "Python 2 and 3 compatibility utilities";
-      };
-    };
-
-
-
     "typing" = python.mkDerivation {
       name = "typing-3.6.4";
       src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ec/cc/28444132a25c113149cec54618abc909596f0b272a74c55bab9593f8876c/typing-3.6.4.tar.gz"; sha256 = "d400a9344254803a2368533e4533a4200d21eb7b6b729c173bc38201a74db3f2"; };
@@ -577,8 +546,8 @@ let
 
 
     "voluptuous" = python.mkDerivation {
-      name = "voluptuous-0.10.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c3/81/c84f8a3e723b760fdd1c41fc80201cb80cd29c1bce5159d8918c58df7d2a/voluptuous-0.10.5.tar.gz"; sha256 = "7a7466f8dc3666a292d186d1d871a47bf2120836ccb900d5ba904674957a2396"; };
+      name = "voluptuous-0.11.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/64/1a/bc658313d0a228ce474648c360bd06e28af3ed5e24029b1a4108739c23f4/voluptuous-0.11.1.tar.gz"; sha256 = "af7315c9fa99e0bfd195a21106c82c81619b42f0bd9b6e287b797c6b6b6a9918"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -607,8 +576,8 @@ let
 
 
     "yarl" = python.mkDerivation {
-      name = "yarl-1.1.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a3/08/05b2d731ef5163b3bcb993f569c4d2b303642f7ee3cbdea373f59e4bd42a/yarl-1.1.0.tar.gz"; sha256 = "6af895b45bd49254cc309ac0fe6e1595636a024953d710e01114257736184698"; };
+      name = "yarl-1.1.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/91/14/5983db75b143681058d31a0a89a770f40a7f68f9b94cfeb6e6495b0039bf/yarl-1.1.1.tar.gz"; sha256 = "a69dd7e262cdb265ac7d5e929d55f2f3d07baaadd158c8f19caebf8dde08dfe8"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -625,14 +594,12 @@ let
 
 
     "zeroconf" = python.mkDerivation {
-      name = "zeroconf-0.19.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/bf/e3/acc6e2c2938428afa2450143fc4d3953ec60cb4d859db3a58f03d149ef04/zeroconf-0.19.1.tar.gz"; sha256 = "434eab8da9525ae725d6842aae7e59d9ec6580bdc5ae84f3c225240bc6797f7a"; };
+      name = "zeroconf-0.20.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/20/d7/418ff6c684ace0f5855ec56c66cfa99ec50443c41693b91e9abcccfa096c/zeroconf-0.20.0.tar.gz"; sha256 = "6e3f1e7b5871e3d1410ac29b9fb85aafc1e2d661ed596b07a6f84559a475efcb"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
-      self."enum-compat"
       self."netifaces"
-      self."six"
     ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
