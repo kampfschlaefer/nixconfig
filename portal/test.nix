@@ -361,10 +361,11 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl -M selfoss status selfoss_update.service >&2");
 
           # access selfoss webinterface from container and from inside
-          $portal->succeed("curl --insecure --connect-timeout 1 -s -f https://selfoss/ >&2");
+          $portal->fail("curl --insecure --connect-timeout 1 -s -f https://selfoss/ >&2");
+          $portal->succeed("curl --anyauth --user user:password --insecure --connect-timeout 1 -s -f https://selfoss/ >&2");
           $inside->waitForUnit("default.target");
-          $inside->succeed("curl -4 --insecure -s -f https://selfoss.arnoldarts.de/ >&2");
-          $inside->succeed("curl -6 --insecure -s -f https://selfoss/ >&2");
+          $inside->succeed("curl -4 --anyauth --user user:password --insecure -s -f https://selfoss.arnoldarts.de/ >&2");
+          $inside->succeed("curl -6 --anyauth --user user:password --insecure -s -f https://selfoss/ >&2");
 
           # Add Feed, fetch Feed
           $inside->succeed("test_selfoss >&2");
