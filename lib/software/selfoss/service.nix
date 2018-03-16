@@ -55,6 +55,11 @@ let
         Name of the nginx-server where the selfoss instance is reachable.
       '';
     };
+    users = mkOption {
+      type = types.attrs;
+      description = ''pairs of username = password for basicAuth'';
+      default = {};
+    };
   };
 
   selfosspkg = pkgs.callPackage ./default.nix {};
@@ -187,6 +192,7 @@ in
         serverName = opts.servername;
         enableACME = true;
         forceSSL = true;
+        basicAuth = opts.users;
         root = "/var/lib/selfoss/${name}";
         locations = {
           "~* \ (gif|jpg|png)" = {
