@@ -2,7 +2,7 @@
 homeassistant
 sqlalchemy
 paho-mqtt
-phue
+https://github.com/kampfschlaefer/aiohue/archive/fix_pip_install_from_source.zip#egg=aiohue
 denonavr
 #pip
 netdisco

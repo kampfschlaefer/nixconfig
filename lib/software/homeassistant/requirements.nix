@@ -2,7 +2,7 @@
 # See more at: https://github.com/garbas/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -r requirements.txt -V 3 -I /home/arnold/programme/nixconfig/ -s pytz -s pip
+#   pypi2nix -r requirements.txt -V 3 -I /home/arnold/programme/nixconfig/
 #
 
 { pkgs ? import <nixpkgs> {}
@@ -144,6 +144,23 @@ let
         homepage = "";
         license = licenses.asl20;
         description = "Async http client/server framework (asyncio)";
+      };
+    };
+
+
+
+    "aiohue" = python.mkDerivation {
+      name = "aiohue-1.3.0";
+      src = pkgs.fetchurl { url = "https://github.com/kampfschlaefer/aiohue/archive/fix_pip_install_from_source.zip"; sha256 = "b9e1250246dd1f5b5f9c1ecba83575b25c403af246011a23119ff0cee1ac0053"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."aiohttp"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.asl20;
+        description = "Python module to talk to Philips Hue.";
       };
     };
 
@@ -425,21 +442,6 @@ let
         homepage = "";
         license = "License :: OSI Approved";
         description = "MQTT version 3.1.1 client class";
-      };
-    };
-
-
-
-    "phue" = python.mkDerivation {
-      name = "phue-1.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/34/d2/35bfef007857ef2949b7271a263ef0c37cd9714f5b61f7d5ac02f20d7174/phue-1.0.tar.gz"; sha256 = "14b8285ece83124a6b0f47b88a62b0a6c4f2901cd1d555e36c5927bfd7417515"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "";
-        license = licenses.mit;
-        description = "A Philips Hue Python library";
       };
     };
 
