@@ -48,6 +48,7 @@ let
     { hostName = "ebook";         ethernetAddress = "28:f3:66:9c:13:71"; }
     { hostName = "steuer";        ethernetAddress = "08:00:27:1f:06:82"; }
     { hostName = "arduino";       ethernetAddress = "18:fe:34:cf:a7:26"; }
+    { hostName = "luftdaten";     ethernetAddress = "5c:cf:7f:76:fb:38"; }
     { hostName = "dash-button1";  ethernetAddress = "ac:63:be:be:01:93"; noroute=true; }
     { hostName = "dash_button2";  ethernetAddress = "18:74:2e:de:83:cd"; noroute=true; }
     { hostName = "dash_button3";  ethernetAddress = "6c:56:97:d3:ef:f4"; noroute=true; }
