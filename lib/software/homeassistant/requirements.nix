@@ -113,8 +113,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/7e/57/435347429f4ff5016b72c9b179c70a6cc67e5f9b4d3f3e9b51362c40b356/SQLAlchemy-1.2.5.tar.gz"; sha256 = "249000654107a420a40200f1e0b555a79dfd4eff235b2ff60bc77714bd045f2d"; };
+      name = "SQLAlchemy-1.2.6";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/da/ef/f10a6892f8ff3c1fec1c25699a7379d1f72f291c8fa40b71c31cab3f779e/SQLAlchemy-1.2.6.tar.gz"; sha256 = "7cb00cc9b9f92ef8b4391c8a2051f81eeafefe32d63c6b395fd51401e9a39edb"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -128,8 +128,8 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-3.0.6";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/32/39/3a2bb54a1061b32cb4b0ba585c873227e39c58754052c46c9493a0bf655e/aiohttp-3.0.6.tar.gz"; sha256 = "5b588d21b454aaeaf2debf3c4a37f0752fb91a5c15b621deca7e8c49316154fe"; };
+      name = "aiohttp-3.0.9";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/aa/07/1e6a237d0847ae355eb5a5511aad5adcf8dac8e5fb42656bb14d063580d6/aiohttp-3.0.9.tar.gz"; sha256 = "281a9fa56b5ce587a2147ec285d18a224942f7e020581afa6cc44d7caecf937b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -150,8 +150,8 @@ let
 
 
     "astral" = python.mkDerivation {
-      name = "astral-1.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/17/6f/844ec74588d7edb593c268b30226b0f7f1a26cbcf33d6de8b71676baca03/astral-1.5.tar.gz"; sha256 = "527628fbfe90c1596c3950ff84ebd07ecc10c8fb1044c903a0519b5057700cb6"; };
+      name = "astral-1.6";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/52/10/e9fbc6f7c9f8cc411003a3fd3e3df75de79447a8b965ae96272d526fba28/astral-1.6.tar.gz"; sha256 = "874b397ddbf0a4c1d8d644b21c2481e8a96b61343f820ad52d8a322d61a15083"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -167,8 +167,8 @@ let
 
 
     "async-timeout" = python.mkDerivation {
-      name = "async-timeout-2.0.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/78/10/7fd2551dc51f6065bdbba07d395865df4582cc18169297e7a5c8d90f5bd2/async-timeout-2.0.0.tar.gz"; sha256 = "c17d8ac2d735d59aa62737d76f2787a6c938f5a944ecf768a8c0ab70b0dea566"; };
+      name = "async-timeout-2.0.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/23/6d/e37be168272b7a499111d0ed14940da80644d21b201e27980892c7125abb/async-timeout-2.0.1.tar.gz"; sha256 = "00cff4d2dce744607335cba84e9929c3165632da2d27970dbc55802a0c7873d0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -274,8 +274,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180310.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4b/9c/1f18cf78a92ffa52284df4c929dd459078d9c6d51deacb54212150e8bf6c/home-assistant-frontend-20180310.0.tar.gz"; sha256 = "5a7cca7ed461d650859df7d036ff4c579366bbcde5eb6407b1aff6a0dbbae2c2"; };
+      name = "home-assistant-frontend-20180330.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/65/3e/523693c87c577deabfb132ffc983c7926da8835ff14ddb4d684d6b58707f/home-assistant-frontend-20180330.0.tar.gz"; sha256 = "bf841325c51cb72b84ab2632281c9f73d0a63d33d845f200eb7c50dede0b6be3"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -291,8 +291,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.65.4";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/78/99/44ca3c46d2d829b3a419d26019fa92a189a3fb9df41ed3e02aba8e905af7/homeassistant-0.65.4.tar.gz"; sha256 = "5e284232f7b25e94bf5d127ad14065a685b477350649856ac89f2e3a2f8fc7f5"; };
+      name = "homeassistant-0.66.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c4/39/8cf7c6c950abcf089572cf42b6ca57f8c363f4c5af3464da1e1434acd25f/homeassistant-0.66.0.tar.gz"; sha256 = "1e81ad4c0eb80d6f822ca9982cc18b2883e05ccc97ec764ee0391980c8c2a341"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -383,8 +383,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/0e/d4/23f7340b00126cce2308561c3dc93f3cf94b99b13c2be96c2767c21effbb/netdisco-1.3.tar.gz"; sha256 = "ebea8618a41b46ae10cfe23cd8568f13c64a36089df44c4b79b1a0bd2639ba28"; };
+      name = "netdisco-1.3.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/fc/59/7b81fc97224cbf5bc47e3dd154b39553bb04899eb70d314278da50cd458e/netdisco-1.3.1.tar.gz"; sha256 = "52a0f30221f2ec6677b9ae3fdbea9c3be16b5c0ba034b83aeb33a333f10831a2"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
