@@ -2,6 +2,9 @@
 
 let
   selfosspkg = pkgs.callPackage ../../lib/software/selfoss {};
+  users = if config.testdata then {
+    "user" = "password";
+  } else import ./selfoss_secrets.nix {};
 in
 {
   systemd.services."container@selfoss".after = [ "container@postgres.service" "container@firewall.service" ];
@@ -21,25 +24,6 @@ in
       imports = [
         ../../lib/software/selfoss/service.nix
       ];
-      /*nixpkgs.config.packageOverrides = pkgs: rec {
-        simp_le = pkgs.simp_le.overrideDerivation (oldAttrs: {
-          version = "0.6.1";
-          src = pkgs.pythonPackages.fetchPypi {
-            pname = "simp_le-client";
-            version = "0.6.1";
-            sha256 = "0x4fky9jizs3xi55cdy217cvm3ikpghiabysan71b07ackkdfj6k";
-          };
-        });
-        certbot = pkgs.certbot.overrideDerivation (oldAttrs: {
-          version = "0.19.0";
-          src = pkgs.fetchFromGitHub {
-            owner = "certbot";
-            repo = "certbot";
-            rev = "v0.19.0";
-            sha256 = "14i3q59v7j0q2pa1dri420fhil4h0vgl4vb471hp81f4y14gq6h7";
-          };
-        });
-      };*/
 
       time.timeZone = "Europe/Berlin";
 
@@ -72,11 +56,8 @@ in
         dbname = "selfoss";
         dbusername = "selfoss";
         dbpassword = "";
+        users = users;
       };
-      /*services.selfoss.sqlite = {
-        dbtype = "sqlite";
-        servername = "sqlite_selfoss.arnoldarts.de";
-      };*/
 
       environment.systemPackages = [ selfosspkg ];
     };
