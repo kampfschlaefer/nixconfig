@@ -150,8 +150,8 @@ let
 
 
     "aiohue" = python.mkDerivation {
-      name = "aiohue-1.3.0";
-      src = pkgs.fetchurl { url = "https://github.com/kampfschlaefer/aiohue/archive/fix_pip_install_from_source.zip"; sha256 = "b9e1250246dd1f5b5f9c1ecba83575b25c403af246011a23119ff0cee1ac0053"; };
+      name = "aiohue-1.3.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c0/d9/00ffdce0b85ce9694f6e5f426104a1210a8b89f7ec4db6c5f0def6ea845c/aiohue-1.3.1.tar.gz"; sha256 = "d00b849a29778f82a80143fbeb183f2b40d0dd64e59a4e1f4432ae7f91746215"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -291,8 +291,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180330.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/65/3e/523693c87c577deabfb132ffc983c7926da8835ff14ddb4d684d6b58707f/home-assistant-frontend-20180330.0.tar.gz"; sha256 = "bf841325c51cb72b84ab2632281c9f73d0a63d33d845f200eb7c50dede0b6be3"; };
+      name = "home-assistant-frontend-20180401.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3a/e3/15e49cc2172c62e42a20f0b91080f0a9ef450655482ba93e3d0f190c2a7c/home-assistant-frontend-20180401.0.tar.gz"; sha256 = "676e5999f75de27a9a15496c689425eac2aefe04a3bbd5e5512636ca721ebb07"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -308,8 +308,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.66.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c4/39/8cf7c6c950abcf089572cf42b6ca57f8c363f4c5af3464da1e1434acd25f/homeassistant-0.66.0.tar.gz"; sha256 = "1e81ad4c0eb80d6f822ca9982cc18b2883e05ccc97ec764ee0391980c8c2a341"; };
+      name = "homeassistant-0.66.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/fd/6a/6307c9e3ef8d6a4c66ebbf68893051eebeba71d948a9da71c7fe91ede52d/homeassistant-0.66.1.tar.gz"; sha256 = "f9ed069a62385f0626c474e9f4cf79fb18239efab9311bf429a0ee69e97d347d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
