@@ -91,8 +91,16 @@ in
       "192.168.1.240"
     ];
     forwardAddresses = [
-      "8.8.8.8"              # Google Public DNS
-      "74.82.42.42"          # Hurricane Electric
+      "146.185.167.43@853"  # securedns.eu Europe
+      "89.233.43.71@853"    # unicast.censurfridns.dk Europe
+      "9.9.9.9@853"         # quad9.net primary
+      "1.1.1.1@853"         # cloudflare primary
+      "149.112.112.112@853" # quad9.net secondary
+      "1.0.0.1@853"         # cloudflare secondary
+
+
+      #"8.8.8.8"              # Google Public DNS
+      #"74.82.42.42"          # Hurricane Electric
       # "2001:4860:4860::8888" # Google Public DNS
       # "2001:470:20::2"       # Hurricane Electric
     ];
@@ -108,6 +116,7 @@ in
       cache-min-ttl: 300
       cache-max-ttl: 3600
       prefetch: yes
+      ssl-upstream: yes
 
       local-zone: "arnoldarts.de." ${if config.testdata then "refuse" else "typetransparent"}
 
