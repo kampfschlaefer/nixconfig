@@ -128,8 +128,8 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-3.0.9";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/aa/07/1e6a237d0847ae355eb5a5511aad5adcf8dac8e5fb42656bb14d063580d6/aiohttp-3.0.9.tar.gz"; sha256 = "281a9fa56b5ce587a2147ec285d18a224942f7e020581afa6cc44d7caecf937b"; };
+      name = "aiohttp-3.1.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/53/8a/c93662973020eaad14c9695b80fcbf9d0e23f9a557474089f2dc526650f5/aiohttp-3.1.1.tar.gz"; sha256 = "dc5cab081d4b334d0440b019edf24fe1cb138b8114e0e22d2b0661284bc1775f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -259,8 +259,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.6.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/6b/a7/209db17d8fac095b482bddecfa9e4ce032d88aa7fc393115554213e8b7d8/denonavr-0.6.1.tar.gz"; sha256 = "e99004462a65ff95063a4776f6462d1b26f5a4087488101351a90afa41330a77"; };
+      name = "denonavr-0.7.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3b/8b/c6ed8ae8fe6bb5bda5284b01593952490b1315ee3e6c41154a61078786f0/denonavr-0.7.0.tar.gz"; sha256 = "2c27ffcb5c5d10f8f6aa348c28956cff85dd00dcc16b7ce89d5b05dcdf2aa97b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -291,8 +291,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180401.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3a/e3/15e49cc2172c62e42a20f0b91080f0a9ef450655482ba93e3d0f190c2a7c/home-assistant-frontend-20180401.0.tar.gz"; sha256 = "676e5999f75de27a9a15496c689425eac2aefe04a3bbd5e5512636ca721ebb07"; };
+      name = "home-assistant-frontend-20180414.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a3/53/750b9eaad2cc438029baef36ac9f3acb7dc739f552a5c3f5273c211dda6d/home-assistant-frontend-20180414.0.tar.gz"; sha256 = "548637bee3b75cd2afc42d6d4c578ce9d7915fe1dbfcad9c0de7bca6820db72b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -308,8 +308,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.66.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/fd/6a/6307c9e3ef8d6a4c66ebbf68893051eebeba71d948a9da71c7fe91ede52d/homeassistant-0.66.1.tar.gz"; sha256 = "f9ed069a62385f0626c474e9f4cf79fb18239efab9311bf429a0ee69e97d347d"; };
+      name = "homeassistant-0.67.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/85/6a/41c4a139cbcc53edbb12b6ca4548aa2de262a15c24b14cdcd28db5bfb203/homeassistant-0.67.0.tar.gz"; sha256 = "df258dff4a17d3b3e57f01f63b1f34b02ad233db2a888bea0ac2077759bbae67"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -400,8 +400,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.3.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/fc/59/7b81fc97224cbf5bc47e3dd154b39553bb04899eb70d314278da50cd458e/netdisco-1.3.1.tar.gz"; sha256 = "52a0f30221f2ec6677b9ae3fdbea9c3be16b5c0ba034b83aeb33a333f10831a2"; };
+      name = "netdisco-1.4.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/21/95/8377d15c461f7d2b689b590f1c8f4a474341013506bcb82a707d7f772f9e/netdisco-1.4.0.tar.gz"; sha256 = "0c99880a5dd858628a43f853b09a3bf6ed9ef286bd0e9eed6e7ec5bfaaf58e59"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -448,8 +448,8 @@ let
 
 
     "pytz" = python.mkDerivation {
-      name = "pytz-2018.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/1b/50/4cdc62fc0753595fc16c8f722a89740f487c6e5670c644eb8983946777be/pytz-2018.3.tar.gz"; sha256 = "410bcd1d6409026fbaa65d9ed33bf6dd8b1e94a499e32168acfc7b332e4095c0"; };
+      name = "pytz-2018.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/10/76/52efda4ef98e7544321fd8d5d512e11739c1df18b0649551aeccfb1c8376/pytz-2018.4.tar.gz"; sha256 = "c06425302f2cf668f1bba7a0a03f3c1d34d4ebeef2c72003da308b3947c7f749"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -498,8 +498,8 @@ let
 
 
     "ua-parser" = python.mkDerivation {
-      name = "ua-parser-0.7.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a3/b4/3d31176d3cb2807635175004e0381fb72351173ec8c9c043b80399cf33a6/ua-parser-0.7.3.tar.gz"; sha256 = "0aafb05a67b621eb4d69f6c1c3972f2d9443982bcd9132a8b665d90cd48a1add"; };
+      name = "ua-parser-0.8.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b0/02/94ea43fc432fb112fbb62a89855317c41c210fb5239a2ed9b94ecb63024f/ua-parser-0.8.0.tar.gz"; sha256 = "97bbcfc9321a3151d96bb5d62e54270247b0e3be0590a6f2ff12329851718dcb"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
