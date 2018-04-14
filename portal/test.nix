@@ -9,6 +9,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_torproxy = true;
     run_syncthing = true;
     run_homeassistant = true;
+    run_ups = true;
 
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
@@ -217,6 +218,19 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->fail("systemctl status ntpd >&2");
           $portal->succeed("systemctl status -n 10 -l openntpd >&2");
           $inside->succeed("ntpdate -q portal.arnoldarts.de |grep \"stratum 16\"");
+        };''
+      }
+
+      ${lib.optionalString run_ups
+        ''subtest "check ups", sub {
+          $portal->execute("systemctl status -l -n 20 upsmon >&2");
+          $portal->execute("systemctl status -l -n 20 upsd >&2");
+          $portal->execute("systemctl status -l -n 20 upsdrv >&2");
+          $portal->succeed("systemctl is-active upsd");
+          $portal->succeed("systemctl is-active upsdrv");
+          $portal->succeed("systemctl is-active upsmon");
+          $portal->succeed("upsc -l >&2");
+          $portal->succeed("upsc eaton >&2");
         };''
       }
 
