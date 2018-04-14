@@ -3,6 +3,8 @@
 with lib;
 
 let
+  tls_upstream = false;
+
   addresses = [
     { name = "laserjet"; a = "192.168.1.10"; }
     { name = "fonera";   a = "192.168.1.20"; }
@@ -90,23 +92,22 @@ in
       "127.0.0.1"
       "192.168.1.240"
     ];
-    forwardAddresses = [
+    forwardAddresses = if tls_upstream then [
       "146.185.167.43@853"  # securedns.eu Europe
       "89.233.43.71@853"    # unicast.censurfridns.dk Europe
       "9.9.9.9@853"         # quad9.net primary
       "1.1.1.1@853"         # cloudflare primary
       "149.112.112.112@853" # quad9.net secondary
       "1.0.0.1@853"         # cloudflare secondary
-
-
-      #"8.8.8.8"              # Google Public DNS
-      #"74.82.42.42"          # Hurricane Electric
-      # "2001:4860:4860::8888" # Google Public DNS
-      # "2001:470:20::2"       # Hurricane Electric
+    ] else [
+      "8.8.8.8"              # Google Public DNS
+      "74.82.42.42"          # Hurricane Electric
+      "2001:4860:4860::8888" # Google Public DNS
+      "2001:470:20::2"       # Hurricane Electric
     ];
     extraConfig = ''
 
-      num-threads: 3
+      num-threads: 2
       num-queries-per-thread: 1024
       outgoing-tcp-mss: 1220
 
@@ -122,7 +123,8 @@ in
       cache-min-ttl: 300
       cache-max-ttl: 3600
       prefetch: yes
-      ssl-upstream: yes
+      serve-expired: yes
+      ssl-upstream: ${if tls_upstream then "yes" else "no"}
       # ssl-cert-bundle: /etc/ssl/certs/ca-certificates.crt  # version >=1.7.0
 
       local-zone: "arnoldarts.de." ${if config.testdata then "refuse" else "typetransparent"}
@@ -130,10 +132,6 @@ in
       ${localdata addresses}
 
       local-data: "nfs.arnoldarts.de. IN CNAME portal.arnoldarts.de."
-
-      local-zone: "com.arnoldarts.de." refuse
-      local-zone: "de.arnoldarts.de." refuse
-      local-zone: "net.arnoldarts.de." refuse
     '';
   };
 }
