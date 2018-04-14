@@ -2,7 +2,7 @@
 # See more at: https://github.com/garbas/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -r requirements.txt -V 3 -I /home/arnold/programme/nixconfig/ -s pytz -s pip
+#   pypi2nix -r requirements.txt -V 3 -I /home/arnold/programme/nixconfig/
 #
 
 { pkgs ? import <nixpkgs> {}
@@ -113,8 +113,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/7e/57/435347429f4ff5016b72c9b179c70a6cc67e5f9b4d3f3e9b51362c40b356/SQLAlchemy-1.2.5.tar.gz"; sha256 = "249000654107a420a40200f1e0b555a79dfd4eff235b2ff60bc77714bd045f2d"; };
+      name = "SQLAlchemy-1.2.6";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/da/ef/f10a6892f8ff3c1fec1c25699a7379d1f72f291c8fa40b71c31cab3f779e/SQLAlchemy-1.2.6.tar.gz"; sha256 = "7cb00cc9b9f92ef8b4391c8a2051f81eeafefe32d63c6b395fd51401e9a39edb"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -128,8 +128,8 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-3.0.6";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/32/39/3a2bb54a1061b32cb4b0ba585c873227e39c58754052c46c9493a0bf655e/aiohttp-3.0.6.tar.gz"; sha256 = "5b588d21b454aaeaf2debf3c4a37f0752fb91a5c15b621deca7e8c49316154fe"; };
+      name = "aiohttp-3.1.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/53/8a/c93662973020eaad14c9695b80fcbf9d0e23f9a557474089f2dc526650f5/aiohttp-3.1.1.tar.gz"; sha256 = "dc5cab081d4b334d0440b019edf24fe1cb138b8114e0e22d2b0661284bc1775f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -149,9 +149,26 @@ let
 
 
 
+    "aiohue" = python.mkDerivation {
+      name = "aiohue-1.3.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c0/d9/00ffdce0b85ce9694f6e5f426104a1210a8b89f7ec4db6c5f0def6ea845c/aiohue-1.3.1.tar.gz"; sha256 = "d00b849a29778f82a80143fbeb183f2b40d0dd64e59a4e1f4432ae7f91746215"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."aiohttp"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.asl20;
+        description = "Python module to talk to Philips Hue.";
+      };
+    };
+
+
+
     "astral" = python.mkDerivation {
-      name = "astral-1.5";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/17/6f/844ec74588d7edb593c268b30226b0f7f1a26cbcf33d6de8b71676baca03/astral-1.5.tar.gz"; sha256 = "527628fbfe90c1596c3950ff84ebd07ecc10c8fb1044c903a0519b5057700cb6"; };
+      name = "astral-1.6";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/52/10/e9fbc6f7c9f8cc411003a3fd3e3df75de79447a8b965ae96272d526fba28/astral-1.6.tar.gz"; sha256 = "874b397ddbf0a4c1d8d644b21c2481e8a96b61343f820ad52d8a322d61a15083"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -167,8 +184,8 @@ let
 
 
     "async-timeout" = python.mkDerivation {
-      name = "async-timeout-2.0.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/78/10/7fd2551dc51f6065bdbba07d395865df4582cc18169297e7a5c8d90f5bd2/async-timeout-2.0.0.tar.gz"; sha256 = "c17d8ac2d735d59aa62737d76f2787a6c938f5a944ecf768a8c0ab70b0dea566"; };
+      name = "async-timeout-2.0.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/23/6d/e37be168272b7a499111d0ed14940da80644d21b201e27980892c7125abb/async-timeout-2.0.1.tar.gz"; sha256 = "00cff4d2dce744607335cba84e9929c3165632da2d27970dbc55802a0c7873d0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -242,8 +259,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.6.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/6b/a7/209db17d8fac095b482bddecfa9e4ce032d88aa7fc393115554213e8b7d8/denonavr-0.6.1.tar.gz"; sha256 = "e99004462a65ff95063a4776f6462d1b26f5a4087488101351a90afa41330a77"; };
+      name = "denonavr-0.7.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3b/8b/c6ed8ae8fe6bb5bda5284b01593952490b1315ee3e6c41154a61078786f0/denonavr-0.7.0.tar.gz"; sha256 = "2c27ffcb5c5d10f8f6aa348c28956cff85dd00dcc16b7ce89d5b05dcdf2aa97b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -274,8 +291,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180310.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4b/9c/1f18cf78a92ffa52284df4c929dd459078d9c6d51deacb54212150e8bf6c/home-assistant-frontend-20180310.0.tar.gz"; sha256 = "5a7cca7ed461d650859df7d036ff4c579366bbcde5eb6407b1aff6a0dbbae2c2"; };
+      name = "home-assistant-frontend-20180414.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a3/53/750b9eaad2cc438029baef36ac9f3acb7dc739f552a5c3f5273c211dda6d/home-assistant-frontend-20180414.0.tar.gz"; sha256 = "548637bee3b75cd2afc42d6d4c578ce9d7915fe1dbfcad9c0de7bca6820db72b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -291,8 +308,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.65.4";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/78/99/44ca3c46d2d829b3a419d26019fa92a189a3fb9df41ed3e02aba8e905af7/homeassistant-0.65.4.tar.gz"; sha256 = "5e284232f7b25e94bf5d127ad14065a685b477350649856ac89f2e3a2f8fc7f5"; };
+      name = "homeassistant-0.67.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/85/6a/41c4a139cbcc53edbb12b6ca4548aa2de262a15c24b14cdcd28db5bfb203/homeassistant-0.67.0.tar.gz"; sha256 = "df258dff4a17d3b3e57f01f63b1f34b02ad233db2a888bea0ac2077759bbae67"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -383,8 +400,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/0e/d4/23f7340b00126cce2308561c3dc93f3cf94b99b13c2be96c2767c21effbb/netdisco-1.3.tar.gz"; sha256 = "ebea8618a41b46ae10cfe23cd8568f13c64a36089df44c4b79b1a0bd2639ba28"; };
+      name = "netdisco-1.4.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/21/95/8377d15c461f7d2b689b590f1c8f4a474341013506bcb82a707d7f772f9e/netdisco-1.4.0.tar.gz"; sha256 = "0c99880a5dd858628a43f853b09a3bf6ed9ef286bd0e9eed6e7ec5bfaaf58e59"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -430,24 +447,9 @@ let
 
 
 
-    "phue" = python.mkDerivation {
-      name = "phue-1.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/34/d2/35bfef007857ef2949b7271a263ef0c37cd9714f5b61f7d5ac02f20d7174/phue-1.0.tar.gz"; sha256 = "14b8285ece83124a6b0f47b88a62b0a6c4f2901cd1d555e36c5927bfd7417515"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "";
-        license = licenses.mit;
-        description = "A Philips Hue Python library";
-      };
-    };
-
-
-
     "pytz" = python.mkDerivation {
-      name = "pytz-2018.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/1b/50/4cdc62fc0753595fc16c8f722a89740f487c6e5670c644eb8983946777be/pytz-2018.3.tar.gz"; sha256 = "410bcd1d6409026fbaa65d9ed33bf6dd8b1e94a499e32168acfc7b332e4095c0"; };
+      name = "pytz-2018.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/10/76/52efda4ef98e7544321fd8d5d512e11739c1df18b0649551aeccfb1c8376/pytz-2018.4.tar.gz"; sha256 = "c06425302f2cf668f1bba7a0a03f3c1d34d4ebeef2c72003da308b3947c7f749"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -496,8 +498,8 @@ let
 
 
     "ua-parser" = python.mkDerivation {
-      name = "ua-parser-0.7.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a3/b4/3d31176d3cb2807635175004e0381fb72351173ec8c9c043b80399cf33a6/ua-parser-0.7.3.tar.gz"; sha256 = "0aafb05a67b621eb4d69f6c1c3972f2d9443982bcd9132a8b665d90cd48a1add"; };
+      name = "ua-parser-0.8.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b0/02/94ea43fc432fb112fbb62a89855317c41c210fb5239a2ed9b94ecb63024f/ua-parser-0.8.0.tar.gz"; sha256 = "97bbcfc9321a3151d96bb5d62e54270247b0e3be0590a6f2ff12329851718dcb"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];

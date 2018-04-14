@@ -5,7 +5,7 @@ self: super: {
     propagatedBuildInputs = old.propagatedBuildInputs ++ [
       super."distro"
       super."paho-mqtt"
-      super."phue"
+      super."aiohue"
       super."home-assistant-frontend"
       super."colorlog"
       super."luftdaten"
