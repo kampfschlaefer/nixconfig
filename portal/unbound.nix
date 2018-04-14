@@ -106,7 +106,7 @@ in
     ];
     extraConfig = ''
       # >1 logs requests
-      verbosity: 1
+      verbosity: 3
 
       # Is it the dns that makes it so slow here?
       log-queries: ${if config.testdata then "yes" else "no"}
