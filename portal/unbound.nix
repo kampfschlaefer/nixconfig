@@ -116,7 +116,8 @@ in
       cache-min-ttl: 300
       cache-max-ttl: 3600
       prefetch: yes
-      ssl-upstream: yes
+      tls-upstream: yes
+      tls-cert-bundle: /etc/ssl/certs/ca-certificates.crt
 
       local-zone: "arnoldarts.de." ${if config.testdata then "refuse" else "typetransparent"}
 
