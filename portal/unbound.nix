@@ -100,16 +100,22 @@ in
 
 
       #"8.8.8.8"              # Google Public DNS
-      "74.82.42.42"          # Hurricane Electric
+      #"74.82.42.42"          # Hurricane Electric
       # "2001:4860:4860::8888" # Google Public DNS
       # "2001:470:20::2"       # Hurricane Electric
     ];
     extraConfig = ''
+
+      num-threads: 3
+      num-queries-per-thread: 1024
+      outgoing-tcp-mss: 1220
+
       # >1 logs requests
-      verbosity: 3
+      verbosity: 2
 
       # Is it the dns that makes it so slow here?
       log-queries: ${if config.testdata then "yes" else "no"}
+      log-replies: ${if config.testdata then "yes" else "no"}
       statistics-interval: 300
       extended-statistics: yes
 
@@ -124,6 +130,10 @@ in
       ${localdata addresses}
 
       local-data: "nfs.arnoldarts.de. IN CNAME portal.arnoldarts.de."
+
+      local-zone: "com.arnoldarts.de." refuse
+      local-zone: "de.arnoldarts.de." refuse
+      local-zone: "net.arnoldarts.de." refuse
     '';
   };
 }
