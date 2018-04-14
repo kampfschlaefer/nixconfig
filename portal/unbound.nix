@@ -111,7 +111,7 @@ in
       outgoing-tcp-mss: 1220
 
       # >1 logs requests
-      verbosity: 2
+      verbosity: 1
 
       # Is it the dns that makes it so slow here?
       log-queries: ${if config.testdata then "yes" else "no"}
