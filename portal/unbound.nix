@@ -100,7 +100,7 @@ in
 
 
       #"8.8.8.8"              # Google Public DNS
-      #"74.82.42.42"          # Hurricane Electric
+      "74.82.42.42"          # Hurricane Electric
       # "2001:4860:4860::8888" # Google Public DNS
       # "2001:470:20::2"       # Hurricane Electric
     ];
@@ -116,8 +116,8 @@ in
       cache-min-ttl: 300
       cache-max-ttl: 3600
       prefetch: yes
-      tls-upstream: yes
-      tls-cert-bundle: /etc/ssl/certs/ca-certificates.crt
+      ssl-upstream: yes
+      # ssl-cert-bundle: /etc/ssl/certs/ca-certificates.crt  # version >=1.7.0
 
       local-zone: "arnoldarts.de." ${if config.testdata then "refuse" else "typetransparent"}
 
