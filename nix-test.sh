@@ -18,9 +18,10 @@ fi
 
 mkdir -p outputs
 
-nixStable=`nix-build --no-out-link nixpkgs/default.nix -A pkgs.nixStable`
+#nixStable=`nix-build --no-out-link nixpkgs/default.nix -A pkgs.nixStable`
+nixStable='/home/arnold/.nix-profile'
 
-time ${nixStable}/bin/nix-build --show-trace --option use-binary-caches ${binary_caches} --keep-going --max-jobs 3 --out-link outputs/${machine}-${branch} ${machine}/test.nix ${attribute}
+time ${nixStable}/bin/nix-build --show-trace --keep-going --max-jobs 3 --out-link outputs/${machine}-${branch} ${machine}/test.nix ${attribute}
 
 if [ ${action} = "driver" ]; then
     ./outputs/${machine}-${branch}/bin/nixos-run-vms
