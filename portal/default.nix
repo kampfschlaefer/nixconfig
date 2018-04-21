@@ -145,7 +145,7 @@ in {
     environment.systemPackages = with pkgs; [
       freeipmi lm_sensors dnstop
       duply gnupg
-      linuxPackages.netatop
+      /* linuxPackages.netatop */
     ];
     environment.shellAliases = {
     };
