@@ -26,6 +26,7 @@ in {
       ./containers/mqtt.nix
       ./containers/postgres.nix
       ./containers/selfoss.nix
+      ./containers/startpage.nix
       ./containers/syncthing.nix
       ./containers/testing.nix
       ./containers/torproxy.nix

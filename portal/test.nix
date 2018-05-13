@@ -1,14 +1,15 @@
 import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
-    run_unbound = true;
     run_firewall = true;
     run_gitolite = true;
+    run_homeassistant = true;
     run_mqtt = true;
     run_ntp = true;
     run_selfoss = true;
-    run_torproxy = true;
+    run_startpage = true;
     run_syncthing = true;
-    run_homeassistant = true;
+    run_torproxy = true;
+    run_unbound = true;
     run_ups = true;
 
     # No advanced tests yet, not even if the service is up and reachable
@@ -73,6 +74,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
+          containers.startpage.autoStart = lib.mkOverride 10 run_startpage;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
           containers.syncthing2.autoStart = lib.mkOverride 10 run_syncthing;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
@@ -303,6 +305,13 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         ''subtest "check mpd container shutdown", sub {
           $portal->execute("nixos-container stop mpd >&2");
           $portal->fail("ping -4 -n -c 1 -w 2 mpd >&2");
+        };''
+      }
+
+      ${lib.optionalString run_startpage
+        ''subtest "Check startpage", sub {
+          $portal->waitForUnit("container\@startpage");
+          $portal->succeed("curl --connect-timeout 1 --insecure -f https://startpage.arnoldarts.de/ >&2");
         };''
       }
 
