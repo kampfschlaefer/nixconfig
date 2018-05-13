@@ -167,8 +167,8 @@ let
 
 
     "astral" = python.mkDerivation {
-      name = "astral-1.6";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/52/10/e9fbc6f7c9f8cc411003a3fd3e3df75de79447a8b965ae96272d526fba28/astral-1.6.tar.gz"; sha256 = "874b397ddbf0a4c1d8d644b21c2481e8a96b61343f820ad52d8a322d61a15083"; };
+      name = "astral-1.6.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/cc/cc/65ca157e967756a8f08b1cf1c0a1a30c83ed32c50dbe83c557874ce101ca/astral-1.6.1.tar.gz"; sha256 = "ab0c08f2467d35fcaeb7bad15274743d3ac1ad18b5391f64a0058a9cd192d37d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -199,8 +199,8 @@ let
 
 
     "attrs" = python.mkDerivation {
-      name = "attrs-17.4.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8b/0b/a06cfcb69d0cb004fde8bc6f0fd192d96d565d1b8aa2829f0f20adb796e5/attrs-17.4.0.tar.gz"; sha256 = "1c7960ccfd6a005cd9f7ba884e6316b5e430a3f1a6c37c5f87d8b43f83b54ec9"; };
+      name = "attrs-18.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e4/ac/a04671e118b57bee87dabca1e0f2d3bda816b7a551036012d0ca24190e71/attrs-18.1.0.tar.gz"; sha256 = "e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -276,23 +276,23 @@ let
 
 
     "distro" = python.mkDerivation {
-      name = "distro-1.2.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b2/2e/e4b8b7f947465474e58bc9dbaa6ea8c4b4cc9e845711c0fc2f66601e464b/distro-1.2.0.tar.gz"; sha256 = "d94370e43b676ac44fbe1ab68ca903a6147eaba3a9e8eff85b2c05556a455b76"; };
+      name = "distro-1.3.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/d2/42/3b059929a920cd9d4e91e7a5e35f0d2ed75211f8f4e877be9d1bde9fdf46/distro-1.3.0.tar.gz"; sha256 = "224041cef9600e72d19ae41ba006e71c05c4dc802516da715d7fda55ba3d8742"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "";
         license = licenses.asl20;
-        description = "Linux Distribution - a Linux OS platform information API";
+        description = "Distro - an OS platform information API";
       };
     };
 
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180426.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7d/95/6ffac11c4dd1e6e65763af9f9c691588ab6a1a8e495e0f6183b7c6721775/home-assistant-frontend-20180426.0.tar.gz"; sha256 = "60ff4e0b0c4538fa0be0db9407f95333546940e119a8d3edb9b0d7e1c86b1f3b"; };
+      name = "home-assistant-frontend-20180510.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/04/de/a9ace982e0093f30ef90966a6394ce47fe4b4d52b9749522a4d9960eec3b/home-assistant-frontend-20180510.1.tar.gz"; sha256 = "266b25887b1917d47c8bf1c05c3367b6b4ba89536b6d43d0b614f9c1da0bef1a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -308,8 +308,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.68.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/80/bf/105d35b4dd06b6a7fe7416205213c5a40f1824606e737f566495b93f2e66/homeassistant-0.68.1.tar.gz"; sha256 = "21c491c762441ce5eec8b5d9007ebf4edbfedc190932a21da38c1bf3674e0e92"; };
+      name = "homeassistant-0.69.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/60/0c/59d5c2345e17237db22e9d3bc8a0668f141eb8760dccf049eaad63604fe5/homeassistant-0.69.1.tar.gz"; sha256 = "ef7ef18fd5c7f807ae54e5a4dd3b71d4ba2c388e7f54c8bd8d670965ede58fbe"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -385,8 +385,8 @@ let
 
 
     "multidict" = python.mkDerivation {
-      name = "multidict-4.2.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7e/6f/4298b16467afea1211383c649f9084d470b6f3bf6fef677e120648da8636/multidict-4.2.0.tar.gz"; sha256 = "24052724195e46872739faa10c611957bbaceae28eec92e1ce49150b115ec5ed"; };
+      name = "multidict-4.3.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9d/b9/3cf1b908d7af6530209a7a16d71ab2734a736c3cdf0657e3a06d0209811e/multidict-4.3.1.tar.gz"; sha256 = "5ba766433c30d703f6b2c17eb0b6826c6f898e5f58d89373e235f07764952314"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -400,8 +400,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.4.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/21/95/8377d15c461f7d2b689b590f1c8f4a474341013506bcb82a707d7f772f9e/netdisco-1.4.0.tar.gz"; sha256 = "0c99880a5dd858628a43f853b09a3bf6ed9ef286bd0e9eed6e7ec5bfaaf58e59"; };
+      name = "netdisco-1.4.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/69/49/a6377935183339e88cff2cb672b4b9477269cea8bac3cd2d85bda2350cfd/netdisco-1.4.1.tar.gz"; sha256 = "0ca4aa480b4ecd9cc6814a8847e0347ea7473bcb5bc94f6da4e828b01551cd3c"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -578,8 +578,8 @@ let
 
 
     "yarl" = python.mkDerivation {
-      name = "yarl-1.2.3";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/a9/9b/966b8bb5760a784fb777df619f0f44029fe1bbc9d5bd0da246ca5cfc8cf3/yarl-1.2.3.tar.gz"; sha256 = "1fc3e17ab13e46cae1a6067ad4c210d6efa378267d312ed6a47803d0e5ca0d97"; };
+      name = "yarl-1.2.4";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/6b/0f/7551d131e3a116bdb8e23bde3f34613cd3ad719f28dcf996c922fe285925/yarl-1.2.4.tar.gz"; sha256 = "437c51e7e31d9fa462ad99f829fb8282eccba836d67868ab61a513d20ec467b7"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
