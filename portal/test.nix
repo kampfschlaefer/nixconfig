@@ -179,6 +179,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("host -v -t a portal.arnoldarts.de 127.0.0.1 >&2");
           $portal->succeed("host -v -t a portal.arnoldarts.de 192.168.1.240 >&2");
 
+          $portal->succeed("unbound-control -c /var/lib/unbound/unbound.conf list_forwards |grep 8.8.8.8");
+
           $portal->succeed("systemctl is-active dhcpd4 >&2");
         };''
       }
