@@ -134,6 +134,10 @@ in
       ${localdata addresses}
 
       local-data: "nfs.arnoldarts.de. IN CNAME portal.arnoldarts.de."
+
+      remote-control:
+        control-enable: yes
+        control-use-cert: no
     '';
   };
 }
