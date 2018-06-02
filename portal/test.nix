@@ -12,6 +12,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_unbound = true;
     run_ups = true;
 
+    debug_unbound = false;
+
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
 
@@ -42,6 +44,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       portal = {config, pkgs, ... }:
         {
           testdata = true;
+          inherit debug_unbound;
+
           imports = [
             ../portal/default.nix
           ];
@@ -54,8 +58,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
             interfaces = {
               eth0 = lib.mkOverride 10 {
                 useDHCP = false;
-                ip4 = [];
-                ip6 = [];
+                ipv4.addresses = [];
+                ipv6.addresses = [];
               };
               eth1 = lib.mkOverride 1 {};
               eth2 = lib.mkOverride 1 {};
@@ -95,7 +99,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           networking = {
             interfaces.eth1 = {
               useDHCP = false;
-              ip4 = [ { address = "192.168.2.10"; prefixLength = 32; } ];
+              ipv4.addresses = [ { address = "192.168.2.10"; prefixLength = 32; } ];
             };
 
             firewall.enable = false;
@@ -121,13 +125,13 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
             interfaces = {
               eth0 = lib.mkOverride 10 {
                 useDHCP = false;
-                ip4 = [];
-                ip6 = [];
+                ipv4.addresses = [];
+                ipv6.addresses = [];
               };
               eth1 = lib.mkOverride 10 {
                 useDHCP = true;
-                ip4 = [];
-                ip6 = [ { address = "2001:470:1f0b:1033::696e:7369:6465"; prefixLength = 64; } ];
+                ipv4.addresses = [];
+                ipv6.addresses = [ { address = "2001:470:1f0b:1033::696e:7369:6465"; prefixLength = 64; } ];
                 macAddress = "7e:e2:63:7f:f0:0e";
               };
             };

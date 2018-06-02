@@ -19,8 +19,8 @@
       networking.domain = "arnoldarts.de";
       networking.interfaces.eth0 = {
         useDHCP = false;
-        ip4 = [{ address = "192.168.1.224"; prefixLength = 24; }];
-        ip6 = [{ address = "2001:470:1f0b:1033::696d:6170"; prefixLength = 64; }];
+        ipv4.addresses = [{ address = "192.168.1.224"; prefixLength = 24; }];
+        ipv6.addresses = [{ address = "2001:470:1f0b:1033::696d:6170"; prefixLength = 64; }];
       };
 
       imports = [

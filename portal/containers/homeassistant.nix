@@ -77,13 +77,13 @@ in
       networking.interfaces = {
         eth0 = {
           useDHCP = false;
-          ip4 = [{ address="192.168.1.232"; prefixLength=24; }];
-          ip6 = [{ address="2001:470:1f0b:1033:686f:6d65:6173:7369"; prefixLength=64; }];
+          ipv4.addresses = [{ address="192.168.1.232"; prefixLength=24; }];
+          ipv6.addresses = [{ address="2001:470:1f0b:1033:686f:6d65:6173:7369"; prefixLength=64; }];
         };
         /*backendpg = {
           useDHCP = false;
-          ip4 = [{ address="192.168.6.2"; prefixLength=23; }];
-          ip6 = [];
+          ipv4.addresses = [{ address="192.168.6.2"; prefixLength=23; }];
+          ipv6.addresses = [];
         };*/
       };
       networking.firewall.enable = true;

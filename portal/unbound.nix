@@ -117,8 +117,8 @@ in
       verbosity: 1
 
       # Is it the dns that makes it so slow here?
-      log-queries: ${if config.testdata then "yes" else "no"}
-      log-replies: ${if config.testdata then "yes" else "no"}
+      log-queries: ${if config.debug_unbound then "yes" else "no"}
+      log-replies: ${if config.debug_unbound then "yes" else "no"}
       statistics-interval: 300
       extended-statistics: yes
 
