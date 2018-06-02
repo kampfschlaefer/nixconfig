@@ -113,8 +113,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.7";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c1/c8/392fcd2d01534bc871c65cb964e0b39d59feb777e51649e6eaf00f6377b5/SQLAlchemy-1.2.7.tar.gz"; sha256 = "d6cda03b0187d6ed796ff70e87c9a7dce2c2c9650a7bc3c022cd331416853c31"; };
+      name = "SQLAlchemy-1.2.8";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b4/9c/411a9bac1a471bed54ec447dc183aeed12a75c1b648307e18b56e3829363/SQLAlchemy-1.2.8.tar.gz"; sha256 = "2d5f08f714a886a1382c18be501e614bce50d362384dc089474019ce0768151c"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -150,8 +150,8 @@ let
 
 
     "aiohue" = python.mkDerivation {
-      name = "aiohue-1.3.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c0/d9/00ffdce0b85ce9694f6e5f426104a1210a8b89f7ec4db6c5f0def6ea845c/aiohue-1.3.1.tar.gz"; sha256 = "d00b849a29778f82a80143fbeb183f2b40d0dd64e59a4e1f4432ae7f91746215"; };
+      name = "aiohue-1.5.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/19/70/1017f813d73933963af011768cf0b0148dbd38ae5fb1ddabbe23e99effd3/aiohue-1.5.0.tar.gz"; sha256 = "9300ccb1d2d6c193eae81d7bc2ee6a07dda04f1800572adc666a07d39fea4092"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -259,8 +259,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.7.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/3b/8b/c6ed8ae8fe6bb5bda5284b01593952490b1315ee3e6c41154a61078786f0/denonavr-0.7.0.tar.gz"; sha256 = "2c27ffcb5c5d10f8f6aa348c28956cff85dd00dcc16b7ce89d5b05dcdf2aa97b"; };
+      name = "denonavr-0.7.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8d/a6/f8f7841539ddf4c84e65389a8a4dff1041d5e0b142cda298f2cd61f22669/denonavr-0.7.2.tar.gz"; sha256 = "34dd6d067c19a1a2fb204c8dcafb120ea496bd05683c8308a977cd0b3bad6bd3"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -291,8 +291,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180510.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/04/de/a9ace982e0093f30ef90966a6394ce47fe4b4d52b9749522a4d9960eec3b/home-assistant-frontend-20180510.1.tar.gz"; sha256 = "266b25887b1917d47c8bf1c05c3367b6b4ba89536b6d43d0b614f9c1da0bef1a"; };
+      name = "home-assistant-frontend-20180601.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/bf/0d/bafe48cd4675f875e23c551dad5b6fb29eff8912a6a0b10e37bdc81918f3/home-assistant-frontend-20180601.0.tar.gz"; sha256 = "233bdc838ee94dd62724f51e58b23abb577360713672c41ce6cc3322c958cf97"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -308,8 +308,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.69.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/60/0c/59d5c2345e17237db22e9d3bc8a0668f141eb8760dccf049eaad63604fe5/homeassistant-0.69.1.tar.gz"; sha256 = "ef7ef18fd5c7f807ae54e5a4dd3b71d4ba2c388e7f54c8bd8d670965ede58fbe"; };
+      name = "homeassistant-0.70.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/15/5f/307cb42240a512a5d0dc599c71a3a4932075bad85035b704dc54c3fc299a/homeassistant-0.70.1.tar.gz"; sha256 = "6e98de8202d8a253158e643a8d9f4542b8c15401de74344562533c4e3c3d5a58"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -367,8 +367,8 @@ let
 
 
     "luftdaten" = python.mkDerivation {
-      name = "luftdaten-0.1.4";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/28/5a/fd150bfabef6bbfbdfecc8eb45acc0a8775c35a34031d29e777bcf8fcec6/luftdaten-0.1.4.tar.gz"; sha256 = "d3e3af830ad2b731c36af223bbb5d47d68aa3786b2965411216917a7381e1179"; };
+      name = "luftdaten-0.2.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/cc/2a/2b5583c82ac322ebffb14919d1f83bf2e27ad77d62e46464c36d189d7cbf/luftdaten-0.2.0.tar.gz"; sha256 = "75fb177f61904dd1a7f93c1fa6c7cd468fd4a2e04ca45a87d37c802d290d17ad"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
