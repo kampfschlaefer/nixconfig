@@ -12,6 +12,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_unbound = true;
     run_ups = true;
 
+    debug_unbound = false;
+
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
 
@@ -42,6 +44,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       portal = {config, pkgs, ... }:
         {
           testdata = true;
+          inherit debug_unbound;
+
           imports = [
             ../portal/default.nix
           ];

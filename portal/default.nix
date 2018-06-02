@@ -11,6 +11,10 @@ in {
     type = lib.types.bool;
     default = false;
   };
+  options.debug_unbound = lib.mkOption {
+    type = lib.types.bool;
+    default = false;
+  };
 
   imports =
     [
@@ -188,7 +192,8 @@ in {
 
     virtualisation.libvirtd = {
       enable = true;
-      enableKVM = true;
+      qemuPackage = pkgs.qemu_kvm;
+      onShutdown = "suspend";
     };
     users.users.arnold.extraGroups = [ "libvirtd" ];
 
