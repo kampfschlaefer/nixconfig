@@ -15,8 +15,8 @@
       networking.domain = "arnoldarts.de";
       networking.interfaces.eth0 = {
         useDHCP = false;
-        ip6 = [{ address = "2001:470:1f0b:1033::6375:7073"; prefixLength = 64; }];
-        ip4 = [{ address = "192.168.1.222"; prefixLength = 24; }];
+        ipv6.addresses = [{ address = "2001:470:1f0b:1033::6375:7073"; prefixLength = 64; }];
+        ipv4.addresses = [{ address = "192.168.1.222"; prefixLength = 24; }];
       };
       networking.firewall.allowPing = true;
       networking.firewall.allowedTCPPorts = [ 631 ];
