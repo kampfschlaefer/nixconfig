@@ -128,8 +128,8 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-3.2.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/81/fa/8915137ac0603112bbb63489de90a75c69da8a138594eb6a24cb8afb14df/aiohttp-3.2.1.tar.gz"; sha256 = "1b95d53f8dac13898f0a3e4af76f6f36d540fbfaefc4f4c9f43e436fa0e53d22"; };
+      name = "aiohttp-3.1.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/d1/01/70773afaf252a17a4fceb6a3ac815d2a490d67226832b05eaf0f49d6ac50/aiohttp-3.1.3.tar.gz"; sha256 = "9fcef0489e3335b200d31a9c1fb6ba80fdafe14cd82b971168c2f9fa1e4508ad"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -184,8 +184,8 @@ let
 
 
     "async-timeout" = python.mkDerivation {
-      name = "async-timeout-3.0.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/35/82/6c7975afd97661e6115eee5105359ee191a71ff3267fde081c7c8d05fae6/async-timeout-3.0.0.tar.gz"; sha256 = "b3c0ddc416736619bd4a95ca31de8da6920c3b9a140c64dbef2b2fa7bf521287"; };
+      name = "async-timeout-2.0.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/23/6d/e37be168272b7a499111d0ed14940da80644d21b201e27980892c7125abb/async-timeout-2.0.1.tar.gz"; sha256 = "00cff4d2dce744607335cba84e9929c3165632da2d27970dbc55802a0c7873d0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -259,8 +259,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.7.3";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/98/3c/c8391e283729516115e52fbcd70d6c002e323d1a1b5470ebd5961995b436/denonavr-0.7.3.tar.gz"; sha256 = "765aef97e91e07d446f9343dfaaa05307ef0acaeaf90fff286b038855728a1b5"; };
+      name = "denonavr-0.7.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8d/a6/f8f7841539ddf4c84e65389a8a4dff1041d5e0b142cda298f2cd61f22669/denonavr-0.7.2.tar.gz"; sha256 = "34dd6d067c19a1a2fb204c8dcafb120ea496bd05683c8308a977cd0b3bad6bd3"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -308,8 +308,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.71.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7a/22/67634f407a72b4825c8dee20a36b86888752adfcf75b3334bcd3b7ba0ee3/homeassistant-0.71.0.tar.gz"; sha256 = "727b6e881eee4014377fde3e1820ba9aea733fa4ce1d277aba87f840bed7a07d"; };
+      name = "homeassistant-0.70.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/15/5f/307cb42240a512a5d0dc599c71a3a4932075bad85035b704dc54c3fc299a/homeassistant-0.70.1.tar.gz"; sha256 = "6e98de8202d8a253158e643a8d9f4542b8c15401de74344562533c4e3c3d5a58"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
