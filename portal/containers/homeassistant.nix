@@ -102,6 +102,9 @@ in
         #sslCiphers = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:!RSA+AES:!aNULL:!MD5:!DSS";
         recommendedTlsSettings = true;
         recommendedProxySettings = false;
+        extraConfig = ''
+          ssl_session_tickets on;
+        '';
         virtualHosts = {
           "homeassistant" = {
             serverName = "homeassistant.arnoldarts.de";
