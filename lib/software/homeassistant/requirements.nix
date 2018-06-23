@@ -1,4 +1,4 @@
-# generated using pypi2nix tool (version: 1.8.0)
+# generated using pypi2nix tool (version: 1.8.1)
 # See more at: https://github.com/garbas/pypi2nix
 #
 # COMMAND:
@@ -18,6 +18,15 @@ let
     inherit pkgs;
     inherit (pkgs) stdenv;
     python = pkgs.python3;
+    # patching pip so it does not try to remove files when running nix-shell
+    overrides =
+      self: super: {
+        bootstrapped-pip = super.bootstrapped-pip.overrideDerivation (old: {
+          patchPhase = old.patchPhase + ''
+            sed -i               -e "s|paths_to_remove.remove(auto_confirm)|#paths_to_remove.remove(auto_confirm)|"                -e "s|self.uninstalled = paths_to_remove|#self.uninstalled = paths_to_remove|"                  $out/${pkgs.python35.sitePackages}/pip/req/req_install.py
+          '';
+        });
+      };
   };
 
   commonBuildInputs = [];
@@ -46,6 +55,7 @@ let
           done
           pushd $out/bin
           ln -s ${pythonPackages.python.executable} python
+          ln -s ${pythonPackages.python.executable}               python3
           popd
         '';
         passthru.interpreter = pythonPackages.python;
@@ -56,7 +66,7 @@ let
       mkDerivation = pythonPackages.buildPythonPackage;
       packages = pkgs;
       overrideDerivation = drv: f:
-        pythonPackages.buildPythonPackage (drv.drvAttrs // f drv.drvAttrs);
+        pythonPackages.buildPythonPackage (drv.drvAttrs // f drv.drvAttrs //                                            { meta = drv.meta; });
       withPackages = pkgs'':
         withPackages (pkgs // pkgs'');
     };
@@ -74,7 +84,7 @@ let
       self."MarkupSafe"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://jinja.pocoo.org/";
         license = licenses.bsdOriginal;
         description = "A small but fast and easy to use stand-alone template engine written in pure python.";
       };
@@ -89,7 +99,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://github.com/pallets/markupsafe";
         license = licenses.bsdOriginal;
         description = "Implements a XML/HTML/XHTML Markup safe string for Python";
       };
@@ -104,7 +114,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://pyyaml.org/wiki/PyYAML";
         license = licenses.mit;
         description = "YAML parser and emitter for Python";
       };
@@ -119,7 +129,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://www.sqlalchemy.org";
         license = licenses.mit;
         description = "Database Abstraction Library";
       };
@@ -141,7 +151,7 @@ let
       self."yarl"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/aio-libs/aiohttp";
         license = licenses.asl20;
         description = "Async http client/server framework (asyncio)";
       };
@@ -158,7 +168,7 @@ let
       self."aiohttp"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/balloob/aiohue";
         license = licenses.asl20;
         description = "Python module to talk to Philips Hue.";
       };
@@ -175,7 +185,7 @@ let
       self."pytz"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/sffjunkie/astral";
         license = "Apache-2.0";
         description = "Calculations for the position of the sun and moon.";
       };
@@ -190,7 +200,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/aio-libs/async_timeout/";
         license = licenses.asl20;
         description = "Timeout context manager for asyncio programs";
       };
@@ -205,7 +215,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://www.attrs.org/";
         license = licenses.mit;
         description = "Classes Without Boilerplate";
       };
@@ -220,7 +230,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://certifi.io/";
         license = licenses.mpl20;
         description = "Python package for providing Mozilla's CA Bundle.";
       };
@@ -235,7 +245,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/chardet/chardet";
         license = licenses.lgpl2;
         description = "Universal encoding detector for Python 2 and 3";
       };
@@ -250,7 +260,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/borntyping/python-colorlog";
         license = licenses.mit;
         description = "Log formatting with colors!";
       };
@@ -267,7 +277,7 @@ let
       self."requests"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/scarface-4711/denonavr";
         license = licenses.bsdOriginal;
         description = "Automation Library for Denon AVR receivers";
       };
@@ -282,7 +292,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/nir0s/distro";
         license = licenses.asl20;
         description = "Distro - an OS platform information API";
       };
@@ -291,15 +301,15 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180510.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/04/de/a9ace982e0093f30ef90966a6394ce47fe4b4d52b9749522a4d9960eec3b/home-assistant-frontend-20180510.1.tar.gz"; sha256 = "266b25887b1917d47c8bf1c05c3367b6b4ba89536b6d43d0b614f9c1da0bef1a"; };
+      name = "home-assistant-frontend-20180622.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/df/8b/7394cc4f98302c6c10f342ec1f0b9a50e6e1a5148bbd318a45e0b2b0586c/home-assistant-frontend-20180622.1.tar.gz"; sha256 = "a7037b9621339ba8877804df2a7a27a428b2327a4c5695d8ca56d76b2b0bffcf"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."user-agents"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/home-assistant/home-assistant-polymer";
         license = licenses.asl20;
         description = "The Home Assistant frontend";
       };
@@ -326,7 +336,7 @@ let
       self."voluptuous"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://home-assistant.io/";
         license = licenses.asl20;
         description = "Open-source home automation platform running on Python 3.";
       };
@@ -341,7 +351,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/kjd/idna";
         license = licenses.bsdOriginal;
         description = "Internationalized Domain Names in Applications (IDNA)";
       };
@@ -358,7 +368,7 @@ let
       self."idna"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/aio-libs/idna-ssl";
         license = licenses.mit;
         description = "Patch ssl.match_hostname for Unicode(idna) domains support";
       };
@@ -376,7 +386,7 @@ let
       self."async-timeout"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/fabaff/python-luftdaten";
         license = licenses.mit;
         description = "Python API for interacting with luftdaten.info.";
       };
@@ -391,7 +401,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/aio-libs/multidict";
         license = licenses.asl20;
         description = "multidict implementation";
       };
@@ -409,7 +419,7 @@ let
       self."zeroconf"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/home-assistant/netdisco";
         license = licenses.asl20;
         description = "Discover devices on your local network";
       };
@@ -424,7 +434,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/al45tair/netifaces";
         license = licenses.mit;
         description = "Portable network interface information.";
       };
@@ -439,7 +449,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://eclipse.org/paho";
         license = "License :: OSI Approved";
         description = "MQTT version 3.1.1 client class";
       };
@@ -454,7 +464,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://pythonhosted.org/pytz";
         license = licenses.mit;
         description = "World timezone definitions, modern and historical";
       };
@@ -474,7 +484,7 @@ let
       self."urllib3"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://python-requests.org";
         license = licenses.asl20;
         description = "Python HTTP for Humans.";
       };
@@ -489,7 +499,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://docs.python.org/3/library/typing.html";
         license = licenses.psfl;
         description = "Type Hints for Python";
       };
@@ -504,7 +514,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/ua-parser/uap-python";
         license = "License :: OSI Approved :: Apache Software License";
         description = "Python port of Browserscope's user agent parser";
       };
@@ -522,7 +532,7 @@ let
       self."idna"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://urllib3.readthedocs.io/";
         license = licenses.mit;
         description = "HTTP library with thread-safe connection pooling, file post, and more.";
       };
@@ -539,7 +549,7 @@ let
       self."ua-parser"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/selwin/python-user-agents";
         license = licenses.mit;
         description = "A library to identify devices (phones, tablets) and their capabilities by parsing (browser/HTTP) user agent strings";
       };
@@ -554,7 +564,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/alecthomas/voluptuous";
         license = licenses.bsdOriginal;
         description = "# Voluptuous is a Python data validation library";
       };
@@ -569,7 +579,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/martinblech/xmltodict";
         license = licenses.mit;
         description = "Makes working with XML feel like you are working with JSON";
       };
@@ -587,7 +597,7 @@ let
       self."multidict"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/aio-libs/yarl/";
         license = licenses.asl20;
         description = "Yet another URL library";
       };
@@ -604,22 +614,26 @@ let
       self."netifaces"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/jstasiak/python-zeroconf";
         license = licenses.lgpl2;
         description = "Pure Python Multicast DNS Service Discovery Library (Bonjour/Avahi compatible)";
       };
     };
 
   };
-  overrides = import ./requirements_override.nix { inherit pkgs python; };
+  localOverridesFile = ./requirements_override.nix;
+  overrides = import localOverridesFile { inherit pkgs python; };
   commonOverrides = [
 
   ];
+  allOverrides =
+    (if (builtins.pathExists localOverridesFile)
+     then [overrides] else [] ) ++ commonOverrides;
 
 in python.withPackages
    (fix' (pkgs.lib.fold
             extends
             generated
-            ([overrides] ++ commonOverrides)
+            allOverrides
          )
    )
