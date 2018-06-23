@@ -98,7 +98,8 @@ in
 
       services.nginx = {
         enable = true;
-        sslCiphers = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:!RSA+AES:!aNULL:!MD5:!DSS";
+        package = pkgs.nginxMainline;
+        #sslCiphers = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:!RSA+AES:!aNULL:!MD5:!DSS";
         recommendedTlsSettings = true;
         recommendedProxySettings = false;
         virtualHosts = {
@@ -106,19 +107,21 @@ in
             serverName = "homeassistant.arnoldarts.de";
             forceSSL = true;
             enableACME = true;
+            extraConfig = ''
+              proxy_buffering off;
+              ssl_session_tickets on;
+            '';
             locations."/" = {
               proxyPass = "http://localhost:8123";
-              # TODO: use this in 17.09?
-              #proxyWebsockets = true;
-            };
-            # TODO: can be removed with 17.09?
-            locations."/api/websocket" = {
-              proxyPass = "http://localhost:8123/api/websocket";
-              extraConfig = ''
+              proxyWebsockets = true;
+              /*extraConfig = ''
+                proxy_set_header Host $host;
+                proxy_redirect http:// https://;
                 proxy_http_version 1.1;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection "upgrade";
-              '';
+                proxy_set_header Connection $connection_upgrade;
+              '';*/
             };
           };
         };

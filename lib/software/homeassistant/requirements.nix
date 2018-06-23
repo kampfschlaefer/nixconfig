@@ -128,8 +128,8 @@ let
 
 
     "aiohttp" = python.mkDerivation {
-      name = "aiohttp-3.2.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/81/fa/8915137ac0603112bbb63489de90a75c69da8a138594eb6a24cb8afb14df/aiohttp-3.2.1.tar.gz"; sha256 = "1b95d53f8dac13898f0a3e4af76f6f36d540fbfaefc4f4c9f43e436fa0e53d22"; };
+      name = "aiohttp-3.3.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/72/6a/5bbf3544fe8de525f4521506b372dc9c3b13070fe34e911c976aa95631d7/aiohttp-3.3.2.tar.gz"; sha256 = "f20deec7a3fbaec7b5eb7ad99878427ad2ee4cc16a46732b705e8121cbb3cc12"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -150,8 +150,8 @@ let
 
 
     "aiohue" = python.mkDerivation {
-      name = "aiohue-1.5.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/19/70/1017f813d73933963af011768cf0b0148dbd38ae5fb1ddabbe23e99effd3/aiohue-1.5.0.tar.gz"; sha256 = "9300ccb1d2d6c193eae81d7bc2ee6a07dda04f1800572adc666a07d39fea4092"; };
+      name = "aiohue-1.6.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7f/dc/3103a6cf08112c2044ee7d27deb4679bae27fbcc90e76298fdfbc9d9a362/aiohue-1.6.0.tar.gz"; sha256 = "87f0f86865e88ea715ab358b1e5f2838b79ee7cdc0bdf762e9ed60aaf4c8bd4a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -291,8 +291,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180607.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/93/34/59f1d0a0b635804673d7fdca23869cea5d7223a92c9b47c038400ac9d929/home-assistant-frontend-20180607.0.tar.gz"; sha256 = "22ac0b7615c9c7e6700db250079d8a1041c8d40788375402701adaace8b21889"; };
+      name = "home-assistant-frontend-20180510.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/04/de/a9ace982e0093f30ef90966a6394ce47fe4b4d52b9749522a4d9960eec3b/home-assistant-frontend-20180510.1.tar.gz"; sha256 = "266b25887b1917d47c8bf1c05c3367b6b4ba89536b6d43d0b614f9c1da0bef1a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -308,8 +308,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.71.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7a/22/67634f407a72b4825c8dee20a36b86888752adfcf75b3334bcd3b7ba0ee3/homeassistant-0.71.0.tar.gz"; sha256 = "727b6e881eee4014377fde3e1820ba9aea733fa4ce1d277aba87f840bed7a07d"; };
+      name = "homeassistant-0.72.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c3/64/910c7f9b6e4867dbe2cc3056f9ca021a1c0b66993facc22c7a0fd0a3fd75/homeassistant-0.72.0.tar.gz"; sha256 = "9b9500a60b84e699b21841ff5082e806784b4fcead6b05e5130001c34a1f0b3e"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -400,8 +400,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.4.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/69/49/a6377935183339e88cff2cb672b4b9477269cea8bac3cd2d85bda2350cfd/netdisco-1.4.1.tar.gz"; sha256 = "0ca4aa480b4ecd9cc6814a8847e0347ea7473bcb5bc94f6da4e828b01551cd3c"; };
+      name = "netdisco-1.5.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e9/13/07f0c4b101eb46cb681bd931dccf0a759a34f6be1287af068f4ee24d4d26/netdisco-1.5.0.tar.gz"; sha256 = "308d8b9a95f9d25860349857a60915b9ef71fb33c5ed998b8acef1d88453a15c"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -578,8 +578,8 @@ let
 
 
     "yarl" = python.mkDerivation {
-      name = "yarl-1.2.5";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/20/e7/dfebda1c1f1690f102f4f16b2add843aeeed2b692ab16be758641fe16e83/yarl-1.2.5.tar.gz"; sha256 = "dd5da4150a882f5cd26aeec7939f38e4b08b790717b9d696409dba9e18ff3ab6"; };
+      name = "yarl-1.2.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/43/b8/057c3e5b546ff4b24263164ecda13f6962d85c9dc477fcc0bcdcb3adb658/yarl-1.2.6.tar.gz"; sha256 = "c8cbc21bbfa1dd7d5386d48cc814fe3d35b80f60299cdde9279046f399c3b0d8"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
