@@ -123,8 +123,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.8";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b4/9c/411a9bac1a471bed54ec447dc183aeed12a75c1b648307e18b56e3829363/SQLAlchemy-1.2.8.tar.gz"; sha256 = "2d5f08f714a886a1382c18be501e614bce50d362384dc089474019ce0768151c"; };
+      name = "SQLAlchemy-1.2.9";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/28/99/ad4dd8240ff8a98c8786fef6d2b392fb2309b0c2bcf23fdfbf3a4cb1a499/SQLAlchemy-1.2.9.tar.gz"; sha256 = "e21e5561a85dcdf16b8520ae4daec7401c5c24558e0ce004f9b60be75c4b6957"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -301,8 +301,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180622.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/df/8b/7394cc4f98302c6c10f342ec1f0b9a50e6e1a5148bbd318a45e0b2b0586c/home-assistant-frontend-20180622.1.tar.gz"; sha256 = "a7037b9621339ba8877804df2a7a27a428b2327a4c5695d8ca56d76b2b0bffcf"; };
+      name = "home-assistant-frontend-20180702.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/56/d2/3f5fe8ab5a9558574616634af123217c8229bd4be5444531a74face28be2/home-assistant-frontend-20180702.1.tar.gz"; sha256 = "a8a6388d9b78e82e30a7ca89689e39847c76d60a7d6bc9a7ed627eb6ac8c2695"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -318,8 +318,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.72.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c3/64/910c7f9b6e4867dbe2cc3056f9ca021a1c0b66993facc22c7a0fd0a3fd75/homeassistant-0.72.0.tar.gz"; sha256 = "9b9500a60b84e699b21841ff5082e806784b4fcead6b05e5130001c34a1f0b3e"; };
+      name = "homeassistant-0.72.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9f/85/5e6d9c24e7cb8acbc2d0e614ba65ac2c2ef138a98b976c0f7dc685baa4d9/homeassistant-0.72.1.tar.gz"; sha256 = "a909c95fe76f948ced146262f2cf75c12e874adc3e87fabd2ba3cca2408b7ff1"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -458,8 +458,8 @@ let
 
 
     "pytz" = python.mkDerivation {
-      name = "pytz-2018.4";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/10/76/52efda4ef98e7544321fd8d5d512e11739c1df18b0649551aeccfb1c8376/pytz-2018.4.tar.gz"; sha256 = "c06425302f2cf668f1bba7a0a03f3c1d34d4ebeef2c72003da308b3947c7f749"; };
+      name = "pytz-2018.5";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ca/a9/62f96decb1e309d6300ebe7eee9acfd7bccaeedd693794437005b9067b44/pytz-2018.5.tar.gz"; sha256 = "ffb9ef1de172603304d9d2819af6f5ece76f2e85ec10692a524dd876e72bf277"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
