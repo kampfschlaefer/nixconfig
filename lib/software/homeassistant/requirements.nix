@@ -108,8 +108,8 @@ let
 
 
     "PyYAML" = python.mkDerivation {
-      name = "PyYAML-3.12";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4a/85/db5a2df477072b2902b0eb892feb37d88ac635d36245a72a6a69b23b383a/PyYAML-3.12.tar.gz"; sha256 = "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"; };
+      name = "PyYAML-3.13";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9e/a3/1d13970c3f36777c583f136c136f804d70f500168edc1edea6daa7200769/PyYAML-3.13.tar.gz"; sha256 = "3ef3092145e9b70e3ddd2c7ad59bdd0252a94dfe3949721633e41344de00a6bf"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -301,8 +301,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180702.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/56/d2/3f5fe8ab5a9558574616634af123217c8229bd4be5444531a74face28be2/home-assistant-frontend-20180702.1.tar.gz"; sha256 = "a8a6388d9b78e82e30a7ca89689e39847c76d60a7d6bc9a7ed627eb6ac8c2695"; };
+      name = "home-assistant-frontend-20180704.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b6/c5/772bda48f0e45307ddab16bf2cb27fdb8e63260ab46e2a954cd7ee79294a/home-assistant-frontend-20180704.0.tar.gz"; sha256 = "eb6c0f330e4320092de708750675e3e973038a8b05928734b71a38d5a3ee66cf"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -318,8 +318,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.72.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9f/85/5e6d9c24e7cb8acbc2d0e614ba65ac2c2ef138a98b976c0f7dc685baa4d9/homeassistant-0.72.1.tar.gz"; sha256 = "a909c95fe76f948ced146262f2cf75c12e874adc3e87fabd2ba3cca2408b7ff1"; };
+      name = "homeassistant-0.73.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8f/6d/f032a73bb4a045b265d4b09b28bc4b530ca23ca865a92603faffbb78ba27/homeassistant-0.73.0.tar.gz"; sha256 = "c152e50f49a1c5101ae11b75d5717ee3ba991c5fbc697d8afef160a71fbbee86"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -332,7 +332,6 @@ let
       self."certifi"
       self."pytz"
       self."requests"
-      self."typing"
       self."voluptuous"
     ];
       meta = with pkgs.stdenv.lib; {
@@ -345,8 +344,8 @@ let
 
 
     "idna" = python.mkDerivation {
-      name = "idna-2.6";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/f4/bd/0467d62790828c23c47fc1dfa1b1f052b24efdf5290f071c7a91d0d82fd3/idna-2.6.tar.gz"; sha256 = "2c6a5de3089009e3da7c5dde64a141dbc8551d5b7f6cf4ed7c2568d0cc520a8f"; };
+      name = "idna-2.7";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/65/c4/80f97e9c9628f3cac9b98bfca0402ede54e0563b56482e3e6e45c43c4935/idna-2.7.tar.gz"; sha256 = "684a38a6f903c1d71d6d5fac066b58d7768af4de2b832e426ec79c30daa94a16"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -360,8 +359,8 @@ let
 
 
     "idna-ssl" = python.mkDerivation {
-      name = "idna-ssl-1.0.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c4/3b/facf5a5009e577e7764e68a2af5ee25c63f41c78277260c2c42b8cfabf2e/idna-ssl-1.0.1.tar.gz"; sha256 = "1293f030bc608e9aa9cdee72aa93c1521bbb9c7698068c61c9ada6772162b979"; };
+      name = "idna-ssl-1.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/46/03/07c4894aae38b0de52b52586b24bf189bb83e4ddabfe2e2c8f2419eec6f4/idna-ssl-1.1.0.tar.gz"; sha256 = "a933e3bb13da54383f9e8f35dc4f9cb9eb9b3b78c6b36f311254d6d0d92c6c7c"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -473,8 +472,8 @@ let
 
 
     "requests" = python.mkDerivation {
-      name = "requests-2.18.4";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b0/e1/eab4fc3752e3d240468a8c0b284607899d2fbfb236a56b7377a329aa8d09/requests-2.18.4.tar.gz"; sha256 = "9c443e7324ba5b85070c4a818ade28bfabedf16ea10206da1132edaa6dda237e"; };
+      name = "requests-2.19.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/54/1f/782a5734931ddf2e1494e4cd615a51ff98e1879cbe9eecbdfeaf09aa75e9/requests-2.19.1.tar.gz"; sha256 = "ec22d826a36ed72a7358ff3fe56cbd4ba69dd7a6718ffd450ff0e9df7a47ce6a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -487,21 +486,6 @@ let
         homepage = "http://python-requests.org";
         license = licenses.asl20;
         description = "Python HTTP for Humans.";
-      };
-    };
-
-
-
-    "typing" = python.mkDerivation {
-      name = "typing-3.6.4";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ec/cc/28444132a25c113149cec54618abc909596f0b272a74c55bab9593f8876c/typing-3.6.4.tar.gz"; sha256 = "d400a9344254803a2368533e4533a4200d21eb7b6b729c173bc38201a74db3f2"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://docs.python.org/3/library/typing.html";
-        license = licenses.psfl;
-        description = "Type Hints for Python";
       };
     };
 
@@ -523,8 +507,8 @@ let
 
 
     "urllib3" = python.mkDerivation {
-      name = "urllib3-1.22";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ee/11/7c59620aceedcc1ef65e156cc5ce5a24ef87be4107c2b74458464e437a5d/urllib3-1.22.tar.gz"; sha256 = "cc44da8e1145637334317feebd728bd869a35285b93cbb4cca2577da7e62db4f"; };
+      name = "urllib3-1.23";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/3c/d2/dc5471622bd200db1cd9319e02e71bc655e9ea27b8e0ce65fc69de0dac15/urllib3-1.23.tar.gz"; sha256 = "a68ac5e15e76e7e5dd2b8f94007233e01effe3e50e8daddf69acfd81cb686baf"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
