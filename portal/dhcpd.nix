@@ -63,6 +63,7 @@ let
     { hostName = "worknuc";       ethernetAddress = "b8:ae:ed:78:da:ce"; }
     { hostName = "worklaptopeth"; ethernetAddress = "80:fa:5b:43:56:fe"; }
     { hostName = "worklaptop";    ethernetAddress = "00:28:f8:73:bc:25"; }
+    { hostName = "workairbook";   ethernetAddress = "4c:8d:79:f2:28:38"; }
   ] ++ (if config.testdata then [
     { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
   ] else []);

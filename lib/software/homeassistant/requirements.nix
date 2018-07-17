@@ -123,8 +123,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.9";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/28/99/ad4dd8240ff8a98c8786fef6d2b392fb2309b0c2bcf23fdfbf3a4cb1a499/SQLAlchemy-1.2.9.tar.gz"; sha256 = "e21e5561a85dcdf16b8520ae4daec7401c5c24558e0ce004f9b60be75c4b6957"; };
+      name = "SQLAlchemy-1.2.10";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8a/c2/29491103fd971f3988e90ee3a77bb58bad2ae2acd6e8ea30a6d1432c33a3/SQLAlchemy-1.2.10.tar.gz"; sha256 = "72325e67fb85f6e9ad304c603d83626d1df684fdf0c7ab1f0352e71feeab69d8"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -269,8 +269,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.7.3";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/98/3c/c8391e283729516115e52fbcd70d6c002e323d1a1b5470ebd5961995b436/denonavr-0.7.3.tar.gz"; sha256 = "765aef97e91e07d446f9343dfaaa05307ef0acaeaf90fff286b038855728a1b5"; };
+      name = "denonavr-0.7.4";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/bf/b0/acad80dc36faa613abd53f07c0e53eb2f4943d284b0059727b10122cdb05/denonavr-0.7.4.tar.gz"; sha256 = "0330cda77c9b33e65bf80960f7b6675c3024098f243b1e5d01dde72fc778bf51"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -301,8 +301,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180704.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b6/c5/772bda48f0e45307ddab16bf2cb27fdb8e63260ab46e2a954cd7ee79294a/home-assistant-frontend-20180704.0.tar.gz"; sha256 = "eb6c0f330e4320092de708750675e3e973038a8b05928734b71a38d5a3ee66cf"; };
+      name = "home-assistant-frontend-20180717.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/63/47/5c30820e530f3f86a9502a36888c4429caa52dbf3594d3dacf0a1159d2cd/home-assistant-frontend-20180717.0.tar.gz"; sha256 = "c35229d6634cf1fbdb85308e0d5d459540185f24e115167ef10dea654cbb599a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -318,8 +318,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.73.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8f/6d/f032a73bb4a045b265d4b09b28bc4b530ca23ca865a92603faffbb78ba27/homeassistant-0.73.0.tar.gz"; sha256 = "c152e50f49a1c5101ae11b75d5717ee3ba991c5fbc697d8afef160a71fbbee86"; };
+      name = "homeassistant-0.73.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/3e/51/1314f216c7b1e7719633b5e84f9cf2a56d6745578017a69f621ad0f85a7a/homeassistant-0.73.2.tar.gz"; sha256 = "87777b00de088e7967b75cc7f1a8d58f3eeece1977f361162582bd7a9e23fffe"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
