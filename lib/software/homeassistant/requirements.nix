@@ -159,6 +159,23 @@ let
 
 
 
+    "aiohttp-cors" = python.mkDerivation {
+      name = "aiohttp-cors-0.7.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/44/9e/6cdce7c3f346d8fd487adf68761728ad8cd5fbc296a7b07b92518350d31f/aiohttp-cors-0.7.0.tar.gz"; sha256 = "4d39c6d7100fd9764ed1caf8cebf0eb01bf5e3f24e2e073fda6234bc48b19f5d"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."aiohttp"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/aio-libs/aiohttp-cors";
+        license = licenses.asl20;
+        description = "CORS support for aiohttp";
+      };
+    };
+
+
+
     "aiohue" = python.mkDerivation {
       name = "aiohue-1.6.0";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7f/dc/3103a6cf08112c2044ee7d27deb4679bae27fbcc90e76298fdfbc9d9a362/aiohue-1.6.0.tar.gz"; sha256 = "87f0f86865e88ea715ab358b1e5f2838b79ee7cdc0bdf762e9ed60aaf4c8bd4a"; };
@@ -301,8 +318,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180717.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/63/47/5c30820e530f3f86a9502a36888c4429caa52dbf3594d3dacf0a1159d2cd/home-assistant-frontend-20180717.0.tar.gz"; sha256 = "c35229d6634cf1fbdb85308e0d5d459540185f24e115167ef10dea654cbb599a"; };
+      name = "home-assistant-frontend-20180720.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e1/bf/6e05611361c0be02da66f0ccce7ea02d63b0e80a07f46543d89f440a5e8d/home-assistant-frontend-20180720.0.tar.gz"; sha256 = "4a9d570cfc1d6b0e4b914897197d6772d48aa38b10202a648e79c5fb2a6a0293"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -318,8 +335,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.73.2";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/3e/51/1314f216c7b1e7719633b5e84f9cf2a56d6745578017a69f621ad0f85a7a/homeassistant-0.73.2.tar.gz"; sha256 = "87777b00de088e7967b75cc7f1a8d58f3eeece1977f361162582bd7a9e23fffe"; };
+      name = "homeassistant-0.74.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/d9/3b/6be5af7fecc7093c2796c32fa2c4f3b52b77ba865c56b5bf4143d82ac76d/homeassistant-0.74.0.tar.gz"; sha256 = "fc6c4e0fe6dfcbd69f6701412279f3f9eac3a2c1e8b3ef31630359ade1b4e4ae"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
