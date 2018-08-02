@@ -108,8 +108,8 @@ let
 
 
     "PyYAML" = python.mkDerivation {
-      name = "PyYAML-3.12";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4a/85/db5a2df477072b2902b0eb892feb37d88ac635d36245a72a6a69b23b383a/PyYAML-3.12.tar.gz"; sha256 = "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"; };
+      name = "PyYAML-3.13";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9e/a3/1d13970c3f36777c583f136c136f804d70f500168edc1edea6daa7200769/PyYAML-3.13.tar.gz"; sha256 = "3ef3092145e9b70e3ddd2c7ad59bdd0252a94dfe3949721633e41344de00a6bf"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -123,8 +123,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.9";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/28/99/ad4dd8240ff8a98c8786fef6d2b392fb2309b0c2bcf23fdfbf3a4cb1a499/SQLAlchemy-1.2.9.tar.gz"; sha256 = "e21e5561a85dcdf16b8520ae4daec7401c5c24558e0ce004f9b60be75c4b6957"; };
+      name = "SQLAlchemy-1.2.10";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8a/c2/29491103fd971f3988e90ee3a77bb58bad2ae2acd6e8ea30a6d1432c33a3/SQLAlchemy-1.2.10.tar.gz"; sha256 = "72325e67fb85f6e9ad304c603d83626d1df684fdf0c7ab1f0352e71feeab69d8"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -154,6 +154,23 @@ let
         homepage = "https://github.com/aio-libs/aiohttp";
         license = licenses.asl20;
         description = "Async http client/server framework (asyncio)";
+      };
+    };
+
+
+
+    "aiohttp-cors" = python.mkDerivation {
+      name = "aiohttp-cors-0.7.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/44/9e/6cdce7c3f346d8fd487adf68761728ad8cd5fbc296a7b07b92518350d31f/aiohttp-cors-0.7.0.tar.gz"; sha256 = "4d39c6d7100fd9764ed1caf8cebf0eb01bf5e3f24e2e073fda6234bc48b19f5d"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."aiohttp"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/aio-libs/aiohttp-cors";
+        license = licenses.asl20;
+        description = "CORS support for aiohttp";
       };
     };
 
@@ -269,8 +286,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.7.3";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/98/3c/c8391e283729516115e52fbcd70d6c002e323d1a1b5470ebd5961995b436/denonavr-0.7.3.tar.gz"; sha256 = "765aef97e91e07d446f9343dfaaa05307ef0acaeaf90fff286b038855728a1b5"; };
+      name = "denonavr-0.7.4";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/bf/b0/acad80dc36faa613abd53f07c0e53eb2f4943d284b0059727b10122cdb05/denonavr-0.7.4.tar.gz"; sha256 = "0330cda77c9b33e65bf80960f7b6675c3024098f243b1e5d01dde72fc778bf51"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -301,8 +318,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180702.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/56/d2/3f5fe8ab5a9558574616634af123217c8229bd4be5444531a74face28be2/home-assistant-frontend-20180702.1.tar.gz"; sha256 = "a8a6388d9b78e82e30a7ca89689e39847c76d60a7d6bc9a7ed627eb6ac8c2695"; };
+      name = "home-assistant-frontend-20180720.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e1/bf/6e05611361c0be02da66f0ccce7ea02d63b0e80a07f46543d89f440a5e8d/home-assistant-frontend-20180720.0.tar.gz"; sha256 = "4a9d570cfc1d6b0e4b914897197d6772d48aa38b10202a648e79c5fb2a6a0293"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -318,8 +335,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.72.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9f/85/5e6d9c24e7cb8acbc2d0e614ba65ac2c2ef138a98b976c0f7dc685baa4d9/homeassistant-0.72.1.tar.gz"; sha256 = "a909c95fe76f948ced146262f2cf75c12e874adc3e87fabd2ba3cca2408b7ff1"; };
+      name = "homeassistant-0.74.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/d9/3b/6be5af7fecc7093c2796c32fa2c4f3b52b77ba865c56b5bf4143d82ac76d/homeassistant-0.74.0.tar.gz"; sha256 = "fc6c4e0fe6dfcbd69f6701412279f3f9eac3a2c1e8b3ef31630359ade1b4e4ae"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -332,7 +349,6 @@ let
       self."certifi"
       self."pytz"
       self."requests"
-      self."typing"
       self."voluptuous"
     ];
       meta = with pkgs.stdenv.lib; {
@@ -345,8 +361,8 @@ let
 
 
     "idna" = python.mkDerivation {
-      name = "idna-2.6";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/f4/bd/0467d62790828c23c47fc1dfa1b1f052b24efdf5290f071c7a91d0d82fd3/idna-2.6.tar.gz"; sha256 = "2c6a5de3089009e3da7c5dde64a141dbc8551d5b7f6cf4ed7c2568d0cc520a8f"; };
+      name = "idna-2.7";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/65/c4/80f97e9c9628f3cac9b98bfca0402ede54e0563b56482e3e6e45c43c4935/idna-2.7.tar.gz"; sha256 = "684a38a6f903c1d71d6d5fac066b58d7768af4de2b832e426ec79c30daa94a16"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -360,8 +376,8 @@ let
 
 
     "idna-ssl" = python.mkDerivation {
-      name = "idna-ssl-1.0.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c4/3b/facf5a5009e577e7764e68a2af5ee25c63f41c78277260c2c42b8cfabf2e/idna-ssl-1.0.1.tar.gz"; sha256 = "1293f030bc608e9aa9cdee72aa93c1521bbb9c7698068c61c9ada6772162b979"; };
+      name = "idna-ssl-1.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/46/03/07c4894aae38b0de52b52586b24bf189bb83e4ddabfe2e2c8f2419eec6f4/idna-ssl-1.1.0.tar.gz"; sha256 = "a933e3bb13da54383f9e8f35dc4f9cb9eb9b3b78c6b36f311254d6d0d92c6c7c"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -473,8 +489,8 @@ let
 
 
     "requests" = python.mkDerivation {
-      name = "requests-2.18.4";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b0/e1/eab4fc3752e3d240468a8c0b284607899d2fbfb236a56b7377a329aa8d09/requests-2.18.4.tar.gz"; sha256 = "9c443e7324ba5b85070c4a818ade28bfabedf16ea10206da1132edaa6dda237e"; };
+      name = "requests-2.19.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/54/1f/782a5734931ddf2e1494e4cd615a51ff98e1879cbe9eecbdfeaf09aa75e9/requests-2.19.1.tar.gz"; sha256 = "ec22d826a36ed72a7358ff3fe56cbd4ba69dd7a6718ffd450ff0e9df7a47ce6a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -487,21 +503,6 @@ let
         homepage = "http://python-requests.org";
         license = licenses.asl20;
         description = "Python HTTP for Humans.";
-      };
-    };
-
-
-
-    "typing" = python.mkDerivation {
-      name = "typing-3.6.4";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ec/cc/28444132a25c113149cec54618abc909596f0b272a74c55bab9593f8876c/typing-3.6.4.tar.gz"; sha256 = "d400a9344254803a2368533e4533a4200d21eb7b6b729c173bc38201a74db3f2"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://docs.python.org/3/library/typing.html";
-        license = licenses.psfl;
-        description = "Type Hints for Python";
       };
     };
 
@@ -523,8 +524,8 @@ let
 
 
     "urllib3" = python.mkDerivation {
-      name = "urllib3-1.22";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ee/11/7c59620aceedcc1ef65e156cc5ce5a24ef87be4107c2b74458464e437a5d/urllib3-1.22.tar.gz"; sha256 = "cc44da8e1145637334317feebd728bd869a35285b93cbb4cca2577da7e62db4f"; };
+      name = "urllib3-1.23";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/3c/d2/dc5471622bd200db1cd9319e02e71bc655e9ea27b8e0ce65fc69de0dac15/urllib3-1.23.tar.gz"; sha256 = "a68ac5e15e76e7e5dd2b8f94007233e01effe3e50e8daddf69acfd81cb686baf"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
