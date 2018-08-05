@@ -1,5 +1,7 @@
 #pytz
-homeassistant
+homeassistant<0.75.0
+#pypandoc
+#voluptuous
 sqlalchemy
 paho-mqtt
 aiohttp_cors
