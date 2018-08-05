@@ -286,8 +286,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.7.4";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/bf/b0/acad80dc36faa613abd53f07c0e53eb2f4943d284b0059727b10122cdb05/denonavr-0.7.4.tar.gz"; sha256 = "0330cda77c9b33e65bf80960f7b6675c3024098f243b1e5d01dde72fc778bf51"; };
+      name = "denonavr-0.7.5";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/34/aa/d847a754290ae1cf35b308fc0a20beaa665343d612652ec76c8ea2fdbcf1/denonavr-0.7.5.tar.gz"; sha256 = "9946936113af851c10629fc32bc5f4901048be4a1eebdb679245ad4f7779d3bc"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -318,8 +318,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180720.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e1/bf/6e05611361c0be02da66f0ccce7ea02d63b0e80a07f46543d89f440a5e8d/home-assistant-frontend-20180720.0.tar.gz"; sha256 = "4a9d570cfc1d6b0e4b914897197d6772d48aa38b10202a648e79c5fb2a6a0293"; };
+      name = "home-assistant-frontend-20180804.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/11/d4/c0221e87175a0a62accd21ac02c4ffee58123b7932f3731cf6a6682fefeb/home-assistant-frontend-20180804.0.tar.gz"; sha256 = "50a9e74efe2b56fbc34fba07205829e0ea77315183e85c235d177cabff3b62ee"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -335,8 +335,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.74.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/d9/3b/6be5af7fecc7093c2796c32fa2c4f3b52b77ba865c56b5bf4143d82ac76d/homeassistant-0.74.0.tar.gz"; sha256 = "fc6c4e0fe6dfcbd69f6701412279f3f9eac3a2c1e8b3ef31630359ade1b4e4ae"; };
+      name = "homeassistant-0.74.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/39/fa/3d38a1c4963c9846c8daf96d0ee5dfecd653e0f4964d413ed49a2f39dbf5/homeassistant-0.74.2.tar.gz"; sha256 = "5a7a6ed9676ec191cf6fc5dc7763871f409d09bc51aa060170dd6876b79e461f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
