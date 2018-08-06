@@ -335,8 +335,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.74.2";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/39/fa/3d38a1c4963c9846c8daf96d0ee5dfecd653e0f4964d413ed49a2f39dbf5/homeassistant-0.74.2.tar.gz"; sha256 = "5a7a6ed9676ec191cf6fc5dc7763871f409d09bc51aa060170dd6876b79e461f"; };
+      name = "homeassistant-0.75.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/28/e3/9e4a041c72e36b6b4da17a4582be35b47f9c9f27e8272bdcc3bbacb8ec72/homeassistant-0.75.2.tar.gz"; sha256 = "433293b6d650638f185462bf916059f85eb9016c21503291381988077f30c43a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -559,8 +559,8 @@ let
 
 
     "voluptuous" = python.mkDerivation {
-      name = "voluptuous-0.11.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/64/1a/bc658313d0a228ce474648c360bd06e28af3ed5e24029b1a4108739c23f4/voluptuous-0.11.1.tar.gz"; sha256 = "af7315c9fa99e0bfd195a21106c82c81619b42f0bd9b6e287b797c6b6b6a9918"; };
+      name = "voluptuous-0.11.5";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/6e/5e/4e721e30cf175f9e11a5acccf4cd74898c32cae93580308ecd4cf7d2a454/voluptuous-0.11.5.tar.gz"; sha256 = "567a56286ef82a9d7ae0628c5842f65f516abcb496e74f3f59f1d7b28df314ef"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
