@@ -52,6 +52,7 @@ let
     { hostName = "dash-button1";  ethernetAddress = "ac:63:be:be:01:93"; noroute=true; }
     { hostName = "dash_button2";  ethernetAddress = "18:74:2e:de:83:cd"; noroute=true; }
     { hostName = "dash_button3";  ethernetAddress = "6c:56:97:d3:ef:f4"; noroute=true; }
+    { hostName = "dash_button4";  ethernetAddress = "84:cf:bf:8a:6b:fd"; }
 
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; ipAddress = "192.168.1.80"; }
     { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.81"; }
