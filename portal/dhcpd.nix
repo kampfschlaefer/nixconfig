@@ -117,15 +117,27 @@ in {
           max-lease-time 14400;
           deny unknown-clients;
 
-          option routers 192.168.1.220;
+          group { # known clients with route
+            option routers 192.168.1.220;
 
-          ${lib.concatMapStrings
-            (machine:
-              ''
-                host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; }
-              ''
-            )
-            (filter (host: !hasAttr "ipAddress" host) known_hosts)
+            ${lib.concatMapStrings
+              (machine:
+                ''
+                  host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; }
+                ''
+              )
+              (filter (host: !hasAttr "ipAddress" host && !hasAttr "noroute" host) known_hosts)
+            }
+          }
+          group { # known clients without route
+            ${lib.concatMapStrings
+              (machine:
+                ''
+                  host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; }
+                ''
+              )
+              (filter (host: !hasAttr "ipAddress" host && hasAttr "noroute" host) known_hosts)
+            }
           }
         }
 
