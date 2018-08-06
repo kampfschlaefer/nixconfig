@@ -52,8 +52,8 @@ let
     { hostName = "dash-button1";  ethernetAddress = "ac:63:be:be:01:93"; noroute=true; }
     { hostName = "dash_button2";  ethernetAddress = "18:74:2e:de:83:cd"; noroute=true; }
     { hostName = "dash_button3";  ethernetAddress = "6c:56:97:d3:ef:f4"; noroute=true; }
-    { hostName = "dash_button4";  ethernetAddress = "78:e1:03:74:76:4f"; }
-    { hostName = "dash_button5";  ethernetAddress = "fc:65:de:fa:0c:10"; }
+    { hostName = "dash_button4";  ethernetAddress = "78:e1:03:74:76:4f"; noroute=true; }
+    { hostName = "dash_button5";  ethernetAddress = "fc:65:de:fa:0c:10"; noroute=true; }
 
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; ipAddress = "192.168.1.80"; }
     { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.81"; }
