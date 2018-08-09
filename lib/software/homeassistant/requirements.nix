@@ -335,8 +335,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.75.2";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/28/e3/9e4a041c72e36b6b4da17a4582be35b47f9c9f27e8272bdcc3bbacb8ec72/homeassistant-0.75.2.tar.gz"; sha256 = "433293b6d650638f185462bf916059f85eb9016c21503291381988077f30c43a"; };
+      name = "homeassistant-0.75.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8c/6d/b163818d3c14b849323ee4d41e4324de5113770d4d9c23f42a6c42763374/homeassistant-0.75.3.tar.gz"; sha256 = "19210b14062a1d279cccadeb736ccd2f317788f7a1b3d82742540ebba504d096"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -355,6 +355,23 @@ let
         homepage = "https://home-assistant.io/";
         license = licenses.asl20;
         description = "Open-source home automation platform running on Python 3.";
+      };
+    };
+
+
+
+    "httmock" = python.mkDerivation {
+      name = "httmock-1.2.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7c/6d/85a552ccefdd4bfd4c628934baba8109c4647363a5536a9ff9b1463cf045/httmock-1.2.6.tar.gz"; sha256 = "4696306d1ff835c3ca865fdef2684d7e130b4120cc00126f862ba4797b1602ac"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."requests"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/patrys/httmock";
+        license = "Copyright 2013 Patryk Zawadzki";
+        description = "A mocking library for requests.";
       };
     };
 
@@ -426,8 +443,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.5.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e9/13/07f0c4b101eb46cb681bd931dccf0a759a34f6be1287af068f4ee24d4d26/netdisco-1.5.0.tar.gz"; sha256 = "308d8b9a95f9d25860349857a60915b9ef71fb33c5ed998b8acef1d88453a15c"; };
+      name = "netdisco-2.0.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/2c/b6/1df27a1075f2b59e7f061d107ed34b1308c8b88c229ebdbab4eb90d95ed7/netdisco-2.0.0.tar.gz"; sha256 = "49cbf0b18538f2dc743fe60b3d1b1f1932ecf538e6cb97cf34687f3b19a5466f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -468,6 +485,25 @@ let
         homepage = "http://eclipse.org/paho";
         license = "License :: OSI Approved";
         description = "MQTT version 3.1.1 client class";
+      };
+    };
+
+
+
+    "pyiss" = python.mkDerivation {
+      name = "pyiss-1.0.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/64/70/f42b4f35ba02fe2c3a5cba75a2e6d72f2594a12cc774a3972be7b5bd9d32/pyiss-1.0.1.tar.gz"; sha256 = "0c745e7a518e6cd0c5814b2dd3ac846a63fd936e0601b10016d030556ddf2772"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."httmock"
+      self."requests"
+      self."voluptuous"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/HydrelioxGitHub/pyiss";
+        license = licenses.mit;
+        description = "A simple python3 library for info about the current International Space Station location";
       };
     };
 
