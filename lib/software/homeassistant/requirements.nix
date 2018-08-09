@@ -360,6 +360,23 @@ let
 
 
 
+    "httmock" = python.mkDerivation {
+      name = "httmock-1.2.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7c/6d/85a552ccefdd4bfd4c628934baba8109c4647363a5536a9ff9b1463cf045/httmock-1.2.6.tar.gz"; sha256 = "4696306d1ff835c3ca865fdef2684d7e130b4120cc00126f862ba4797b1602ac"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."requests"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/patrys/httmock";
+        license = "Copyright 2013 Patryk Zawadzki";
+        description = "A mocking library for requests.";
+      };
+    };
+
+
+
     "idna" = python.mkDerivation {
       name = "idna-2.7";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/65/c4/80f97e9c9628f3cac9b98bfca0402ede54e0563b56482e3e6e45c43c4935/idna-2.7.tar.gz"; sha256 = "684a38a6f903c1d71d6d5fac066b58d7768af4de2b832e426ec79c30daa94a16"; };
@@ -468,6 +485,25 @@ let
         homepage = "http://eclipse.org/paho";
         license = "License :: OSI Approved";
         description = "MQTT version 3.1.1 client class";
+      };
+    };
+
+
+
+    "pyiss" = python.mkDerivation {
+      name = "pyiss-1.0.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/64/70/f42b4f35ba02fe2c3a5cba75a2e6d72f2594a12cc774a3972be7b5bd9d32/pyiss-1.0.1.tar.gz"; sha256 = "0c745e7a518e6cd0c5814b2dd3ac846a63fd936e0601b10016d030556ddf2772"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."httmock"
+      self."requests"
+      self."voluptuous"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/HydrelioxGitHub/pyiss";
+        license = licenses.mit;
+        description = "A simple python3 library for info about the current International Space Station location";
       };
     };
 
