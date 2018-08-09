@@ -335,8 +335,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.75.2";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/28/e3/9e4a041c72e36b6b4da17a4582be35b47f9c9f27e8272bdcc3bbacb8ec72/homeassistant-0.75.2.tar.gz"; sha256 = "433293b6d650638f185462bf916059f85eb9016c21503291381988077f30c43a"; };
+      name = "homeassistant-0.75.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8c/6d/b163818d3c14b849323ee4d41e4324de5113770d4d9c23f42a6c42763374/homeassistant-0.75.3.tar.gz"; sha256 = "19210b14062a1d279cccadeb736ccd2f317788f7a1b3d82742540ebba504d096"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -426,8 +426,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-1.5.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e9/13/07f0c4b101eb46cb681bd931dccf0a759a34f6be1287af068f4ee24d4d26/netdisco-1.5.0.tar.gz"; sha256 = "308d8b9a95f9d25860349857a60915b9ef71fb33c5ed998b8acef1d88453a15c"; };
+      name = "netdisco-2.0.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/2c/b6/1df27a1075f2b59e7f061d107ed34b1308c8b88c229ebdbab4eb90d95ed7/netdisco-2.0.0.tar.gz"; sha256 = "49cbf0b18538f2dc743fe60b3d1b1f1932ecf538e6cb97cf34687f3b19a5466f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
