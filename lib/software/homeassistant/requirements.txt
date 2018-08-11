@@ -1,7 +1,5 @@
 #pytz
-homeassistant<0.75.0
-#pypandoc
-#voluptuous
+homeassistant
 sqlalchemy
 paho-mqtt
 aiohttp_cors
@@ -15,3 +13,4 @@ xmltodict
 colorlog
 distro
 luftdaten
+pyiss
