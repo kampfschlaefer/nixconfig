@@ -144,6 +144,8 @@ in {
             }
           }
           group { # known clients without route
+            option routers 192.168.1.21;
+
             ${lib.concatMapStrings
               (machine:
                 ''
