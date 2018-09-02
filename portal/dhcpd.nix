@@ -49,11 +49,11 @@ let
     { hostName = "steuer";        ethernetAddress = "08:00:27:1f:06:82"; }
     { hostName = "arduino";       ethernetAddress = "18:fe:34:cf:a7:26"; }
     { hostName = "luftdaten";     ethernetAddress = "5c:cf:7f:76:fb:38"; }
-    { hostName = "dash-button1";  ethernetAddress = "ac:63:be:be:01:93"; noroute=true; }
-    { hostName = "dash_button2";  ethernetAddress = "18:74:2e:de:83:cd"; noroute=true; }
-    { hostName = "dash_button3";  ethernetAddress = "6c:56:97:d3:ef:f4"; noroute=true; }
-    { hostName = "dash_button4";  ethernetAddress = "78:e1:03:74:76:4f"; noroute=true; }
-    { hostName = "dash_button5";  ethernetAddress = "fc:65:de:fa:0c:10"; noroute=true; }
+    { hostName = "dash-button1";  ethernetAddress = "ac:63:be:be:01:93"; /*noroute=true; nodns=true;*/ }
+    { hostName = "dash_button2";  ethernetAddress = "18:74:2e:de:83:cd"; /*noroute=true; nodns=true;*/ }
+    { hostName = "dash_button3";  ethernetAddress = "6c:56:97:d3:ef:f4"; /*noroute=true; nodns=true;*/ }
+    { hostName = "dash_button4";  ethernetAddress = "78:e1:03:74:76:4f"; /*noroute=true; nodns=true;*/ }
+    { hostName = "dash_button5";  ethernetAddress = "fc:65:de:fa:0c:10"; /*noroute=true; nodns=true;*/ }
 
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; ipAddress = "192.168.1.80"; }
     { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.81"; }
@@ -62,6 +62,7 @@ let
     { hostName = "soundcraft";    ethernetAddress = "d2:7c:9f:a8:8c:fc"; ipAddress = "192.168.1.84"; noroute=true; }
 
     { hostName = "td-29";         ethernetAddress = "00:60:e0:66:64:95"; ipAddress = "192.168.1.30"; }
+    { hostName = "td-138";        ethernetAddress = "00:60:e0:70:ad:7f"; ipAddress = "192.168.1.31"; }
     { hostName = "worknuc";       ethernetAddress = "b8:ae:ed:78:da:ce"; }
     { hostName = "worklaptopeth"; ethernetAddress = "80:fa:5b:43:56:fe"; }
     { hostName = "worklaptop";    ethernetAddress = "00:28:f8:73:bc:25"; }
@@ -80,7 +81,6 @@ in {
 
       option subnet-mask 255.255.255.0;
       # option domain-name-servers 192.168.1.240 2001:470:1f0b:1033::706f:7274:616c;
-      option domain-name-servers 192.168.1.240;
       option domain-name "arnoldarts.de";
 
       subnet 192.168.1.0 netmask 255.255.255.0 {
@@ -89,6 +89,7 @@ in {
           default-lease-time 7200;
           max-lease-time 14400;
           option routers 192.168.1.220;
+          option domain-name-servers 192.168.1.240;
           ${lib.concatMapStrings
             (machine:
               ''
@@ -101,6 +102,7 @@ in {
         group {
           default-lease-time 3600;
           max-lease-time 14400;
+          option domain-name-servers 192.168.1.240;
           ${lib.concatMapStrings
             (machine:
               ''
@@ -110,12 +112,25 @@ in {
             (filter (host: hasAttr "ipAddress" host && hasAttr "noroute" host) known_hosts)
           }
         }
+        group {
+          default-lease-time 3600;
+          max-lease-time 14400;
+          ${lib.concatMapStrings
+            (machine:
+              ''
+                host ${machine.hostName} { hardware ethernet ${machine.ethernetAddress}; fixed-address ${machine.ipAddress}; }
+              ''
+            )
+            (filter (host: hasAttr "ipAddress" host && hasAttr "noroute" host && hasAttr "nodns" host) known_hosts)
+          }
+        }
         pool {
           # This is a /27 network for the known clients in 97-126
           range 192.168.1.97 192.168.1.126;
           default-lease-time 7200;
           max-lease-time 14400;
           deny unknown-clients;
+          option domain-name-servers 192.168.1.240;
 
           group { # known clients with route
             option routers 192.168.1.220;
@@ -146,6 +161,7 @@ in {
           default-lease-time 300;
           max-lease-time 1800;
           allow unknown-clients;
+          option domain-name-servers 192.168.1.240;
         }
       }
     '';
