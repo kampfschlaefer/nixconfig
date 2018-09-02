@@ -59,7 +59,7 @@ in {
       };
     };
 
-    boot.kernelModules = [ "dm-mirror" "dm-snapshot" "kvm-intel" ];
+    boot.kernelModules = [ "dm-mirror" "dm-snapshot" "kvm-intel" "dm-raid" ];
     boot.extraModulePackages = [ ];
     boot.extraModprobeConfig = ''
       options kvm_intel nested=y
