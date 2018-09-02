@@ -62,6 +62,7 @@ let
     { hostName = "soundcraft";    ethernetAddress = "d2:7c:9f:a8:8c:fc"; ipAddress = "192.168.1.84"; noroute=true; }
 
     { hostName = "td-29";         ethernetAddress = "00:60:e0:66:64:95"; ipAddress = "192.168.1.30"; }
+    { hostName = "td-138";        ethernetAddress = "00:60:e0:70:ad:7f"; ipAddress = "192.168.1.31"; }
     { hostName = "worknuc";       ethernetAddress = "b8:ae:ed:78:da:ce"; }
     { hostName = "worklaptopeth"; ethernetAddress = "80:fa:5b:43:56:fe"; }
     { hostName = "worklaptop";    ethernetAddress = "00:28:f8:73:bc:25"; }
