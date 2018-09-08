@@ -37,6 +37,72 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       # Could add extra name-address pairs here
     '';
 
+    outside_node = if outside_needed then {
+      outside = {config, pkgs, ...}:
+        {
+          virtualisation.memorySize = 256;
+          virtualisation.vlans = [ 2 ];
+          boot.kernelParams = [ "quiet" ];
+
+          imports = [
+            ../lib/tests/outsideweb.nix
+          ];
+
+          networking = {
+            interfaces.eth1 = {
+              useDHCP = false;
+              ipv4.addresses = [ { address = "192.168.2.10"; prefixLength = 32; } ];
+            };
+
+            firewall.enable = false;
+
+            inherit extraHosts;
+          };
+
+          services.outsideweb.enable = true;
+
+          environment.systemPackages = [ pkgs.nmap ];
+        };
+    } else {};
+
+    inside_node = if inside_needed then {
+      inside = {config, pkgs, ...}:
+        {
+          virtualisation.memorySize = 256;
+          virtualisation.vlans = [ 1 ];
+          boot.kernelParams = [ "quiet" ];
+
+          imports = [
+            ../lib/users/arnold.nix
+          ];
+
+          networking = {
+            interfaces = {
+              eth0 = lib.mkOverride 10 {
+                useDHCP = false;
+                ipv4.addresses = [];
+                ipv6.addresses = [];
+              };
+              eth1 = lib.mkOverride 10 {
+                useDHCP = true;
+                ipv4.addresses = [];
+                ipv6.addresses = [ { address = "2001:470:1f0b:1033::696e:7369:6465"; prefixLength = 64; } ];
+                macAddress = "7e:e2:63:7f:f0:0e";
+              };
+            };
+            inherit extraHosts;
+          };
+
+          environment.systemPackages = [
+            pkgs.git
+            pkgs.nmap
+            pkgs.openssh
+            testspkg
+            pkgs.ntp
+          ];
+        };
+    } else {};
+
   in {
     name = "test-portal";
 
@@ -86,67 +152,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #containers.imap.autoStart = lib.mkOverride 10 false;
           #containers.cups.autoStart = lib.mkOverride 10 false;
         };
-      outside = {config, pkgs, ...}:
-        {
-          virtualisation.memorySize = 256;
-          virtualisation.vlans = [ 2 ];
-          boot.kernelParams = [ "quiet" ];
-
-          imports = [
-            ../lib/tests/outsideweb.nix
-          ];
-
-          networking = {
-            interfaces.eth1 = {
-              useDHCP = false;
-              ipv4.addresses = [ { address = "192.168.2.10"; prefixLength = 32; } ];
-            };
-
-            firewall.enable = false;
-
-            inherit extraHosts;
-          };
-
-          services.outsideweb.enable = true;
-
-          environment.systemPackages = [ pkgs.nmap ];
-        };
-      inside = {config, pkgs, ...}:
-        {
-          virtualisation.memorySize = 256;
-          virtualisation.vlans = [ 1 ];
-          boot.kernelParams = [ "quiet" ];
-
-          imports = [
-            ../lib/users/arnold.nix
-          ];
-
-          networking = {
-            interfaces = {
-              eth0 = lib.mkOverride 10 {
-                useDHCP = false;
-                ipv4.addresses = [];
-                ipv6.addresses = [];
-              };
-              eth1 = lib.mkOverride 10 {
-                useDHCP = true;
-                ipv4.addresses = [];
-                ipv6.addresses = [ { address = "2001:470:1f0b:1033::696e:7369:6465"; prefixLength = 64; } ];
-                macAddress = "7e:e2:63:7f:f0:0e";
-              };
-            };
-            inherit extraHosts;
-          };
-
-          environment.systemPackages = [
-            pkgs.git
-            pkgs.nmap
-            pkgs.openssh
-            testspkg
-            pkgs.ntp
-          ];
-        };
-    };
+    } // outside_node // inside_node;
 
     testScript = ''
 
