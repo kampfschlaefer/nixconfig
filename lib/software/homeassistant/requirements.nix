@@ -124,6 +124,21 @@ let
 
 
 
+    "PyQRCode" = python.mkDerivation {
+      name = "PyQRCode-1.2.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/37/61/f07226075c347897937d4086ef8e55f0a62ae535e28069884ac68d979316/PyQRCode-1.2.1.tar.gz"; sha256 = "fdbf7634733e56b72e27f9bce46e4550b75a3a2c420414035cae9d9d26b234d5"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/mnooner256/pyqrcode";
+        license = licenses.bsdOriginal;
+        description = "A QR code generator written purely in Python with SVG, EPS, PNG and terminal output.";
+      };
+    };
+
+
+
     "PyYAML" = python.mkDerivation {
       name = "PyYAML-3.13";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9e/a3/1d13970c3f36777c583f136c136f804d70f500168edc1edea6daa7200769/PyYAML-3.13.tar.gz"; sha256 = "3ef3092145e9b70e3ddd2c7ad59bdd0252a94dfe3949721633e41344de00a6bf"; };
@@ -408,8 +423,8 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20180831.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8a/0d/9359a47f18c9e92366fffca02716f698c881255750c281125da7446136f5/home-assistant-frontend-20180831.0.tar.gz"; sha256 = "d0f897bed934bc2d557db04f8c76ad143db9514ea71943a0038c5bfb3b2151ec"; };
+      name = "home-assistant-frontend-20180903.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/98/56/a839bd70fb50f91c51e50dec8cb2dc025b31056812c6b16dc6e016dae33a/home-assistant-frontend-20180903.0.tar.gz"; sha256 = "54ba2ad2d1043952885f432d900025bd3eb11de180ac5147342cff585f44d4f9"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -425,8 +440,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.77.2";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/f3/0a/c61a5ceb14a16a5ae1794500fed2e0f752a47c21e656e034190ca4a4ed92/homeassistant-0.77.2.tar.gz"; sha256 = "3c581cfa7bc35b01e9c1f1c3a17778faf59103f5c01997990608cc4f9e6ad9c4"; };
+      name = "homeassistant-0.77.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/aa/16/eef222850b6814e581de15120a6155bcfee8460f2d2782e83b58ad10096a/homeassistant-0.77.3.tar.gz"; sha256 = "85211a052c63b5627e6244e6b990a538954037ca9a79972f626abedaa030b139"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -521,8 +536,8 @@ let
 
 
     "multidict" = python.mkDerivation {
-      name = "multidict-4.3.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9d/b9/3cf1b908d7af6530209a7a16d71ab2734a736c3cdf0657e3a06d0209811e/multidict-4.3.1.tar.gz"; sha256 = "5ba766433c30d703f6b2c17eb0b6826c6f898e5f58d89373e235f07764952314"; };
+      name = "multidict-4.4.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/3b/83/3ef3889c4bd1a5145b8b4c02f1be6cf174d3824f806968506c8912e65692/multidict-4.4.0.tar.gz"; sha256 = "5e2d5e1d999e941b4a626aea46bdc4206877cf727107fdaa9d46a8a773a6e49b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -612,6 +627,21 @@ let
         homepage = "https://github.com/HydrelioxGitHub/pyiss";
         license = licenses.mit;
         description = "A simple python3 library for info about the current International Space Station location";
+      };
+    };
+
+
+
+    "pyotp" = python.mkDerivation {
+      name = "pyotp-2.2.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/67/69/131f5ad63de40c30f3be88d891e4a2ea1b69398528db99bc1e5c543422fa/pyotp-2.2.6.tar.gz"; sha256 = "dd9130dd91a0340d89a0f06f887dbd76dd07fb95a8886dc4bc401239f2eebd69"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/pyotp/pyotp";
+        license = licenses.bsdOriginal;
+        description = "Python One Time Password Library";
       };
     };
 
