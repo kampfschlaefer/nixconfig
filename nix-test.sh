@@ -6,6 +6,9 @@ branch=`git describe --all`
 branch=${branch#*/}
 
 machine=${1:-portal}
+if [ $machine = "homeassistant" ]; then
+    machine=lib/software/homeassistant
+fi
 
 action=${2:-run}
 
