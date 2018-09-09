@@ -7,78 +7,13 @@ import logging
 import time
 from scapy.all import *
 
-
-logger = logging.getLogger()
-
-logging.basicConfig(level=logging.DEBUG)
-
-
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    '--config', '-c',
-    type=argparse.FileType('r')
-)
-
-args = parser.parse_args()
-
-config = configparser.ConfigParser()
-config.read_dict({
-    'DEFAULT': {
-        'interface': 'lo',
-        'host': 'hass.io',
-        'port': 8123,
-        'use_ssl': False,
-        'blackout_time': 10,
-        # 'api_password': None
-    }
-})
-logger.debug(
-    "Reading config from: %s",
-    str(config.read([
-        './.dash_button.cfg',
-        os.path.expanduser('~/.dash_button.cfg'),
-        '/etc/dash_button/dash_button.cfg'
-    ]))
-)
-
-if args.config:
-    config.read_file(args.config)
-
-if not config.sections():
-    logger.error("Need at least one section for a button/MAC address")
-    sys.exit(1)
-
-blackout_time = config.getint('DEFAULT', 'blackout_time')
-
-logger.debug("1: creating API object")
-api = ha.API(
-    host=config.get('DEFAULT', 'host'),
-    port=config.getint('DEFAULT', 'port'),
-    use_ssl=config.getboolean('DEFAULT', 'use_ssl'),
-    api_password=config.get('DEFAULT', 'api_password', fallback=None),
-)
-
-i = 20
-logger.debug("2: try to validate api")
-api_reachable = api.validate_api()
-while not api_reachable and i > 0:
-    logger.debug("3: failed to validate api, %i remaining tries", i)
-    time.sleep(2)
-    i -= 1
-    api_reachable = api.validate_api()
-
-if not api_reachable:
-    logger.error("API not reachable with the given parameters:")
-    logger.error(config.items('DEFAULT'))
-    sys.exit(2)
-
-logger.info("Dashbutton Daemon ready for action")
-
-last_trigger = 0  # time.time()
+last_trigger = 0
+api = None
 
 
 def arp_handle(pkt):
     global last_trigger
+    global api
     if (
         ARP in pkt and pkt[ARP].op == 1 and  # who-has (request)
         abs(time.time() - last_trigger) > blackout_time
@@ -103,10 +38,74 @@ def arp_handle(pkt):
                     "Found Button %s, will fire event for that mac", mac
                 )
                 ha.fire_event(api, 'dash_button_pressed', {'mac': mac})
-            last_trigger = time.time()
+                last_trigger = time.time()
 
 
 def run():
+    logger = logging.getLogger()
+
+    logging.basicConfig(level=logging.DEBUG)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--config', '-c',
+        type=argparse.FileType('r')
+    )
+
+    args = parser.parse_args()
+
+    config = configparser.ConfigParser()
+    config.read_dict({
+        'DEFAULT': {
+            'interface': 'lo',
+            'host': 'hass.io',
+            'port': 8123,
+            'use_ssl': False,
+            'blackout_time': 10,
+            # 'api_password': None
+        }
+    })
+    logger.debug(
+        "Reading config from: %s",
+        str(config.read([
+            './.dash_button.cfg',
+            os.path.expanduser('~/.dash_button.cfg'),
+            '/etc/dash_button/dash_button.cfg'
+        ]))
+    )
+
+    if args.config:
+        config.read_file(args.config)
+
+    if not config.sections():
+        logger.error("Need at least one section for a button/MAC address")
+        sys.exit(1)
+
+    blackout_time = config.getint('DEFAULT', 'blackout_time')
+
+    i = 20
+    logger.debug("1: try to validate api")
+    api_reachable = False
+    while not api_reachable and i > 0:
+        time.sleep(2)
+        i -= 1
+        api = ha.API(
+            host=config.get('DEFAULT', 'host'),
+            port=config.getint('DEFAULT', 'port'),
+            use_ssl=config.getboolean('DEFAULT', 'use_ssl'),
+            api_password=config.get('DEFAULT', 'api_password', fallback=None),
+        )
+        api_reachable = api.validate_api()
+        if not api_reachable:
+            logger.debug("2: failed to validate api, %i remaining tries", i)
+
+    if not api_reachable:
+        logger.error("API not reachable with the given parameters:")
+        logger.error(config.items('DEFAULT'))
+        sys.exit(2)
+
+    logger.info("Dashbutton Daemon ready for action")
+
     while True:
         sniff(
             iface=[config.get('DEFAULT', 'interface')],
