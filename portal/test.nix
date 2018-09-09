@@ -3,6 +3,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_firewall = true;
     run_gitolite = true;
     run_homeassistant = true;
+    run_influxdb = true;
     run_mqtt = true;
     run_ntp = true;
     run_selfoss = true;
@@ -500,7 +501,20 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       ${lib.optionalString (!run_mqtt)
         ''subtest "mqtt not reachable", sub {
           $portal->fail("ping -4 -n -c 1 mqtt >&2");
-        }''
+        };''
+      }
+
+      ${lib.optionalString run_influxdb
+        ''subtest "influxdb testing", sub {
+          $portal->succeed("systemctl status container\@influxdb >&2");
+          $portal->succeed("systemctl -M influxdb status influxdb >&2");
+          $portal->fail("nixos-container run influxdb -- netstat -l -nv |grep 127.0.0.1:8086");
+        };''
+      }
+      ${lib.optionalString (run_influxdb && run_homeassistant)
+        ''subtest "homeassistant access to influxdb", sub {
+          $portal->succeed("nixos-container run homeassistant -- curl -4 http://192.168.6.17:8086 >&2");
+        };''
       }
 
       #$inside->shutdown();
