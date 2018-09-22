@@ -1,19 +1,32 @@
 
 import argparse
 import configparser
-import homeassistant.remote as ha
 import json
 import logging
+import requests
 import time
 from scapy.all import *
 
 last_trigger = 0
-api = None
+session = None
+config = None
+
+
+def build_url(config, endpoint):
+    return "%s://%s:%s/%s" % (
+        {'True': 'https', 'False': 'http'}[
+            str(config.getboolean('DEFAULT', 'use_ssl'))
+        ],
+        config.get('DEFAULT', 'host'),
+        config.get('DEFAULT', 'port'),
+        endpoint,
+    )
 
 
 def arp_handle(pkt):
     global last_trigger
-    global api
+    global session
+    global config
     if (
         ARP in pkt and pkt[ARP].op == 1 and  # who-has (request)
         abs(time.time() - last_trigger) > blackout_time
@@ -32,12 +45,18 @@ def arp_handle(pkt):
                     "Found Button %s, will execute %s.%s with data %s",
                     mac, domain, action, data
                 )
-                ha.call_service(api, domain, action, data)
+                session.post(
+                    build_url(config, 'api/services/%s/%s' % (domain, action)),
+                    json=data,
+                )
             else:
                 logger.info(
                     "Found Button %s, will fire event for that mac", mac
                 )
-                ha.fire_event(api, 'dash_button_pressed', {'mac': mac})
+                session.post(
+                    build_url(config, 'api/events/dash_button_pressed'),
+                    json={'mac': mac}
+                )
                 last_trigger = time.time()
 
 
@@ -62,7 +81,7 @@ def run():
             'port': 8123,
             'use_ssl': False,
             'blackout_time': 10,
-            # 'api_password': None
+            'api_password': None
         }
     })
     logger.debug(
@@ -83,19 +102,31 @@ def run():
 
     blackout_time = config.getint('DEFAULT', 'blackout_time')
 
-    i = 20
     logger.debug("1: try to validate api")
+    i = 20
     api_reachable = False
+
+    session = requests.Session()
+    session.headers['x-ha-access'] = config.get('DEFAULT', 'api_password')
+
     while not api_reachable and i > 0:
         time.sleep(2)
         i -= 1
-        api = ha.API(
-            host=config.get('DEFAULT', 'host'),
-            port=config.getint('DEFAULT', 'port'),
-            use_ssl=config.getboolean('DEFAULT', 'use_ssl'),
-            api_password=config.get('DEFAULT', 'api_password', fallback=None),
+        response = session.get(
+            build_url(config, 'api/')
         )
-        api_reachable = api.validate_api()
+        api_reachable = (
+            response.status_code == 200 and
+            response.json()['message'] == 'API running.'
+        )
+        if api_reachable:
+            response = session.get(
+                build_url(config, 'api/discovery_info'),
+            )
+            api_reachable = (
+                response.status_code == 200 and
+                'version' in response.json()
+            )
         if not api_reachable:
             logger.debug("2: failed to validate api, %i remaining tries", i)
 
