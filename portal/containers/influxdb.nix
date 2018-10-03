@@ -4,6 +4,7 @@ let
   /* pg_pkg = pkgs.postgresql95;
   backup_path = "/var/backup/postgresql";
   db_list_command = "psql -l -t -A |cut -d'|' -f 1 |grep -v -e template0 -e template1 -e 'root=CT'"; */
+  influxpkg = config.services.influxdb.package;
 in
 {
   systemd.services."container@influxdb" = {
@@ -50,6 +51,10 @@ in
           };
         };
       };
+
+      environment.systemPackages = [
+        influxpkg
+      ];
     };
   };
 }
