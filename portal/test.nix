@@ -140,7 +140,9 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
+          containers.grafana.autoStart = lib.mkOverride 10 run_influxdb;
           containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant;
+          containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
@@ -505,6 +507,19 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl status container\@influxdb >&2");
           $portal->succeed("systemctl -M influxdb status influxdb >&2");
           $portal->fail("nixos-container run influxdb -- netstat -l -nv |grep 127.0.0.1:8086");
+          $portal->succeed("nixos-container run influxdb -- netstat -l -nv |grep :8086");
+          $portal->succeed("nixos-container run influxdb -- influx -execute 'SHOW DATABASES' >&2");
+        };
+
+        subtest "grafana", sub {
+          $portal->succeed("systemctl status container\@grafana >&2");
+          $portal->succeed("systemctl -M grafana status grafana >&2");
+          $portal->succeed("curl -4 --insecure -f https://grafana >&2");
+        };''
+      }
+      ${lib.optionalString (!run_influxdb)
+        ''subtest "influxdb not running", sub {
+          $portal->fail("systemctl status container\@influxdb >&2");
         };''
       }
       ${lib.optionalString (run_influxdb && run_homeassistant)

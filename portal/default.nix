@@ -26,6 +26,7 @@ in {
       ./containers/gitolite.nix
       ./containers/homeassistant.nix
       ./containers/influxdb.nix
+      ./containers/grafana.nix
       #./containers/imap.nix
       ./containers/mpd.nix
       ./containers/mqtt.nix
