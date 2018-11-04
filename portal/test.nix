@@ -2,11 +2,12 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
     run_firewall = true;
     run_gitolite = true;
-    run_homeassistant = true;
+    run_homeassistant = false;
     run_influxdb = true;
     run_mqtt = true;
     run_ntp = true;
-    run_selfoss = true;
+    run_postgres = true;
+    run_selfoss = false;
     run_startpage = true;
     run_syncthing = true;
     run_torproxy = true;
@@ -17,8 +18,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
-
-    run_postgres = false;
 
     debug = false;
 
@@ -148,12 +147,12 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           containers.grafana.autoStart = lib.mkOverride 10 run_influxdb;
-          containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant;
+          /* containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant; */
           containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
-          containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
+          /* containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss; */
           containers.startpage.autoStart = lib.mkOverride 10 run_startpage;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
           containers.syncthing2.autoStart = lib.mkOverride 10 run_syncthing;
@@ -383,6 +382,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       ${lib.optionalString run_selfoss
         ''subtest "Check selfoss", sub {
           # Preparation
+          $portal->succeed("ping -4 -n -c 1 -w 2 outsideweb >&2");
           $outside->succeed("systemctl status -l -n 40 nginx >&2");
           $portal->succeed("nixos-container run selfoss -- ip r get 192.168.2.10 >&2");
           $portal->succeed("nixos-container run selfoss -- ping -4 -n -c 1 -w 2 outsideweb >&2");
