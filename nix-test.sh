@@ -20,7 +20,7 @@ mkdir -p outputs
 
 nixStable=`nix-build --no-out-link nixpkgs/default.nix -A pkgs.nixStable`
 
-time ${nixStable}/bin/nix -v build --out-link outputs/${machine}-${branch} -f ${machine}/test.nix ${attribute}
+time ${nixStable}/bin/nix -v build --show-trace --out-link outputs/${machine}-${branch} -f ${machine}/test.nix ${attribute}
 
 if [ ${action} = "driver" ]; then
     ./outputs/${machine}-${branch}/bin/nixos-run-vms
