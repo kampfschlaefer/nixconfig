@@ -3,6 +3,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_firewall = true;
     run_gitolite = true;
     run_homeassistant = true;
+    run_influxdb = true;
     run_mqtt = true;
     run_ntp = true;
     run_selfoss = true;
@@ -36,6 +37,72 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     extraHosts = ''
       # Could add extra name-address pairs here
     '';
+
+    outside_node = if outside_needed then {
+      outside = {config, pkgs, ...}:
+        {
+          virtualisation.memorySize = 256;
+          virtualisation.vlans = [ 2 ];
+          boot.kernelParams = [ "quiet" ];
+
+          imports = [
+            ../lib/tests/outsideweb.nix
+          ];
+
+          networking = {
+            interfaces.eth1 = {
+              useDHCP = false;
+              ipv4.addresses = [ { address = "192.168.2.10"; prefixLength = 32; } ];
+            };
+
+            firewall.enable = false;
+
+            inherit extraHosts;
+          };
+
+          services.outsideweb.enable = true;
+
+          environment.systemPackages = [ pkgs.nmap ];
+        };
+    } else {};
+
+    inside_node = if inside_needed then {
+      inside = {config, pkgs, ...}:
+        {
+          virtualisation.memorySize = 256;
+          virtualisation.vlans = [ 1 ];
+          boot.kernelParams = [ "quiet" ];
+
+          imports = [
+            ../lib/users/arnold.nix
+          ];
+
+          networking = {
+            interfaces = {
+              eth0 = lib.mkOverride 10 {
+                useDHCP = false;
+                ipv4.addresses = [];
+                ipv6.addresses = [];
+              };
+              eth1 = lib.mkOverride 10 {
+                useDHCP = true;
+                ipv4.addresses = [];
+                ipv6.addresses = [ { address = "2001:470:1f0b:1033::696e:7369:6465"; prefixLength = 64; } ];
+                macAddress = "7e:e2:63:7f:f0:0e";
+              };
+            };
+            inherit extraHosts;
+          };
+
+          environment.systemPackages = [
+            pkgs.git
+            pkgs.nmap
+            pkgs.openssh
+            testspkg
+            pkgs.ntp
+          ];
+        };
+    } else {};
 
   in {
     name = "test-portal";
@@ -73,7 +140,9 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
+          containers.grafana.autoStart = lib.mkOverride 10 run_influxdb;
           containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant;
+          containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
@@ -86,67 +155,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #containers.imap.autoStart = lib.mkOverride 10 false;
           #containers.cups.autoStart = lib.mkOverride 10 false;
         };
-      outside = {config, pkgs, ...}:
-        {
-          virtualisation.memorySize = 256;
-          virtualisation.vlans = [ 2 ];
-          boot.kernelParams = [ "quiet" ];
-
-          imports = [
-            ../lib/tests/outsideweb.nix
-          ];
-
-          networking = {
-            interfaces.eth1 = {
-              useDHCP = false;
-              ipv4.addresses = [ { address = "192.168.2.10"; prefixLength = 32; } ];
-            };
-
-            firewall.enable = false;
-
-            inherit extraHosts;
-          };
-
-          services.outsideweb.enable = true;
-
-          environment.systemPackages = [ pkgs.nmap ];
-        };
-      inside = {config, pkgs, ...}:
-        {
-          virtualisation.memorySize = 256;
-          virtualisation.vlans = [ 1 ];
-          boot.kernelParams = [ "quiet" ];
-
-          imports = [
-            ../lib/users/arnold.nix
-          ];
-
-          networking = {
-            interfaces = {
-              eth0 = lib.mkOverride 10 {
-                useDHCP = false;
-                ipv4.addresses = [];
-                ipv6.addresses = [];
-              };
-              eth1 = lib.mkOverride 10 {
-                useDHCP = true;
-                ipv4.addresses = [];
-                ipv6.addresses = [ { address = "2001:470:1f0b:1033::696e:7369:6465"; prefixLength = 64; } ];
-                macAddress = "7e:e2:63:7f:f0:0e";
-              };
-            };
-            inherit extraHosts;
-          };
-
-          environment.systemPackages = [
-            pkgs.git
-            pkgs.nmap
-            pkgs.openssh
-            testspkg
-            pkgs.ntp
-          ];
-        };
-    };
+    } // outside_node // inside_node;
 
     testScript = ''
 
@@ -490,7 +499,33 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       ${lib.optionalString (!run_mqtt)
         ''subtest "mqtt not reachable", sub {
           $portal->fail("ping -4 -n -c 1 mqtt >&2");
-        }''
+        };''
+      }
+
+      ${lib.optionalString run_influxdb
+        ''subtest "influxdb testing", sub {
+          $portal->succeed("systemctl status container\@influxdb >&2");
+          $portal->succeed("systemctl -M influxdb status influxdb >&2");
+          $portal->fail("nixos-container run influxdb -- netstat -l -nv |grep 127.0.0.1:8086");
+          $portal->succeed("nixos-container run influxdb -- netstat -l -nv |grep :8086");
+          $portal->succeed("nixos-container run influxdb -- influx -execute 'SHOW DATABASES' >&2");
+        };
+
+        subtest "grafana", sub {
+          $portal->succeed("systemctl status container\@grafana >&2");
+          $portal->succeed("systemctl -M grafana status grafana >&2");
+          $portal->succeed("curl -4 --insecure -f https://grafana >&2");
+        };''
+      }
+      ${lib.optionalString (!run_influxdb)
+        ''subtest "influxdb not running", sub {
+          $portal->fail("systemctl status container\@influxdb >&2");
+        };''
+      }
+      ${lib.optionalString (run_influxdb && run_homeassistant)
+        ''subtest "homeassistant access to influxdb", sub {
+          $portal->succeed("nixos-container run homeassistant -- curl -4 http://192.168.6.17:8086 >&2");
+        };''
       }
 
       #$inside->shutdown();
