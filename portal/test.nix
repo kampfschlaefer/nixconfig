@@ -50,12 +50,18 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           ];
 
           networking = {
+            interfaces.eth0 = {
+              useDHCP = false;
+              ipv4.addresses = [];
+              ipv6.addresses = [];
+            };
             interfaces.eth1 = {
               useDHCP = false;
               ipv4.addresses = [ { address = "192.168.2.10"; prefixLength = 32; } ];
             };
 
             firewall.enable = false;
+            /* nameservers = [ "192.168.1.240" ]; */
 
             inherit extraHosts;
           };
@@ -78,6 +84,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           ];
 
           networking = {
+            nameservers = [ "192.168.1.240" ];
             interfaces = {
               eth0 = lib.mkOverride 10 {
                 useDHCP = false;
