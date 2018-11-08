@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  selfosspkg = pkgs.callPackage ../../lib/software/selfoss {};
   users = if config.testdata then {
     "user" = "password";
   } else import ./selfoss_secrets.nix {};
@@ -20,7 +19,9 @@ in
       };
     };
 
-    config = { config, pkgs, ... }: {
+    config = { config, pkgs, ... }: let
+      selfosspkg = pkgs.callPackage ../../lib/software/selfoss { };
+    in {
       imports = [
         ../../lib/software/selfoss/service.nix
       ];
