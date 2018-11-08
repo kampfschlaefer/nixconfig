@@ -183,6 +183,8 @@ in
         pm.min_spare_servers = 1
         pm.max_spare_servers = 10
         pm.max_requests = 500
+
+        catch_workers_output = yes
         '';
       };
     };
