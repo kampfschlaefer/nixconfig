@@ -104,18 +104,23 @@ let
   selfossprestarts = concatStringsSep "\n" (
     mapAttrsToList (name: opts: ''
       if [ ! -d /var/lib/selfoss/${name} ]; then
+        # New install
         mkdir -p /var/lib/selfoss/${name}
         cp -R ${selfosspkg}/data /var/lib/selfoss/${name}
         chmod u+w -R /var/lib/selfoss/${name}/data
         cp -R ${selfosspkg}/public /var/lib/selfoss/${name}
         chmod u+w /var/lib/selfoss/${name}/public
+      else
+        # Update
+        cd /var/lib/selfoss/
+        ${pkgs.gnutar}/bin/tar cf selfoss-data-${name}-`${pkgs.coreutils}/bin/date +%Y%m%d-%H%M%S` ${name}/data
       fi
+      cd ${selfosspkg}
+      ${pkgs.rsync}/bin/rsync -r --delete controllers daos helpers public spouts templates vendor cliupdate.php common.php defaults.ini index.php run.php /var/lib/selfoss/${name}/
       cd /var/lib/selfoss/${name}
       rm -f config.ini
       echo "${instanceconfig opts}" > config.ini
-      for f in index.php cliupdate.php common.php controllers daos defaults.ini helpers libs spouts templates; do
-        ${pkgs.rsync}/bin/rsync -r --delete ${selfosspkg}/$f ./
-      done
+
       chown -R ${nginxcfg.user}:${nginxcfg.group} .
     '') cfg.instances
   );
