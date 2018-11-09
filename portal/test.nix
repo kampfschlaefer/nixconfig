@@ -2,7 +2,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
   let
     run_firewall = true;
     run_gitolite = true;
-    run_homeassistant = false;
+    run_homeassistant = true;
     run_influxdb = true;
     run_mqtt = true;
     run_ntp = true;
@@ -147,7 +147,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           containers.grafana.autoStart = lib.mkOverride 10 run_influxdb;
-          /* containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant; */
+          containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant;
           containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;

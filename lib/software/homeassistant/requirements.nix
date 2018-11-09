@@ -93,15 +93,15 @@ let
 
 
     "MarkupSafe" = python.mkDerivation {
-      name = "MarkupSafe-1.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4d/de/32d741db316d8fdb7680822dd37001ef7a448255de9699ab4bfcbdf4172b/MarkupSafe-1.0.tar.gz"; sha256 = "a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"; };
+      name = "MarkupSafe-1.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ac/7e/1b4c2e05809a4414ebce0892fe1e32c14ace86ca7d50c70f00979ca9b3a3/MarkupSafe-1.1.0.tar.gz"; sha256 = "4e97332c9ce444b0c2c38dd22ddc61c743eb208d916e4265a2a3b575bdccb1d3"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/pallets/markupsafe";
+        homepage = "https://www.palletsprojects.com/p/markupsafe/";
         license = licenses.bsdOriginal;
-        description = "Implements a XML/HTML/XHTML Markup safe string for Python";
+        description = "Safely add untrusted strings to HTML/XML markup.";
       };
     };
 
@@ -123,8 +123,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.10";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8a/c2/29491103fd971f3988e90ee3a77bb58bad2ae2acd6e8ea30a6d1432c33a3/SQLAlchemy-1.2.10.tar.gz"; sha256 = "72325e67fb85f6e9ad304c603d83626d1df684fdf0c7ab1f0352e71feeab69d8"; };
+      name = "SQLAlchemy-1.2.13";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/1e/98/4dba86354d271344e25fa01dc38a0bf0e0ba6407ad2d5e8426496a95b568/SQLAlchemy-1.2.13.tar.gz"; sha256 = "84412de3794acee05630e7788f25e80e81f78eb4837e7b71d0499129f660486a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -177,8 +177,8 @@ let
 
 
     "aiohue" = python.mkDerivation {
-      name = "aiohue-1.6.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7f/dc/3103a6cf08112c2044ee7d27deb4679bae27fbcc90e76298fdfbc9d9a362/aiohue-1.6.0.tar.gz"; sha256 = "87f0f86865e88ea715ab358b1e5f2838b79ee7cdc0bdf762e9ed60aaf4c8bd4a"; };
+      name = "aiohue-1.7.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/10/4c/4c79aeebac5f53bf0dc72125b9e15fdf1020f84ac47e92b466ea68e2a536/aiohue-1.7.0.tar.gz"; sha256 = "26989babdc3f38575164b60b9536309271d58db005a03045b6e9cca4fc5201d8"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -243,8 +243,8 @@ let
 
 
     "certifi" = python.mkDerivation {
-      name = "certifi-2018.4.16";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4d/9c/46e950a6f4d6b4be571ddcae21e7bc846fcbb88f1de3eff0f6dd0a6be55d/certifi-2018.4.16.tar.gz"; sha256 = "13e698f54293db9f89122b0581843a782ad0934a4fe0172d2a980ba77fc61bb7"; };
+      name = "certifi-2018.10.15";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/41/b6/4f0cefba47656583217acd6cd797bc2db1fede0d53090fdc28ad2c8e0716/certifi-2018.10.15.tar.gz"; sha256 = "6d58c986d22b038c8c0df30d639f23a3e6d172a05c3583e766f4c0b785c0986a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -288,8 +288,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.7.5";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/34/aa/d847a754290ae1cf35b308fc0a20beaa665343d612652ec76c8ea2fdbcf1/denonavr-0.7.5.tar.gz"; sha256 = "9946936113af851c10629fc32bc5f4901048be4a1eebdb679245ad4f7779d3bc"; };
+      name = "denonavr-0.7.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c5/e1/149d2da0f81b5a41d242daafe8338d970298db5d3e9ec12ba63595af28c9/denonavr-0.7.6.tar.gz"; sha256 = "253276f64b2be55cf9538dcf85b41d777ba2277d1fc1cb6ce404c41e7be4142d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -411,6 +411,23 @@ let
 
 
 
+    "ifaddr" = python.mkDerivation {
+      name = "ifaddr-0.1.4";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/12/40/97ef30db32e0c798fc557af403ea263dbeae8d334571603f02e19f4021a0/ifaddr-0.1.4.zip"; sha256 = "cf2a8fbb578da2844d999a0a453825f660ed2d3fc47dcffc5f673dd8de4f0f8b"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."ipaddress"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/pydron/ifaddr";
+        license = "";
+        description = "Enumerates all IP addresses on all network adapters of the system.";
+      };
+    };
+
+
+
     "influxdb" = python.mkDerivation {
       name = "influxdb-5.2.0";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/62/ff/f3927023d5ef2ee4156a54ff87757eaff1f630aed6c0c4fbd1c1413bfb88/influxdb-5.2.0.tar.gz"; sha256 = "3ba558432d4c64293ada0deccf76527777e76750e99176d3b9dbc5a72bd4163b"; };
@@ -431,9 +448,24 @@ let
 
 
 
+    "ipaddress" = python.mkDerivation {
+      name = "ipaddress-1.0.22";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/97/8d/77b8cedcfbf93676148518036c6b1ce7f8e14bf07e95d7fd4ddcb8cc052f/ipaddress-1.0.22.tar.gz"; sha256 = "b146c751ea45cad6188dd6cf2d9b757f6f4f8d6ffb96a023e6f2e26eea02a72c"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/phihag/ipaddress";
+        license = licenses.psfl;
+        description = "IPv4/IPv6 manipulation library";
+      };
+    };
+
+
+
     "luftdaten" = python.mkDerivation {
-      name = "luftdaten-0.2.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/cc/2a/2b5583c82ac322ebffb14919d1f83bf2e27ad77d62e46464c36d189d7cbf/luftdaten-0.2.0.tar.gz"; sha256 = "75fb177f61904dd1a7f93c1fa6c7cd468fd4a2e04ca45a87d37c802d290d17ad"; };
+      name = "luftdaten-0.3.4";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/78/59/4f1640f70aba964d96ead2f6a564ff7dffcb89bff84cfac87b132002d851/luftdaten-0.3.4.tar.gz"; sha256 = "c298ea749ff4eec6a95e04023f9068d017acb02133f1fdcc38eb98e5ebc69442"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -450,8 +482,8 @@ let
 
 
     "multidict" = python.mkDerivation {
-      name = "multidict-4.3.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9d/b9/3cf1b908d7af6530209a7a16d71ab2734a736c3cdf0657e3a06d0209811e/multidict-4.3.1.tar.gz"; sha256 = "5ba766433c30d703f6b2c17eb0b6826c6f898e5f58d89373e235f07764952314"; };
+      name = "multidict-4.4.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b3/5f/5c29cde8511c95fad045b9ecaf2e76f0da18761e8363a82594f5a58c2ced/multidict-4.4.2.tar.gz"; sha256 = "3c11e92c3dfc321014e22fb442bc9eb70e01af30d6ce442026b0c35723448c66"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -465,8 +497,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-2.0.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/2c/b6/1df27a1075f2b59e7f061d107ed34b1308c8b88c229ebdbab4eb90d95ed7/netdisco-2.0.0.tar.gz"; sha256 = "49cbf0b18538f2dc743fe60b3d1b1f1932ecf538e6cb97cf34687f3b19a5466f"; };
+      name = "netdisco-2.2.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4e/e9/d6c384ad401d7dfe4224580fdd640f5db63c94f812325d9016228a9e1113/netdisco-2.2.0.tar.gz"; sha256 = "b5e810721a266660f7f90fc43f12c4635ec95c3db87d9e30ca408bb922cb1007"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -482,24 +514,9 @@ let
 
 
 
-    "netifaces" = python.mkDerivation {
-      name = "netifaces-0.10.7";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/81/39/4e9a026265ba944ddf1fea176dbb29e0fe50c43717ba4fcf3646d099fe38/netifaces-0.10.7.tar.gz"; sha256 = "bd590fcb75421537d4149825e1e63cca225fd47dad861710c46bd1cb329d8cbd"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/al45tair/netifaces";
-        license = licenses.mit;
-        description = "Portable network interface information.";
-      };
-    };
-
-
-
     "paho-mqtt" = python.mkDerivation {
-      name = "paho-mqtt-1.3.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/2a/5f/cf14b8f9f8ed1891cda893a2a7d1d6fa23de2a9fb4832f05cef02b79d01f/paho-mqtt-1.3.1.tar.gz"; sha256 = "31911f6031de306c27ed79dc77b690d7c55b0dcb0f0434ca34ec6361d0371122"; };
+      name = "paho-mqtt-1.4.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/25/63/db25e62979c2a716a74950c9ed658dce431b5cb01fde29eb6cba9489a904/paho-mqtt-1.4.0.tar.gz"; sha256 = "e440a052b46d222e184be3be38676378722072fcd4dfd2c8f509fb861a7b0b79"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -532,8 +549,8 @@ let
 
 
     "python-dateutil" = python.mkDerivation {
-      name = "python-dateutil-2.7.3";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/a0/b0/a4e3241d2dee665fea11baec21389aec6886655cd4db7647ddf96c3fad15/python-dateutil-2.7.3.tar.gz"; sha256 = "e27001de32f627c22380a688bcc43ce83504a7bc5da472209b4c70f02829f0b8"; };
+      name = "python-dateutil-2.7.5";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/0e/01/68747933e8d12263d41ce08119620d9a7e5eb72c876a3442257f74490da0/python-dateutil-2.7.5.tar.gz"; sha256 = "88f9287c0174266bb0d8cedd395cfba9c58e87e5ad86b2ce58859bc11be3cf02"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -549,8 +566,8 @@ let
 
 
     "pytz" = python.mkDerivation {
-      name = "pytz-2018.5";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ca/a9/62f96decb1e309d6300ebe7eee9acfd7bccaeedd693794437005b9067b44/pytz-2018.5.tar.gz"; sha256 = "ffb9ef1de172603304d9d2819af6f5ece76f2e85ec10692a524dd876e72bf277"; };
+      name = "pytz-2018.7";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/cd/71/ae99fc3df1b1c5267d37ef2c51b7d79c44ba8a5e37b48e3ca93b4d74d98b/pytz-2018.7.tar.gz"; sha256 = "31cb35c89bd7d333cd32c5f278fca91b523b0834369e757f4c5641ea252236ca"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -564,8 +581,8 @@ let
 
 
     "requests" = python.mkDerivation {
-      name = "requests-2.19.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/54/1f/782a5734931ddf2e1494e4cd615a51ff98e1879cbe9eecbdfeaf09aa75e9/requests-2.19.1.tar.gz"; sha256 = "ec22d826a36ed72a7358ff3fe56cbd4ba69dd7a6718ffd450ff0e9df7a47ce6a"; };
+      name = "requests-2.20.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/40/35/298c36d839547b50822985a2cf0611b3b978a5ab7a5af5562b8ebe3e1369/requests-2.20.1.tar.gz"; sha256 = "ea881206e59f41dbd0bd445437d792e43906703fff75ca8ff43ccdb11f33f263"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -621,6 +638,7 @@ let
       propagatedBuildInputs = [
       self."certifi"
       self."idna"
+      self."ipaddress"
     ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://urllib3.readthedocs.io/";
@@ -697,12 +715,12 @@ let
 
 
     "zeroconf" = python.mkDerivation {
-      name = "zeroconf-0.20.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/20/d7/418ff6c684ace0f5855ec56c66cfa99ec50443c41693b91e9abcccfa096c/zeroconf-0.20.0.tar.gz"; sha256 = "6e3f1e7b5871e3d1410ac29b9fb85aafc1e2d661ed596b07a6f84559a475efcb"; };
+      name = "zeroconf-0.21.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9a/a3/9e4bb6a8e5f807c1a817168c9985f9d3975725a71ae77eb47ce1db66ada7/zeroconf-0.21.3.tar.gz"; sha256 = "5b52dfdf4e665d98a17bf9aa50dea7a8c98e25f972d9c1d7660e2b978a1f5713"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
-      self."netifaces"
+      self."ifaddr"
     ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/jstasiak/python-zeroconf";
