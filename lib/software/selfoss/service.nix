@@ -70,7 +70,7 @@ let
 
   nginxcfg = config.services.nginx;
 
-  phppkg = pkgs.php56;
+  phppkg = pkgs.php;
 
   portForDbtype = dbtype:
     if dbtype == "pgsql"

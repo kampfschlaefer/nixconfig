@@ -31,11 +31,11 @@ in {
       ./containers/mpd.nix
       ./containers/mqtt.nix
       ./containers/postgres.nix
-      ./containers/selfoss.nix
       ./containers/startpage.nix
       ./containers/syncthing.nix
       ./containers/testing.nix
       ./containers/torproxy.nix
+      ./containers/selfoss.nix
       ./dhcpd.nix
       ./duply.nix
       ./postfix-satelite.nix
@@ -85,7 +85,7 @@ in {
       hostName = lib.mkOverride 10 "portal"; # Define your hostname.
       domain = "arnoldarts.de";
 
-      nameservers = lib.mkOverride 100 [
+      nameservers = [
         "192.168.1.240"
         #"2001:470:1f0b:1033::706f:7274:616c"
         #"8.8.4.4"              # Google DNS
@@ -97,6 +97,7 @@ in {
 
       enableIPv6 = true;
       useDHCP = false;
+      useHostResolvConf = false;
       wireless.enable = false;  # Enables wireless support via wpa_supplicant.
       networkmanager.enable = false;
       wicd.enable = false;
@@ -163,6 +164,9 @@ in {
     #services.fcron.mailto = "root@starbase.arnoldarts.de";
 
     services.nscd.enable = false;
+
+    services.dnsmasq.enable = false;
+    services.dnsmasq.resolveLocalQueries = false;
 
     services.nfs.server = {
       enable = true;

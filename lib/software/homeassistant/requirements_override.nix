@@ -1,6 +1,6 @@
 { pkgs, python }:
 
-self: super: {
+self: super: with pkgs.python36Packages; {
   "homeassistant" = python.overrideDerivation super."homeassistant" (old: {
     propagatedBuildInputs = old.propagatedBuildInputs ++ [
       super."distro"
@@ -17,4 +17,11 @@ self: super: {
   "ua-parser" = python.overrideDerivation super."ua-parser" (old: {
     propagatedBuildInputs = old.propagatedBuildInputs ++ [ super."PyYAML" ];
   });
+  "astral" = astral;
+  "certifi" = certifi;
+  "pytz" = pytz;
+  "requests" = requests;
+  "six" = six;
+  "idna" = idna;
+  "chardet" = chardet;
 }
