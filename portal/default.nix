@@ -31,11 +31,11 @@ in {
       ./containers/mpd.nix
       ./containers/mqtt.nix
       ./containers/postgres.nix
-      /* ./containers/selfoss.nix */
       ./containers/startpage.nix
       ./containers/syncthing.nix
       ./containers/testing.nix
       ./containers/torproxy.nix
+      ./containers/selfoss.nix
       ./dhcpd.nix
       ./duply.nix
       ./postfix-satelite.nix

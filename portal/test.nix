@@ -7,7 +7,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_mqtt = true;
     run_ntp = true;
     run_postgres = true;
-    run_selfoss = false;
+    run_selfoss = true;
     run_startpage = true;
     run_syncthing = true;
     run_torproxy = true;
@@ -152,7 +152,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
-          /* containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss; */
+          containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.startpage.autoStart = lib.mkOverride 10 run_startpage;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
           containers.syncthing2.autoStart = lib.mkOverride 10 run_syncthing;

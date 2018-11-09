@@ -12,7 +12,7 @@ PATH=@jq@/bin:@curl@/bin:$PATH
     echo $output |grep "Outside"
     title=$(echo $output |jq -r .[0].title)
     echo "title found: $title"
-    [ $title = 'Outside Web' ]
+    [ "$title" = 'Outside Web' ]
 }
 @test "first post not yet present" {
     run curl --anyauth --user user:password --insecure -s -f https://selfoss/items?type=unread
@@ -23,7 +23,7 @@ PATH=@jq@/bin:@curl@/bin:$PATH
 @test "trigger source fetch" {
     run curl --anyauth --user user:password --insecure -s https://selfoss/update
     [ $status -eq 0 ]
-    [ $output = "finished" ]
+    [ "$output" = "finished" ]
 }
 @test "source has no errors" {
     run curl --anyauth --user user:password --insecure -s https://selfoss/sources/list
@@ -39,7 +39,7 @@ PATH=@jq@/bin:@curl@/bin:$PATH
     echo "found posts $output"
     echo $output |jq -e '.[0] | length > 0'
     firsttitle=$(echo $output |jq -r .[0].title)
-    [ $firsttitle = 'First Post' ]
+    [ "$firsttitle" = 'First Post' ]
 }
 @test "can download favicons" {
     # Relies on a stable hash function in selfoss for the names of the favicon files.
