@@ -152,7 +152,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
-          containers.startpage.autoStart = lib.mkOverride 10 run_startpage;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
           containers.syncthing2.autoStart = lib.mkOverride 10 run_syncthing;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
@@ -330,7 +329,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_startpage
         ''subtest "Check startpage", sub {
-          $portal->waitForUnit("container\@startpage");
           $portal->succeed("curl --connect-timeout 1 --insecure -f https://startpage.arnoldarts.de/ >&2");
         };''
       }
