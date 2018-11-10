@@ -18,7 +18,7 @@
       fsType = "ext4";
     };
 
-  fileSystems."/boot1" =
+  fileSystems."/boot" =
     { device = "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN-part2";
       fsType = "vfat";
     };
