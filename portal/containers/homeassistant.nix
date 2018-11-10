@@ -3,6 +3,10 @@
 let
   dash_button_pkg = import ../../lib/software/dash_button { inherit lib pkgs; };
   secrets = import ./homeassistant_secrets.nix {};
+  mqtt_users = if config.testdata then {
+    testclient = { acl = []; password = "password"; };
+  } else import ./mqtt_secrets.nix {};
+
 
   dash_button_testconfig = {
     "DEFAULT" = {
@@ -80,8 +84,14 @@ in
       networking.interfaces = {
         eth0 = {
           useDHCP = false;
-          ipv4.addresses = [{ address="192.168.1.232"; prefixLength=24; }];
-          ipv6.addresses = [{ address="2001:470:1f0b:1033:686f:6d65:6173:7369"; prefixLength=64; }];
+          ipv4.addresses = [
+            { address="192.168.1.232"; prefixLength=24; } # homeassistant
+            { address="192.168.1.229"; prefixLength=32; } # mqtt
+          ];
+          ipv6.addresses = [
+            { address="2001:470:1f0b:1033:686f:6d65:6173:7369"; prefixLength=64; } # homeassistant
+            { address="2001:470:1f0b:1033::6d71:7474"; prefixLength=64; } # mqtt
+          ];
         };
         backendha = {
           useDHCP = false;
@@ -90,7 +100,7 @@ in
         };
       };
       networking.firewall.enable = true;
-      networking.firewall.allowedTCPPorts = [ 80 443 ];
+      networking.firewall.allowedTCPPorts = [ 80 443 1883 ];
       /*networking.firewall.allowedTCPPorts = [ 8123 ];*/
 
       security.acme.validMin = 864000;
@@ -128,6 +138,18 @@ in
             };
           };
         };
+      };
+
+      services.mosquitto = {
+        enable = true;
+        host = "0.0.0.0";
+        port = 1883;
+
+        extraConf = ''
+        password_file /var/lib/mosquitto/passwd
+        '';
+
+        users = mqtt_users;
       };
 
       systemd.services."dash_button_daemon" = {
