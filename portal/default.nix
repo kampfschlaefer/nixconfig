@@ -32,7 +32,6 @@ in {
       ./containers/postgres.nix
       ./containers/startpage.nix
       ./containers/syncthing.nix
-      ./containers/testing.nix
       ./containers/torproxy.nix
       ./containers/selfoss.nix
       ./dhcpd.nix
