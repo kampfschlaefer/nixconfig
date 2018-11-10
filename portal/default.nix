@@ -45,16 +45,22 @@ in {
     # Use the GRUB 2 boot loader.
     boot.loader = {
       efi.canTouchEfiVariables = true;
+      efi.efiSysMountPoint = "/boot";
 
       grub = {
         enable = true;
         version = 2;
         efiSupport = true;
 
+        devices = [
+          "/dev/disk/by-id/ata-INTEL_SSDSC2BW180A4_CVDA447006A31802GN"
+          "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN"
+        ];
+
         # Define on which hard drive you want to install Grub.
         mirroredBoots = [
           { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2BW180A4_CVDA447006A31802GN" ]; path = "/boot2"; }
-          { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN" ]; path = "/boot1"; }
+          { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN" ]; path = "/boot"; }
         ];
       };
     };
