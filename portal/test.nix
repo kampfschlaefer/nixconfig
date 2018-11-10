@@ -146,14 +146,12 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
-          containers.grafana.autoStart = lib.mkOverride 10 run_influxdb;
           containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant;
           containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
-          containers.startpage.autoStart = lib.mkOverride 10 run_startpage;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
           containers.syncthing2.autoStart = lib.mkOverride 10 run_syncthing;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
@@ -331,7 +329,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_startpage
         ''subtest "Check startpage", sub {
-          $portal->waitForUnit("container\@startpage");
           $portal->succeed("curl --connect-timeout 1 --insecure -f https://startpage.arnoldarts.de/ >&2");
         };''
       }
@@ -519,8 +516,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         };
 
         subtest "grafana", sub {
-          $portal->succeed("systemctl status container\@grafana >&2");
-          $portal->succeed("systemctl -M grafana status grafana >&2");
+          $portal->succeed("systemctl -M influxdb status grafana >&2");
           $portal->succeed("curl -4 --insecure -f https://grafana >&2");
         };''
       }
