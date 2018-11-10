@@ -6,6 +6,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_influxdb = true;
     run_mqtt = true;
     run_ntp = true;
+    run_postgres = true;
     run_selfoss = true;
     run_startpage = true;
     run_syncthing = true;
@@ -17,8 +18,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
     # No advanced tests yet, not even if the service is up and reachable
     run_mpd = false;
-
-    run_postgres = false;
 
     debug = false;
 
@@ -50,12 +49,18 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           ];
 
           networking = {
+            interfaces.eth0 = {
+              useDHCP = false;
+              ipv4.addresses = [];
+              ipv6.addresses = [];
+            };
             interfaces.eth1 = {
               useDHCP = false;
               ipv4.addresses = [ { address = "192.168.2.10"; prefixLength = 32; } ];
             };
 
             firewall.enable = false;
+            /* nameservers = [ "192.168.1.240" ]; */
 
             inherit extraHosts;
           };
@@ -78,6 +83,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           ];
 
           networking = {
+            nameservers = [ "192.168.1.240" ];
             interfaces = {
               eth0 = lib.mkOverride 10 {
                 useDHCP = false;
@@ -140,14 +146,12 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
-          containers.grafana.autoStart = lib.mkOverride 10 run_influxdb;
           containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant;
           containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
           containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
-          containers.startpage.autoStart = lib.mkOverride 10 run_startpage;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
           containers.syncthing2.autoStart = lib.mkOverride 10 run_syncthing;
           containers.torproxy.autoStart = lib.mkOverride 10 run_torproxy;
@@ -325,7 +329,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_startpage
         ''subtest "Check startpage", sub {
-          $portal->waitForUnit("container\@startpage");
           $portal->succeed("curl --connect-timeout 1 --insecure -f https://startpage.arnoldarts.de/ >&2");
         };''
       }
@@ -376,6 +379,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       ${lib.optionalString run_selfoss
         ''subtest "Check selfoss", sub {
           # Preparation
+          $portal->succeed("ping -4 -n -c 1 -w 2 outsideweb >&2");
           $outside->succeed("systemctl status -l -n 40 nginx >&2");
           $portal->succeed("nixos-container run selfoss -- ip r get 192.168.2.10 >&2");
           $portal->succeed("nixos-container run selfoss -- ping -4 -n -c 1 -w 2 outsideweb >&2");
@@ -512,8 +516,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         };
 
         subtest "grafana", sub {
-          $portal->succeed("systemctl status container\@grafana >&2");
-          $portal->succeed("systemctl -M grafana status grafana >&2");
+          $portal->succeed("systemctl -M influxdb status grafana >&2");
           $portal->succeed("curl -4 --insecure -f https://grafana >&2");
         };''
       }
