@@ -146,7 +146,6 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
-          containers.grafana.autoStart = lib.mkOverride 10 run_influxdb;
           containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant;
           containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
@@ -519,8 +518,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         };
 
         subtest "grafana", sub {
-          $portal->succeed("systemctl status container\@grafana >&2");
-          $portal->succeed("systemctl -M grafana status grafana >&2");
+          $portal->succeed("systemctl -M influxdb status grafana >&2");
           $portal->succeed("curl -4 --insecure -f https://grafana >&2");
         };''
       }
