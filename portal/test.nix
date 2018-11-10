@@ -146,10 +146,10 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
-          containers.homeassistant.autoStart = lib.mkOverride 10 run_homeassistant;
+          containers.homeassistant.autoStart = lib.mkOverride 10 (run_homeassistant || run_mqtt);
           containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb;
           containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
-          containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt;
+          /* containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt; */
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
           containers.syncthing.autoStart = lib.mkOverride 10 run_syncthing;
@@ -485,22 +485,21 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_mqtt
         ''subtest "mqtt testing", sub {
-          $portal->succeed("systemctl status container\@mqtt >&2");
-          $portal->succeed("systemctl -M mqtt status mosquitto >&2");
+          $portal->succeed("systemctl -M homeassistant status mosquitto >&2");
           $portal->succeed("host -t a mqtt >&2");
           $portal->succeed("host -t aaaa mqtt >&2");
-          $portal->succeed("ping -4 -n -c 2 mqtt >&2");
-          $portal->succeed("ping -6 -n -c 2 mqtt >&2");
+          $portal->succeed("ping -4 -n -c 1 mqtt >&2");
+          $portal->succeed("ping -6 -n -c 1 mqtt >&2");
 
           #$portal->execute("nmap -4 mqtt -n -p 1883 >&2");
           #$portal->succeed("nmap -4 mqtt -n -p 1883 |grep filtered >&2");
 
-          $portal->succeed("[ -d /var/lib/containers/mqtt/var/lib/mosquitto ]");
+          $portal->succeed("[ -d /var/lib/containers/homeassistant/var/lib/mosquitto ]");
 
           $inside->succeed("test_mqtt >&2");
         };''
       }
-      ${lib.optionalString (!run_mqtt)
+      ${lib.optionalString (!run_mqtt && !run_homeassistant)
         ''subtest "mqtt not reachable", sub {
           $portal->fail("ping -4 -n -c 1 mqtt >&2");
         };''

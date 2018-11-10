@@ -29,7 +29,7 @@ in {
       ./containers/influxdb.nix
       #./containers/imap.nix
       ./containers/mpd.nix
-      ./containers/mqtt.nix
+      /* ./containers/mqtt.nix */
       ./containers/postgres.nix
       ./containers/syncthing.nix
       ./containers/torproxy.nix
