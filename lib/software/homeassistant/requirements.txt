@@ -1,6 +1,6 @@
 #pytz
-requests
-homeassistant==0.75.3
+requests==2.20.0
+homeassistant
 sqlalchemy
 paho-mqtt
 aiohttp_cors
@@ -8,14 +8,14 @@ aiohue>=1.3.1
 denonavr
 #pip
 netdisco
-home-assistant-frontend==20180804.0
+home-assistant-frontend
 user-agents
 xmltodict
 colorlog
 distro
 luftdaten
 pyiss
-pyotp
+pyotp==2.2.6
 PyQRCode
 influxdb
-urllib3==1.23
+urllib3
