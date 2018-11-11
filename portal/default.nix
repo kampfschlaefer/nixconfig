@@ -6,6 +6,7 @@ let
     "misc-system"
     "videos"
   ];
+  pkg_startpage = pkgs.callPackage ../lib/software/startpage {};
 in {
   options.testdata = lib.mkOption {
     type = lib.types.bool;
@@ -28,13 +29,10 @@ in {
       ./containers/influxdb.nix
       #./containers/imap.nix
       ./containers/mpd.nix
-      ./containers/mqtt.nix
       ./containers/postgres.nix
-      ./containers/selfoss.nix
-      ./containers/startpage.nix
       ./containers/syncthing.nix
-      ./containers/testing.nix
       ./containers/torproxy.nix
+      ./containers/selfoss.nix
       ./dhcpd.nix
       ./duply.nix
       ./postfix-satelite.nix
@@ -46,16 +44,22 @@ in {
     # Use the GRUB 2 boot loader.
     boot.loader = {
       efi.canTouchEfiVariables = true;
+      efi.efiSysMountPoint = "/boot";
 
       grub = {
         enable = true;
         version = 2;
         efiSupport = true;
 
+        devices = [
+          "/dev/disk/by-id/ata-INTEL_SSDSC2BW180A4_CVDA447006A31802GN"
+          "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN"
+        ];
+
         # Define on which hard drive you want to install Grub.
         mirroredBoots = [
           { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2BW180A4_CVDA447006A31802GN" ]; path = "/boot2"; }
-          { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN" ]; path = "/boot1"; }
+          { devices = [ "/dev/disk/by-id/ata-INTEL_SSDSC2KW480H6_CVLT61850B1Q480EGN" ]; path = "/boot"; }
         ];
       };
     };
@@ -84,7 +88,7 @@ in {
       hostName = lib.mkOverride 10 "portal"; # Define your hostname.
       domain = "arnoldarts.de";
 
-      nameservers = lib.mkOverride 100 [
+      nameservers = [
         "192.168.1.240"
         #"2001:470:1f0b:1033::706f:7274:616c"
         #"8.8.4.4"              # Google DNS
@@ -96,6 +100,7 @@ in {
 
       enableIPv6 = true;
       useDHCP = false;
+      useHostResolvConf = false;
       wireless.enable = false;  # Enables wireless support via wpa_supplicant.
       networkmanager.enable = false;
       wicd.enable = false;
@@ -114,8 +119,15 @@ in {
       interfaces = {
         lan = {
           useDHCP = false;
-          ipv4.addresses = [ { address = "192.168.1.240"; prefixLength = 24; } ];
-          ipv6.addresses = [ { address = "2001:470:1f0b:1033::706f:7274:616c"; prefixLength = 64; } ];
+          ipv4.addresses = [
+            { address = "192.168.1.240"; prefixLength = 24; }
+            { address = "192.168.1.233"; prefixLength = 32; }
+          ];
+          ipv6.addresses = [
+            { address = "2001:470:1f0b:1033::706f:7274:616c"; prefixLength = 64; }
+            { address = "2001:470:1f0b:1033::73:7461:7274"; prefixLength = 128; }
+          ];
+
         };
         dmz = {
           useDHCP = false;
@@ -136,7 +148,7 @@ in {
         enable = true;
         allowPing = true;
         rejectPackets = true;
-        allowedTCPPorts = [ 111 2049 4001 4002 ];
+        allowedTCPPorts = [ 111 2049 4001 4002 80 443 ];
         allowedUDPPorts = [ 111 123 2049 4001 4002 60001 ];
         extraPackages = [ pkgs.procps ];
         extraCommands = ''
@@ -163,6 +175,9 @@ in {
 
     services.nscd.enable = false;
 
+    services.dnsmasq.enable = false;
+    services.dnsmasq.resolveLocalQueries = false;
+
     services.nfs.server = {
       enable = true;
       createMountPoints = true;
@@ -188,6 +203,30 @@ in {
         mail.enable = true;
         mail.recipient = "arnold@arnoldarts.de";
         #test = true;
+      };
+    };
+
+    services.nginx = {
+      enable = true;
+      sslCiphers = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:!RSA+AES:!aNULL:!MD5:!DSS";
+      recommendedTlsSettings = true;
+      recommendedProxySettings = false;
+      virtualHosts = {
+        "startpage" = {
+          serverName = "startpage.arnoldarts.de";
+          listen = [
+            { addr = "192.168.1.233"; port=80; ssl=false; }
+            { addr = "192.168.1.233"; port=443; ssl=true; }
+            { addr = "[2001:470:1f0b:1033::73:7461:7274]"; port=80; ssl=false; }
+            { addr = "[2001:470:1f0b:1033::73:7461:7274]"; port=443; ssl=true; }
+          ];
+          forceSSL = true;
+          enableACME = true;
+          locations."/" = {
+            root = pkg_startpage;
+            index = "index.html";
+          };
+        };
       };
     };
 

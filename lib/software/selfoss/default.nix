@@ -1,19 +1,20 @@
-{ pkgs, stdenv ? null, fetchurl ? null, ... }:
+{ stdenv, fetchurl, unzip, ... }:
 
 let
-  mystdenv = if stdenv != null then stdenv else pkgs.stdenv;
-  myfetchurl = if fetchurl != null then fetchurl else pkgs.fetchurl;
-
 in
-mystdenv.mkDerivation rec {
+stdenv.mkDerivation rec {
   name = "selfoss-${version}";
-  version = "2.15";
-  src = myfetchurl {
-    url = "https://github.com/SSilence/selfoss/archive/2.15.tar.gz";
-    sha256 = "0ypqrv0ypjm79jzs6dpqgw5zzs2jfcg76yjy1wfqxhffsp04njcl";
+  version = "2.18";
+  src = fetchurl {
+    url = "https://github.com/SSilence/selfoss/releases/download/2.18/selfoss-2.18.zip";
+    sha256 = "1vd699r1kjc34n8avggckx2b0daj5rmgrj997sggjw2inaq4cg8b";
   };
 
   configurePhase = null;
+
+  unpackPhase = ''
+    ${unzip}/bin/unzip ${src} -d ${name}
+  '';
 
   buildPhase = ''
     rm -f *.zip .git*
@@ -22,6 +23,6 @@ mystdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p $out
 
-    cp -R . $out
+    cp -R ${name}/* $out
   '';
 }

@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  selfosspkg = pkgs.callPackage ../../lib/software/selfoss {};
   users = if config.testdata then {
     "user" = "password";
   } else import ./selfoss_secrets.nix {};
@@ -20,7 +19,9 @@ in
       };
     };
 
-    config = { config, pkgs, ... }: {
+    config = { config, pkgs, ... }: let
+      selfosspkg = pkgs.callPackage ../../lib/software/selfoss { };
+    in {
       imports = [
         ../../lib/software/selfoss/service.nix
       ];
@@ -30,6 +31,9 @@ in
       networking.domain = "arnoldarts.de";
       networking.defaultGateway = "192.168.1.220";
       networking.defaultGateway6 = "2001:470:1f0b:1033:6669:7265:7761:6c6c";
+      networking.nameservers = [ "192.168.1.240" ];
+      networking.useDHCP = false;
+      networking.useHostResolvConf = false;
 
       networking.interfaces = {
         eth0 = {
