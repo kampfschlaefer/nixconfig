@@ -3,6 +3,10 @@
 let
   dash_button_pkg = import ../../lib/software/dash_button { inherit lib pkgs; };
   secrets = import ./homeassistant_secrets.nix {};
+  mqtt_users = if config.testdata then {
+    testclient = { acl = []; password = "password"; };
+  } else import ./mqtt_secrets.nix {};
+
 
   dash_button_testconfig = {
     "DEFAULT" = {
@@ -48,25 +52,6 @@ in
       imports = [
         ../../lib/software/homeassistant/service.nix
       ];
-      /*nixpkgs.config.packageOverrides = pkgs: rec {
-        simp_le = pkgs.simp_le.overrideDerivation (oldAttrs: {
-          version = "0.6.1";
-          src = pkgs.pythonPackages.fetchPypi {
-            pname = "simp_le-client";
-            version = "0.6.1";
-            sha256 = "0x4fky9jizs3xi55cdy217cvm3ikpghiabysan71b07ackkdfj6k";
-          };
-        });
-        certbot = pkgs.certbot.overrideDerivation (oldAttrs: {
-          version = "0.19.0";
-          src = pkgs.fetchFromGitHub {
-            owner = "certbot";
-            repo = "certbot";
-            rev = "v0.19.0";
-            sha256 = "14i3q59v7j0q2pa1dri420fhil4h0vgl4vb471hp81f4y14gq6h7";
-          };
-        });
-      };*/
 
       time.timeZone = "Europe/Berlin";
 
@@ -80,8 +65,14 @@ in
       networking.interfaces = {
         eth0 = {
           useDHCP = false;
-          ipv4.addresses = [{ address="192.168.1.232"; prefixLength=24; }];
-          ipv6.addresses = [{ address="2001:470:1f0b:1033:686f:6d65:6173:7369"; prefixLength=64; }];
+          ipv4.addresses = [
+            { address="192.168.1.232"; prefixLength=24; } # homeassistant
+            { address="192.168.1.229"; prefixLength=32; } # mqtt
+          ];
+          ipv6.addresses = [
+            { address="2001:470:1f0b:1033:686f:6d65:6173:7369"; prefixLength=64; } # homeassistant
+            { address="2001:470:1f0b:1033::6d71:7474"; prefixLength=64; } # mqtt
+          ];
         };
         backendha = {
           useDHCP = false;
@@ -90,7 +81,7 @@ in
         };
       };
       networking.firewall.enable = true;
-      networking.firewall.allowedTCPPorts = [ 80 443 ];
+      networking.firewall.allowedTCPPorts = [ 80 443 1883 ];
       /*networking.firewall.allowedTCPPorts = [ 8123 ];*/
 
       security.acme.validMin = 864000;
@@ -117,17 +108,21 @@ in
             locations."/" = {
               proxyPass = "http://localhost:8123";
               proxyWebsockets = true;
-              /*extraConfig = ''
-                proxy_set_header Host $host;
-                proxy_redirect http:// https://;
-                proxy_http_version 1.1;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection $connection_upgrade;
-              '';*/
             };
           };
         };
+      };
+
+      services.mosquitto = {
+        enable = true;
+        host = "0.0.0.0";
+        port = 1883;
+
+        extraConf = ''
+        password_file /var/lib/mosquitto/passwd
+        '';
+
+        users = mqtt_users;
       };
 
       systemd.services."dash_button_daemon" = {
