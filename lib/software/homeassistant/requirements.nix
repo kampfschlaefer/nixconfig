@@ -319,6 +319,21 @@ let
 
 
 
+    "geojson" = python.mkDerivation {
+      name = "geojson-2.3.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ee/5b/8785c562d2bc910a5effada38d86925afa3d1126ddb3d0770c8a84be8baa/geojson-2.3.0.tar.gz"; sha256 = "c8873d12421665f6731b8e4c3b2484a4516c0d9b286c26cb7cffa781d062301a"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/frewsxcv/python-geojson";
+        license = licenses.bsdOriginal;
+        description = "Python bindings and utilities for GeoJSON";
+      };
+    };
+
+
+
     "home-assistant-frontend" = python.mkDerivation {
       name = "home-assistant-frontend-20180804.0";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/11/d4/c0221e87175a0a62accd21ac02c4ffee58123b7932f3731cf6a6682fefeb/home-assistant-frontend-20180804.0.tar.gz"; sha256 = "50a9e74efe2b56fbc34fba07205829e0ea77315183e85c235d177cabff3b62ee"; };
@@ -543,6 +558,24 @@ let
         homepage = "https://github.com/HydrelioxGitHub/pyiss";
         license = licenses.mit;
         description = "A simple python3 library for info about the current International Space Station location";
+      };
+    };
+
+
+
+    "pyowm" = python.mkDerivation {
+      name = "pyowm-2.9.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/85/47/c4cb92b12027d20eeb1f5b346434c698c1c19282b48228543f8f9dcbd24e/pyowm-2.9.0.tar.gz"; sha256 = "ed175873823a2fedb48e453505c974ca39f3f75006ef1af54fdbcf72e6796849"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."geojson"
+      self."requests"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://github.com/csparpa/pyowm";
+        license = licenses.mit;
+        description = "A Python wrapper around OpenWeatherMap web APIs";
       };
     };
 
