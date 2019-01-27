@@ -25,14 +25,14 @@ in {
       #./containers/cups.nix
       ./containers/firewall.nix
       ./containers/gitolite.nix
-      ./containers/homeassistant.nix
-      ./containers/influxdb.nix
+      #./containers/homeassistant.nix
+      #./containers/influxdb.nix
       #./containers/imap.nix
-      ./containers/mpd.nix
       ./containers/postgres.nix
       ./containers/syncthing.nix
       ./containers/torproxy.nix
       ./containers/selfoss.nix
+      #./containers/mpd.nix
       ./dhcpd.nix
       ./duply.nix
       ./postfix-satelite.nix
@@ -110,9 +110,13 @@ in {
         enable = false;
       };
 
+      vlans = {
+        vlan10 = { id = 10; interface = "eno1"; };
+      };
+
       bridges = {
         lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
-        dmz = { interfaces = lib.mkOverride 100 [ "eno2" ]; };
+        dmz = { interfaces = lib.mkOverride 100 [ "eno2" "vlan10" ]; };
         backend = { interfaces = []; };
       };
 
