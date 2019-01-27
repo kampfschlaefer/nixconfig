@@ -25,7 +25,7 @@ in {
       #./containers/cups.nix
       ./containers/firewall.nix
       ./containers/gitolite.nix
-      #./containers/homeassistant.nix
+      ./containers/homeassistant.nix
       #./containers/influxdb.nix
       #./containers/imap.nix
       ./containers/postgres.nix
