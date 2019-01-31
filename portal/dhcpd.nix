@@ -69,7 +69,9 @@ let
     { hostName = "worklaptop";    ethernetAddress = "00:28:f8:73:bc:25"; }
     { hostName = "workairbook";   ethernetAddress = "4c:8d:79:f2:28:38"; }
 
+    { hostName = "tp-central";    ethernetAddress = "0C:80:63:1E:87:A1"; ipAddress = "192.168.1.245"; noroute = true; }
     { hostName = "EAP110-1";      ethernetAddress = "0C:80:63:8D:B9:2B"; ipAddress = "192.168.1.249"; noroute = true; }
+
   ] ++ (if config.testdata then [
     { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
   ] else []);

@@ -51,11 +51,12 @@ let
     { name = "seafile";  a = "192.168.1.250"; aaaa = "2001:470:1f0b:1033::5ea:f11e"; }
 
     # network infrastructure
-    { name = "openwrt";  a = "192.168.1.251"; }
-    { name = "tenda";    a = "192.168.1.252"; }
-    { name = "turris";   a = "192.168.1.253"; }
-    { name = "tp";       a = "192.168.1.254"; }
-    { name = "eap110-1"; a = "192.168.1.249"; }
+    { name = "tp-central"; a = "192.168.1.245"; }
+    { name = "eap110-1";   a = "192.168.1.249"; }
+    { name = "openwrt";    a = "192.168.1.251"; }
+    { name = "tenda";      a = "192.168.1.252"; }
+    { name = "turris";     a = "192.168.1.253"; }
+    { name = "tp";         a = "192.168.1.254"; }
 
     # backend (/23 net)
     { name = "postgres"; a = "192.168.6.1"; }
