@@ -84,6 +84,7 @@ in {
     );
 
     services.hostapd.enable = false;
+
     networking = {
       hostName = lib.mkOverride 10 "portal"; # Define your hostname.
       domain = "arnoldarts.de";
@@ -110,12 +111,13 @@ in {
         enable = false;
       };
 
-      vlans = {
+      vlans = lib.mkOverride 100 {
         vlan10 = { id = 10; interface = "eno1"; };
+        wifi = { id = 2; interface = "eno1"; };
       };
 
       bridges = {
-        lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
+        lan = { interfaces = lib.mkOverride 100 [ "eno1" "wifi" ]; };
         dmz = { interfaces = lib.mkOverride 100 [ "eno2" "vlan10" ]; };
         backend = { interfaces = []; };
       };

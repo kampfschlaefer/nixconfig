@@ -128,6 +128,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           boot.kernelParams = [ "quiet" ];
 
           networking = {
+            vlans = lib.mkOverride 10 {};
             interfaces = {
               eth0 = lib.mkOverride 10 {
                 useDHCP = false;
