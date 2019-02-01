@@ -117,7 +117,7 @@ in {
       };
 
       bridges = {
-        lan = { interfaces = lib.mkOverride 100 [ "eno1" "wifi" ]; };
+        lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
         dmz = { interfaces = lib.mkOverride 100 [ "eno2" "vlan10" ]; };
         backend = { interfaces = []; };
       };
