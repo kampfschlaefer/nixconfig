@@ -25,6 +25,7 @@
     htop atop psmisc sysstat which
     lshw usbutils dmidecode
     vim_configurable byobu tmux python mosh
+    multitail
     gptfdisk parted hdparm
     git gitAndTools.git-crypt
   ];
