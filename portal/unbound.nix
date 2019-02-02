@@ -52,6 +52,7 @@ let
 
     # network infrastructure
     { name = "tp-central"; a = "192.168.1.245"; }
+    { name = "eap115-1";   a = "192.168.1.248"; }
     { name = "eap110-1";   a = "192.168.1.249"; }
     { name = "openwrt";    a = "192.168.1.251"; }
     { name = "tenda";      a = "192.168.1.252"; }
