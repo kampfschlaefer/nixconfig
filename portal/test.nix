@@ -473,14 +473,14 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->execute("curl --insecure -s -f https://homeassistant/ || journalctl -M homeassistant -u homeassistant >&2");
           $portal->succeed("curl --insecure -s -f https://homeassistant/ >&2");
 
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u dash_button_daemon --boot |grep \"ready for action\"");
-          $portal->succeed("systemctl -M homeassistant is-active dash_button_daemon || journalctl -M homeassistant -u dash_button_daemon --boot >&2");
+          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u dash_button_daemon --boot |grep \"ready for action\"");
+          #$portal->succeed("systemctl -M homeassistant is-active dash_button_daemon || journalctl -M homeassistant -u dash_button_daemon --boot >&2");
 
-          $portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
-          $portal->succeed("nixos-container run homeassistant -- dash_button_test event >&2");
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep light.benachrichtigung >&2");
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed >&2");
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed |grep ac:63:be:be:01:95 >&2");
+          #$portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
+          #$portal->succeed("nixos-container run homeassistant -- dash_button_test event >&2");
+          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep light.benachrichtigung >&2");
+          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed >&2");
+          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed |grep ac:63:be:be:01:95 >&2");
         };''
       }
 
