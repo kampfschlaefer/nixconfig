@@ -10,6 +10,7 @@ self: super: with pkgs.python36Packages; {
       super."colorlog"
       super."luftdaten"
     ];
+    patches = [ ./scan_interval.patch ];
   });
   "home-assistant-frontend" = python.overrideDerivation super."home-assistant-frontend" (old: {
     propagatedBuildInputs = old.propagatedBuildInputs ++ [ super."user-agents" ];
