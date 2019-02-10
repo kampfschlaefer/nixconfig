@@ -475,6 +475,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           #$portal->waitUntilSucceeds("journalctl -M homeassistant -u dash_button_daemon --boot |grep \"ready for action\"");
           #$portal->succeed("systemctl -M homeassistant is-active dash_button_daemon || journalctl -M homeassistant -u dash_button_daemon --boot >&2");
+          $portal->fail("systemctl -M homeassistant is-active dash_button_daemon >&2");
 
           #$portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
           #$portal->succeed("nixos-container run homeassistant -- dash_button_test event >&2");
