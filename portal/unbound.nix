@@ -51,10 +51,13 @@ let
     { name = "seafile";  a = "192.168.1.250"; aaaa = "2001:470:1f0b:1033::5ea:f11e"; }
 
     # network infrastructure
-    { name = "openwrt";  a = "192.168.1.251"; }
-    { name = "tenda";    a = "192.168.1.252"; }
-    { name = "turris";   a = "192.168.1.253"; }
-    { name = "tp";       a = "192.168.1.254"; }
+    { name = "tp-central"; a = "192.168.1.245"; }
+    { name = "tp-office";  a = "192.168.1.246"; }
+    { name = "eap115-1";   a = "192.168.1.248"; }
+    /* { name = "eap110-1";   a = "192.168.1.249"; } */
+    { name = "openwrt";    a = "192.168.1.251"; }
+    { name = "tenda";      a = "192.168.1.252"; }
+    { name = "turris";     a = "192.168.1.253"; }
 
     # backend (/23 net)
     { name = "postgres"; a = "192.168.6.1"; }
@@ -104,6 +107,7 @@ in
       "149.112.112.112@853" # quad9.net secondary
       "1.0.0.1@853"         # cloudflare secondary
     ] else [
+      "192.168.2.1"
       "8.8.8.8"              # Google Public DNS
       "74.82.42.42"          # Hurricane Electric
       "2001:4860:4860::8888" # Google Public DNS

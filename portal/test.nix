@@ -3,7 +3,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_firewall = true;
     run_gitolite = true;
     run_homeassistant = true;
-    run_influxdb = true;
+    run_influxdb = false;
     run_mqtt = true;
     run_ntp = true;
     run_postgres = true;
@@ -12,7 +12,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_syncthing = true;
     run_torproxy = true;
     run_unbound = true;
-    run_ups = true;
+    run_ups = false;
 
     debug_unbound = false;
 
@@ -128,6 +128,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           boot.kernelParams = [ "quiet" ];
 
           networking = {
+            vlans = lib.mkOverride 10 {};
             interfaces = {
               eth0 = lib.mkOverride 10 {
                 useDHCP = false;
@@ -147,8 +148,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
           containers.homeassistant.autoStart = lib.mkOverride 10 (run_homeassistant || run_mqtt);
-          containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb;
-          containers.mpd.autoStart = lib.mkOverride 10 run_mpd;
+          /* containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb; */
+          /* containers.mpd.autoStart = lib.mkOverride 10 run_mpd; */
           /* containers.mqtt.autoStart = lib.mkOverride 10 run_mqtt; */
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
           containers.selfoss.autoStart = lib.mkOverride 10 run_selfoss;
@@ -474,16 +475,15 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("curl -4 --insecure --include --max-time 5 https://homeassistant/api/ |grep \" 401 \" >&2");
           $portal->succeed("curl -6 --insecure --include --max-time 5 https://homeassistant/api/ |grep \" 401 \" >&2");
 
-          $portal->execute("journalctl -M homeassistant -u dash_button_daemon --boot >&2");
-          $portal->execute("systemctl -M homeassistant status dash_button_daemon >&2");
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u dash_button_daemon --boot |grep \"ready for action\"");
-          $portal->succeed("systemctl -M homeassistant is-active dash_button_daemon || journalctl -M homeassistant -u dash_button_daemon --boot >&2");
+          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u dash_button_daemon --boot |grep \"ready for action\"");
+          #$portal->succeed("systemctl -M homeassistant is-active dash_button_daemon || journalctl -M homeassistant -u dash_button_daemon --boot >&2");
+          $portal->fail("systemctl -M homeassistant is-active dash_button_daemon >&2");
 
-          $portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
-          $portal->succeed("nixos-container run homeassistant -- dash_button_test event >&2");
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep light.benachrichtigung >&2");
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed >&2");
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed |grep ac:63:be:be:01:95 >&2");
+          #$portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
+          #$portal->succeed("nixos-container run homeassistant -- dash_button_test event >&2");
+          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep light.benachrichtigung >&2");
+          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed >&2");
+          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed |grep ac:63:be:be:01:95 >&2");
         };''
       }
 

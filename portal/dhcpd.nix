@@ -57,9 +57,10 @@ let
 
     { hostName = "firestick";     ethernetAddress = "34:d2:70:04:0b:4d"; ipAddress = "192.168.1.80"; }
     { hostName = "denon";         ethernetAddress = "00:05:cd:90:09:4d"; ipAddress = "192.168.1.81"; }
-    { hostName = "huebridge";     ethernetAddress = "00:17:88:1a:21:a5"; ipAddress = "192.168.1.82"; noroute=true; }
+    { hostName = "huebridge";     ethernetAddress = "00:17:88:1a:21:a5"; ipAddress = "192.168.1.82"; noroute = true; }
     { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; ipAddress = "192.168.1.83"; }
-    { hostName = "soundcraft";    ethernetAddress = "d2:7c:9f:a8:8c:fc"; ipAddress = "192.168.1.84"; noroute=true; }
+    { hostName = "soundcraft";    ethernetAddress = "d2:7c:9f:a8:8c:fc"; ipAddress = "192.168.1.84"; noroute = true; }
+    { hostName = "hpmfc";         ethernetAddress = "c8:d3:ff:af:8e:ac"; ipAddress = "192.168.1.85"; }
 
     { hostName = "td-29";         ethernetAddress = "00:60:e0:66:64:95"; ipAddress = "192.168.1.30"; }
     { hostName = "td-138";        ethernetAddress = "00:60:e0:70:ad:7f"; ipAddress = "192.168.1.31"; }
@@ -67,6 +68,12 @@ let
     { hostName = "worklaptopeth"; ethernetAddress = "80:fa:5b:43:56:fe"; }
     { hostName = "worklaptop";    ethernetAddress = "00:28:f8:73:bc:25"; }
     { hostName = "workairbook";   ethernetAddress = "4c:8d:79:f2:28:38"; }
+
+    { hostName = "tp-central";    ethernetAddress = "0C:80:63:1E:87:A1"; ipAddress = "192.168.1.245"; noroute = true; }
+    { hostName = "tp-office";     ethernetAddress = "60:e3:27:26:00:c4"; ipAddress = "192.168.1.246"; noroute = true; }
+    { hostName = "EAP115-1";      ethernetAddress = "0C:80:63:66:10:2B"; ipAddress = "192.168.1.248"; noroute = true; }
+    /* { hostName = "EAP110-1";      ethernetAddress = "0C:80:63:8D:B9:2B"; ipAddress = "192.168.1.249"; noroute = true; } */
+
   ] ++ (if config.testdata then [
     { hostName = "inside";        ethernetAddress = "7e:e2:63:7f:f0:0e"; }
   ] else []);

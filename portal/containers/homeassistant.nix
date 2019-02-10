@@ -126,7 +126,7 @@ in
         users = mqtt_users;
       };
 
-      systemd.services."dash_button_daemon" = {
+      /* systemd.services."dash_button_daemon" = {
         enable = true;
         script = "${dash_button_pkg}/bin/dash_button_daemon --config ${dash_button_config}";
         after = [ "homeassistant.service" ];
@@ -136,7 +136,7 @@ in
           RestartSec=10;
           Restart="on-failure";
         };
-      };
+      }; */
 
       environment.systemPackages = [ dash_button_pkg ];
     };
