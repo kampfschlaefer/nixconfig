@@ -26,6 +26,7 @@ let
     { name = "huebridge";     a = "192.168.1.82"; }
     { name = "blueray";       a = "192.168.1.83"; }
     { name = "soundcraft";    a = "192.168.1.84"; }
+    { name = "hpmfc";         a = "192.168.1.85"; }
 
 
     # containers
