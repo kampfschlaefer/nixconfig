@@ -22,11 +22,7 @@ nixStable=`nix-build --no-out-link nixpkgs/default.nix -A pkgs.nixStable`
 
 out=`nix-instantiate ${machine}/test.nix ${attribute}`
 
-time ${nixStable}/bin/nix -v build --show-trace --out-link outputs/${machine}-${branch} -f ${machine}/test.nix ${attribute}
-
-if [ $? -ne 0 ]; then
-    nix log $out;
-fi
+time ${nixStable}/bin/nix -v build --show-trace --out-link outputs/${machine}-${branch} -f ${machine}/test.nix ${attribute} || nix log $out
 
 if [ ${action} = "driver" ]; then
     ./outputs/${machine}-${branch}/bin/nixos-run-vms
