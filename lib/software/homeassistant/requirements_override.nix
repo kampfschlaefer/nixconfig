@@ -11,7 +11,10 @@ self: super: with pkgs.python36Packages; {
       super.luftdaten
       super.pyotp
     ];
-    patches = [ ./scan_interval.patch ];
+    patches = [
+      ./scan_interval.patch
+      ./pytz_dependency.patch
+    ];
   });
   "home-assistant-frontend" = python.overrideDerivation super."home-assistant-frontend" (old: {
     propagatedBuildInputs = old.propagatedBuildInputs ++ [ super."user-agents" ];

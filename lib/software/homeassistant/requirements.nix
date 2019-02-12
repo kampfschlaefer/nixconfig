@@ -407,8 +407,8 @@ let
 
 
     "denonavr" = python.mkDerivation {
-      name = "denonavr-0.7.7";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/02/5c/8515cc6b493ea0adb8d6171505b198351ce26960650f484de0b379476da4/denonavr-0.7.7.tar.gz"; sha256 = "23b7a0cc6d699cfe894b6bb004f71554b17e49aae4b6d01a216d61482f947dd7"; };
+      name = "denonavr-0.7.8";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ce/7c/2a6a5af4e197322fac997c659e0b43c69347e99832f3afc211cc514e93b0/denonavr-0.7.8.tar.gz"; sha256 = "4c6d7757114e176da84a5db152959921501a4d6feb7e937acd93a5cff356810f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -587,8 +587,8 @@ let
 
 
     "luftdaten" = python.mkDerivation {
-      name = "luftdaten-0.3.4";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/78/59/4f1640f70aba964d96ead2f6a564ff7dffcb89bff84cfac87b132002d851/luftdaten-0.3.4.tar.gz"; sha256 = "c298ea749ff4eec6a95e04023f9068d017acb02133f1fdcc38eb98e5ebc69442"; };
+      name = "luftdaten-0.5.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ca/05/b5808b1768c7ee9e0a0765f928d411281d6d638b7fe840b4bdfd505fd139/luftdaten-0.5.0.tar.gz"; sha256 = "4672f807c0e22bde2606dd887b0358de1da77068d1a1afe6dd8e331d2391b02c"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [

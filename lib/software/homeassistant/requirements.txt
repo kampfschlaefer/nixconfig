@@ -45,7 +45,8 @@ pyowm
 #pyowm==2.9.0
 PyQRCode
 #python-dateutil==2.7.5
-#pytz==2018.7
+pytz
+#pytz==2018.07
 #PyYAML==3.13
 #requests==2.20.0
 #requests==2.20.1
