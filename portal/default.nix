@@ -236,6 +236,20 @@ in {
       };
     };
 
+    services.rsyslogd = {
+      enable = true;
+      defaultConfig = "";
+      extraConfig = ''
+      module(load="imudp")
+      module(load="omjournal")
+
+      input(type="imudp" port="514" ruleset="writeToJournal")
+      ruleset(name="writeToJournal") {
+        action(type="omjournal")
+      }
+      '';
+    };
+
     virtualisation.libvirtd = {
       enable = true;
       qemuPackage = pkgs.qemu_kvm;
