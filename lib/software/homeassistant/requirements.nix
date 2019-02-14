@@ -687,14 +687,14 @@ let
 
 
     "pyotp" = python.mkDerivation {
-      name = "pyotp-2.2.7";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b1/ab/477cda97b6ca7baced5106471cb1ac1fe698d1b035983b9f8ee3422989eb/pyotp-2.2.7.tar.gz"; sha256 = "be0ffeabddaa5ee53e7204e7740da842d070cf69168247a3d0c08541b84de602"; };
+      name = "pyotp-2.2.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/67/69/131f5ad63de40c30f3be88d891e4a2ea1b69398528db99bc1e5c543422fa/pyotp-2.2.6.tar.gz"; sha256 = "dd9130dd91a0340d89a0f06f887dbd76dd07fb95a8886dc4bc401239f2eebd69"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/pyotp/pyotp";
-        license = licenses.mit;
+        license = licenses.bsdOriginal;
         description = "Python One Time Password Library";
       };
     };
