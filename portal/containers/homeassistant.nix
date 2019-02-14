@@ -12,7 +12,8 @@ let
     "DEFAULT" = {
       "interface" = "eth0";
       "host" = "localhost";
-      "blackout_time" = 0;
+      "blackout_time" = 2;
+      "api_password" = "";
     };
     "ac:63:be:be:01:93" = {
       "domain" = "light";

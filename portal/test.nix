@@ -480,15 +480,17 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("ping -6 -n -c 1 homeassistant >&2");
           $portal->waitUntilSucceeds("nixos-container run homeassistant -- netstat -l -nv |grep 8123 ");
           $portal->waitUntilSucceeds("test -f /var/lib/containers/homeassistant/root/.homeassistant/configuration.yaml");
+          $portal->execute("cat /var/lib/containers/homeassistant/root/.homeassistant/configuration.yaml >&2");
           $portal->execute("nixos-container run homeassistant -- systemctl -l status homeassistant >&2");
           #$portal->execute("nixos-container run homeassistant -- journalctl -u homeassistant >&2");
           $portal->execute("nixos-container run homeassistant -- systemctl -l status nginx >&2");
           $portal->succeed("nixos-container run homeassistant -- curl -4 -s -f --max-time 5 http://localhost:8123 >&2");
           $portal->fail("curl -4 -s -f --max-time 5 http://homeassistant:8123 >&2");
-          $portal->succeed("curl -4 --insecure -s -f https://homeassistant/api/ >&2");
-          $portal->succeed("curl -6 --insecure -s -f https://homeassistant/api/ >&2");
+          $portal->fail("curl -6 -s -f --max-time 5 http://homeassistant:8123 >&2");
           $portal->execute("curl --insecure -s -f https://homeassistant/ || journalctl -M homeassistant -u homeassistant >&2");
           $portal->succeed("curl --insecure -s -f https://homeassistant/ >&2");
+          $portal->succeed("curl -4 --insecure --include --max-time 5 https://homeassistant/api/ |grep \" 401 \" >&2");
+          $portal->succeed("curl -6 --insecure --include --max-time 5 https://homeassistant/api/ |grep \" 401 \" >&2");
 
           #$portal->waitUntilSucceeds("journalctl -M homeassistant -u dash_button_daemon --boot |grep \"ready for action\"");
           #$portal->succeed("systemctl -M homeassistant is-active dash_button_daemon || journalctl -M homeassistant -u dash_button_daemon --boot >&2");
