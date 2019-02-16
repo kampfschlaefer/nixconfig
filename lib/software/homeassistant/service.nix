@@ -18,6 +18,13 @@ in {
           Enable the homeassistant as a systemd service.
         '';
       };
+      api_password = mkOption {
+        type = types.string;
+        default = "";
+        description = ''
+          API Password to secure access
+        '';
+      };
     };
   };
 
