@@ -453,6 +453,24 @@ let
 
 
 
+    "holidays" = python.mkDerivation {
+      name = "holidays-0.9.9";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/40/b0/3dfe3d3ed79087848a22de46d379462e371517571ee64668791f3d49ea29/holidays-0.9.9.tar.gz"; sha256 = "b38e11736e2fad04c51e6d8d38ff66b483905d9448ba0291640cda5889687baa"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."python-dateutil"
+      self."six"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/dr-prodigy/python-holidays";
+        license = licenses.mit;
+        description = "Generate and work with holidays in Python";
+      };
+    };
+
+
+
     "home-assistant-frontend" = python.mkDerivation {
       name = "home-assistant-frontend-20190203.0";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/dc/0a/fcc854654f94463f2f88f8044c1c364df1b0642afe188837aca83a3bf06d/home-assistant-frontend-20190203.0.tar.gz"; sha256 = "8f71a63e1c35ec088ed46e4529b30df7dd44f4968d84068306718c912d3a1410"; };
