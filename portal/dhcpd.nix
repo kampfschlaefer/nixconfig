@@ -61,6 +61,7 @@ let
     { hostName = "blueray";       ethernetAddress = "98:93:cc:50:0c:77"; ipAddress = "192.168.1.83"; }
     { hostName = "soundcraft";    ethernetAddress = "d2:7c:9f:a8:8c:fc"; ipAddress = "192.168.1.84"; noroute = true; }
     { hostName = "hpmfc";         ethernetAddress = "c8:d3:ff:af:8e:ac"; ipAddress = "192.168.1.85"; }
+    { hostName = "ccu3";          ethernetAddress = "b8:27:eb:c9:7c:a0"; ipAddress = "192.168.1.86"; noroute = true; }
 
     { hostName = "td-29";         ethernetAddress = "00:60:e0:66:64:95"; ipAddress = "192.168.1.30"; }
     { hostName = "td-138";        ethernetAddress = "00:60:e0:70:ad:7f"; ipAddress = "192.168.1.31"; }
