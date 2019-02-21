@@ -81,7 +81,7 @@ in
           ipv6.addresses = [];
         };
       };
-      networking.firewall.enable = true;
+      networking.firewall.enable = false;
       networking.firewall.allowedTCPPorts = [ 80 443 1883 ];
       /*networking.firewall.allowedTCPPorts = [ 8123 ];*/
 
