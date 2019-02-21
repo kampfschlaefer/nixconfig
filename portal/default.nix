@@ -155,7 +155,7 @@ in {
         allowPing = true;
         rejectPackets = true;
         allowedTCPPorts = [ 111 2049 4001 4002 80 443 ];
-        allowedUDPPorts = [ 111 123 2049 4001 4002 60001 ];
+        allowedUDPPorts = [ 111 123 514 2049 4001 4002 60001 ];
         extraPackages = [ pkgs.procps ];
         extraCommands = ''
           sysctl net.ipv4.conf.all.forwarding=1
@@ -234,6 +234,20 @@ in {
           };
         };
       };
+    };
+
+    services.rsyslogd = {
+      enable = true;
+      defaultConfig = "";
+      extraConfig = ''
+      module(load="imudp")
+      module(load="omjournal")
+
+      input(type="imudp" port="514" ruleset="writeToJournal")
+      ruleset(name="writeToJournal") {
+        action(type="omjournal")
+      }
+      '';
     };
 
     virtualisation.libvirtd = {

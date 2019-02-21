@@ -13,6 +13,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_torproxy = true;
     run_unbound = true;
     run_ups = false;
+    run_syslog = true;
 
     debug_unbound = false;
 
@@ -21,7 +22,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
     debug = false;
 
-    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt || run_syncthing;
+    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt || run_syncthing || run_syslog;
     outside_needed = run_firewall || run_torproxy || run_selfoss;
 
     testspkg = import ../lib/tests/default.nix {
@@ -253,6 +254,22 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl is-active upsmon");
           $portal->succeed("upsc -l >&2");
           $portal->succeed("upsc eaton >&2");
+        };''
+      }
+
+      ${lib.optionalString run_syslog
+        ''subtest "check syslog", sub {
+          $portal->succeed("systemctl status -l syslog >&2");
+          $portal->fail("test -f /var/log/messages");
+          $portal->execute("echo bla |logger --tag local2 --priority warn --udp --server localhost --port 514");
+          #$portal->execute("ls -la /var/log >&2");
+          $portal->fail("test -f /var/log/messages");
+          #$portal->succeed("cat /var/log/messages >&2");
+          $portal->succeed("journalctl --boot 0 |grep bla |grep local2 >&2");
+          $portal->execute("netstat -l -n >&2");
+
+          $inside->execute("echo \"inside blub\" |logger --tag local2 --priority info --udp --server 192.168.1.240 --port 514");
+          $portal->succeed("journalctl --boot 0 |grep \"inside blub\" |grep local2 >&2");
         };''
       }
 
