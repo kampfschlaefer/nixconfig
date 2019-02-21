@@ -685,6 +685,21 @@ let
 
 
 
+    "pyhomematic" = python.mkDerivation {
+      name = "pyhomematic-0.1.56";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/99/f0/e0c75cd322721eb3c44af33b1407ab2b083708a379bfd3ad0ed0c5500c27/pyhomematic-0.1.56.tar.gz"; sha256 = "ca9f222b99d80be4b7ef8a4427ab55368d14914a0516623e66d1da7563919169"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/danielperna84/pyhomematic";
+        license = licenses.mit;
+        description = "Homematic interface";
+      };
+    };
+
+
+
     "pyiss" = python.mkDerivation {
       name = "pyiss-1.0.1";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/64/70/f42b4f35ba02fe2c3a5cba75a2e6d72f2594a12cc774a3972be7b5bd9d32/pyiss-1.0.1.tar.gz"; sha256 = "0c745e7a518e6cd0c5814b2dd3ac846a63fd936e0601b10016d030556ddf2772"; };

@@ -36,6 +36,7 @@ multidict==4.5.2
 netdisco==2.3.0
 paho-mqtt==1.4.0
 pycparser==2.19
+pyhomematic==0.1.56
 pyiss==1.0.1
 pyotp==2.2.6
 pyowm==2.10.0
