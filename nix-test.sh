@@ -6,6 +6,9 @@ branch=`git describe --all`
 branch=${branch#*/}
 
 machine=${1:-portal}
+if [ $machine = "homeassistant" ]; then
+    machine=lib/software/homeassistant
+fi
 
 action=${2:-run}
 
@@ -20,7 +23,9 @@ mkdir -p outputs
 
 nixStable=`nix-build --no-out-link nixpkgs/default.nix -A pkgs.nixStable`
 
-time ${nixStable}/bin/nix -v build --show-trace --out-link outputs/${machine}-${branch} -f ${machine}/test.nix ${attribute}
+out=`nix-instantiate ${machine}/test.nix`
+
+time ${nixStable}/bin/nix -v build --show-trace --out-link outputs/${machine}-${branch} -f ${machine}/test.nix ${attribute} || ( nix log $out; exit 1 )
 
 if [ ${action} = "driver" ]; then
     ./outputs/${machine}-${branch}/bin/nixos-run-vms

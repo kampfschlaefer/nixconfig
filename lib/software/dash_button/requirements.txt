@@ -1,2 +1,2 @@
-homeassistant
+requests
 scapy==2.4.0rc4

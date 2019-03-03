@@ -26,18 +26,18 @@ in {
       ./containers/firewall.nix
       ./containers/gitolite.nix
       ./containers/homeassistant.nix
-      ./containers/influxdb.nix
+      #./containers/influxdb.nix
       #./containers/imap.nix
-      ./containers/mpd.nix
       ./containers/postgres.nix
       ./containers/syncthing.nix
       ./containers/torproxy.nix
       ./containers/selfoss.nix
+      #./containers/mpd.nix
       ./dhcpd.nix
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
-      ./ups.nix
+      #./ups.nix
     ];
 
   config = {
@@ -84,6 +84,7 @@ in {
     );
 
     services.hostapd.enable = false;
+
     networking = {
       hostName = lib.mkOverride 10 "portal"; # Define your hostname.
       domain = "arnoldarts.de";
@@ -110,9 +111,14 @@ in {
         enable = false;
       };
 
+      vlans = lib.mkOverride 100 {
+        vlan10 = { id = 10; interface = "eno1"; };
+        wifi = { id = 2; interface = "eno1"; };
+      };
+
       bridges = {
         lan = { interfaces = lib.mkOverride 100 [ "eno1" ]; };
-        dmz = { interfaces = lib.mkOverride 100 [ "eno2" ]; };
+        dmz = { interfaces = lib.mkOverride 100 [ "eno2" "vlan10" ]; };
         backend = { interfaces = []; };
       };
 
@@ -149,7 +155,7 @@ in {
         allowPing = true;
         rejectPackets = true;
         allowedTCPPorts = [ 111 2049 4001 4002 80 443 ];
-        allowedUDPPorts = [ 111 123 2049 4001 4002 60001 ];
+        allowedUDPPorts = [ 111 123 514 2049 4001 4002 60001 ];
         extraPackages = [ pkgs.procps ];
         extraCommands = ''
           sysctl net.ipv4.conf.all.forwarding=1
@@ -228,6 +234,20 @@ in {
           };
         };
       };
+    };
+
+    services.rsyslogd = {
+      enable = true;
+      defaultConfig = "";
+      extraConfig = ''
+      module(load="imudp")
+      module(load="omjournal")
+
+      input(type="imudp" port="514" ruleset="writeToJournal")
+      ruleset(name="writeToJournal") {
+        action(type="omjournal")
+      }
+      '';
     };
 
     virtualisation.libvirtd = {

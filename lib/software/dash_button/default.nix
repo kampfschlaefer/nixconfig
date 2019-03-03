@@ -11,7 +11,7 @@ in python.mkDerivation rec {
   # src = ./.;
   src = builtins.filterSource (p: t: lib.cleanSourceFilter p t && baseNameOf p != "dash_button.egg-info") ./.;
 
-  propagatedBuildInputs = [ python.packages."scapy" python.packages."homeassistant" ];
+  propagatedBuildInputs = [ python.packages."scapy" ];
 
   doCheck = false;
 }

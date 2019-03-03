@@ -16,7 +16,6 @@ setup(
         ]
     },
     install_requires=[
-        'homeassistant',
         'scapy==2.4.0rc4',
     ],
     zip_safe=False

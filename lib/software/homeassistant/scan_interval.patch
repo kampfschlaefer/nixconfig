@@ -1,0 +1,13 @@
+diff --git a/homeassistant/components/hue/light.py b/homeassistant/components/hue/light.py
+index 51e50f6..be5ea6d 100644
+--- a/homeassistant/components/hue/light.py
++++ b/homeassistant/components/hue/light.py
+@@ -22,7 +22,7 @@ from homeassistant.components.light import (
+ from homeassistant.util import color
+ 
+ DEPENDENCIES = ['hue']
+-SCAN_INTERVAL = timedelta(seconds=5)
++SCAN_INTERVAL = timedelta(seconds=30)
+ 
+ _LOGGER = logging.getLogger(__name__)
+ 

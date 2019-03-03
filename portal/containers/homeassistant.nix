@@ -12,7 +12,8 @@ let
     "DEFAULT" = {
       "interface" = "eth0";
       "host" = "localhost";
-      "blackout_time" = 0;
+      "blackout_time" = 2;
+      "api_password" = "";
     };
     "ac:63:be:be:01:93" = {
       "domain" = "light";
@@ -125,7 +126,7 @@ in
         users = mqtt_users;
       };
 
-      systemd.services."dash_button_daemon" = {
+      /* systemd.services."dash_button_daemon" = {
         enable = true;
         script = "${dash_button_pkg}/bin/dash_button_daemon --config ${dash_button_config}";
         after = [ "homeassistant.service" ];
@@ -135,7 +136,7 @@ in
           RestartSec=10;
           Restart="on-failure";
         };
-      };
+      }; */
 
       environment.systemPackages = [ dash_button_pkg ];
     };
