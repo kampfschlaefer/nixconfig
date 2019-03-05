@@ -37,7 +37,7 @@ in {
       ./duply.nix
       ./postfix-satelite.nix
       ./unbound.nix
-      #./ups.nix
+      ./ups.nix
     ];
 
   config = {
