@@ -11,6 +11,12 @@ in
     RestartSec = 30;
   };
 
+  fileSystems = {
+    "/var/lib/containers/postgres/var/db" = {
+      device = "/dev/portalgroup/postgres";
+    };
+  };
+
   containers.postgres = {
     autoStart = lib.mkOverride 100 true;
 
