@@ -23,7 +23,7 @@ mkdir -p outputs
 
 nixStable=`nix-build --no-out-link nixpkgs/default.nix -A pkgs.nixStable`
 
-out=`nix-instantiate ${machine}/test.nix`
+out=`nix-instantiate --show-trace ${machine}/test.nix`
 
 time ${nixStable}/bin/nix -v build --show-trace --out-link outputs/${machine}-${branch} -f ${machine}/test.nix ${attribute} || ( nix log $out; exit 1 )
 
