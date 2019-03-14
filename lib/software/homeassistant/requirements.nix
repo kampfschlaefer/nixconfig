@@ -719,6 +719,24 @@ let
 
 
 
+    "pylaunches" = python.mkDerivation {
+      name = "pylaunches-0.2.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e0/97/d6c0c5f333667b728a4b77e0c1bbe8468b16c668991cbd1c1840b4b3bda8/pylaunches-0.2.0.tar.gz"; sha256 = "cf8caa472170fc475cac256671a3ebc17e501874272ea8d63489f93c9104beed"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."aiohttp"
+      self."async-timeout"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/ludeeus/pylaunches";
+        license = licenses.mit;
+        description = "UNKNOWN";
+      };
+    };
+
+
+
     "pyotp" = python.mkDerivation {
       name = "pyotp-2.2.6";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/67/69/131f5ad63de40c30f3be88d891e4a2ea1b69398528db99bc1e5c543422fa/pyotp-2.2.6.tar.gz"; sha256 = "dd9130dd91a0340d89a0f06f887dbd76dd07fb95a8886dc4bc401239f2eebd69"; };
