@@ -12,7 +12,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_syncthing = true;
     run_torproxy = true;
     run_unbound = true;
-    run_ups = false;
+    run_ups = true;
     run_syslog = true;
 
     debug_unbound = false;

@@ -38,6 +38,12 @@ in
     "container@firewall.service"
   ];
 
+  fileSystems = {
+    "/var/lib/containers/homeassistant/var/lib/homeassistant" = {
+      device = "/dev/portalgroup/homeassistant";
+    };
+  };
+
   containers.homeassistant = {
     autoStart = lib.mkOverride 100 true;
 
