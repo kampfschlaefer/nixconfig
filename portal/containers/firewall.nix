@@ -24,7 +24,7 @@ in
 
       networking.domain = "arnoldarts.de";
 
-      networking.defaultGateway = "192.168.2.1";
+      networking.defaultGateway = "192.168.2.253";
 
       networking.interfaces = {
         "${lanIf}" = {
