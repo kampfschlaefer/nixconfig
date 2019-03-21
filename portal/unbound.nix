@@ -65,7 +65,7 @@ let
     { name = "postgres"; a = "192.168.6.1"; }
     # { name = "selfoss";  a = "192.168.6.2"; }  # for documentation
   ] ++ (if config.testdata then [
-    { name = "outsideweb";   a = "192.168.2.10"; }
+    { name = "outsideweb";   a = "192.168.8.1"; }
   ] else []);
 
   localdata = concatMapStrings (addr:
@@ -109,7 +109,7 @@ in
       "149.112.112.112@853" # quad9.net secondary
       "1.0.0.1@853"         # cloudflare secondary
     ] else [
-      "192.168.2.1"
+      #"192.168.2.1"
       "8.8.8.8"              # Google Public DNS
       "74.82.42.42"          # Hurricane Electric
       "2001:4860:4860::8888" # Google Public DNS

@@ -24,7 +24,7 @@ in
       ];
 
       networking.domain = "arnoldarts.de";
-      networking.defaultGateway = "192.168.2.253";
+      networking.defaultGateway = "192.168.8.1";
 
       networking.interfaces = {
         "${lanIf}" = {
@@ -35,7 +35,7 @@ in
         "${dmzIf}" = {
           useDHCP = false;
           ipv6.addresses = [];
-          ipv4.addresses = [{ address = "192.168.2.225"; prefixLength = 24; }];
+          ipv4.addresses = [{ address = "192.168.8.225"; prefixLength = 24; }];
         };
       };
 
