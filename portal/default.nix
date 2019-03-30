@@ -128,6 +128,7 @@ in {
           ipv4.addresses = [
             { address = "192.168.1.240"; prefixLength = 24; }
             { address = "192.168.1.233"; prefixLength = 32; }
+            { address = "192.168.1.235"; prefixLength = 32; }
           ];
           ipv6.addresses = [
             { address = "2001:470:1f0b:1033::706f:7274:616c"; prefixLength = 64; }
@@ -214,6 +215,16 @@ in {
       };
     };
 
+    services.netdata = {
+      enable = true;
+      config = {
+        web = {
+          /* "bind to" = "unix:/run/netdata.sock"; */
+          "bind to" = "127.0.0.1:19999";
+        };
+      };
+    };
+
     services.nginx = {
       enable = true;
       sslCiphers = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:!RSA+AES:!aNULL:!MD5:!DSS";
@@ -233,6 +244,20 @@ in {
           locations."/" = {
             root = pkg_startpage;
             index = "index.html";
+          };
+        };
+        "netdata" = {
+          serverName = "netdata.arnoldarts.de";
+          listen = [
+            { addr = "192.168.1.235"; port=80; ssl=false; }
+            { addr = "192.168.1.235"; port=443; ssl=true; }
+          ];
+          forceSSL = true;
+          enableACME = true;
+          locations."/" = {
+            proxyPass = "http://localhost:19999";
+            /* proxyPass = "unix:/run/netdata.sock"; */
+            proxyWebsockets = true;
           };
         };
       };
