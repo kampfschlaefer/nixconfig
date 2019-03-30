@@ -367,10 +367,12 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
       ${lib.optionalString run_netdata
         ''subtest "Check for netdata behind proxy", sub {
-          $portal->execute("systemctl status nginx -l >&2");
-          $portal->execute("systemctl status netdata -l >&2");
+          #$portal->execute("systemctl status nginx -l >&2");
+          #$portal->execute("systemctl status netdata -l >&2");
+          $inside->succeed("curl -4 --connect-timeout 1 --insecure -s -f https://netdata.arnoldarts.de/ >&2");
+          $inside->succeed("curl -6 --connect-timeout 1 --insecure -s -f https://netdata.arnoldarts.de/ >&2");
           $inside->fail("curl --connect-timeout 1 -f http://netdata.arnoldarts.de:19999 >&2");
-          $inside->succeed("curl --connect-timeout 1 --insecure -f https://netdata.arnoldarts.de/ >&2");
+          $inside->fail("curl -6 --connect-timeout 1 -f http://netdata.arnoldarts.de:19999 >&2");
         };''
       }
 

@@ -131,8 +131,9 @@ in {
             { address = "192.168.1.235"; prefixLength = 32; }
           ];
           ipv6.addresses = [
-            { address = "2001:470:1f0b:1033::706f:7274:616c"; prefixLength = 64; }
-            { address = "2001:470:1f0b:1033::73:7461:7274"; prefixLength = 128; }
+            { address = "2001:470:1f0b:1033::706f:7274:616c";   prefixLength = 64; }
+            { address = "2001:470:1f0b:1033::73:7461:7274";     prefixLength = 128; }
+            { address = "2001:470:1f0b:1033:6e:6574:6461:7461"; prefixLength = 128; }
           ];
 
         };
@@ -251,6 +252,8 @@ in {
           listen = [
             { addr = "192.168.1.235"; port=80; ssl=false; }
             { addr = "192.168.1.235"; port=443; ssl=true; }
+            { addr = "[2001:470:1f0b:1033:6e:6574:6461:7461]"; port=80; ssl=false; }
+            { addr = "[2001:470:1f0b:1033:6e:6574:6461:7461]"; port=443; ssl=true; }
           ];
           forceSSL = true;
           enableACME = true;
