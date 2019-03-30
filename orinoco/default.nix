@@ -24,11 +24,14 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  hardware.enableRedistributableFirmware = true;
+  
   networking.hostName = lib.mkOverride 10 "orinoco";
   networking.useDHCP = false;
   networking.enableIPv6 = true;
   networking.wireless.enable = false;  # Disables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
+  networking.enableB43Firmware = true;
   networking.connman.enable = false;
   # networking.wicd.enable = true;
   services.hostapd.enable = false;
