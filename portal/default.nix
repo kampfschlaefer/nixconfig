@@ -184,6 +184,8 @@ in {
     services.dnsmasq.enable = false;
     services.dnsmasq.resolveLocalQueries = false;
 
+    services.lldpd.enable = true;
+
     services.nfs.server = {
       enable = true;
       createMountPoints = true;
