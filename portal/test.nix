@@ -4,16 +4,17 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_gitolite = true;
     run_homeassistant = true;
     run_influxdb = false;
+    run_lldp = true;
     run_mqtt = true;
     run_ntp = true;
     run_postgres = true;
     run_selfoss = true;
     run_startpage = true;
     run_syncthing = true;
+    run_syslog = true;
     run_torproxy = true;
     run_unbound = true;
     run_ups = true;
-    run_syslog = true;
 
     debug_unbound = false;
 
@@ -22,7 +23,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
     debug = false;
 
-    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt || run_syncthing || run_syslog;
+    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt || run_syncthing || run_syslog || run_lldp;
     outside_needed = run_firewall || run_torproxy || run_selfoss;
 
     testspkg = import ../lib/tests/default.nix {
@@ -100,6 +101,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
             };
             inherit extraHosts;
           };
+
+          services.lldpd.enable = run_lldp;
 
           environment.systemPackages = [
             pkgs.git
@@ -270,6 +273,16 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           $inside->execute("echo \"inside blub\" |logger --tag local2 --priority info --udp --server 192.168.1.240 --port 514");
           $portal->succeed("journalctl --boot 0 |grep \"inside blub\" |grep local2 >&2");
+        };''
+      }
+
+      ${lib.optionalString run_lldp
+        ''subtest "check lldp", sub {
+          $portal->execute("lldpcli update");
+          $inside->execute("lldpcli update");
+          $inside->succeed("lldpcli show neighbors >&2");
+          $inside->succeed("lldpcli show neighbors |grep portal >&2");
+          $portal->succeed("lldpcli show neighbors |grep inside >&2");
         };''
       }
 
