@@ -45,6 +45,7 @@ let
     { name = "homeassistant"; a = "192.168.1.232"; aaaa = "2001:470:1f0b:1033:686f:6d65:6173:7369"; }
     { name = "startpage";     a = "192.168.1.233"; aaaa = "2001:470:1f0b:1033::73:7461:7274"; }
     { name = "grafana";       a = "192.168.1.234"; aaaa = "2001:470:1f0b:1033:67:7261:6661:6e61"; }
+    { name = "netdata";       a = "192.168.1.235"; aaaa = "2001:470:1f0b:1033:6e:6574:6461:7461"; }
 
     # servers
     { name = "portal";   a = "192.168.1.240"; aaaa = "2001:470:1f0b:1033::706f:7274:616c"; }
@@ -65,7 +66,7 @@ let
     { name = "postgres"; a = "192.168.6.1"; }
     # { name = "selfoss";  a = "192.168.6.2"; }  # for documentation
   ] ++ (if config.testdata then [
-    { name = "outsideweb";   a = "192.168.2.10"; }
+    { name = "outsideweb";   a = "192.168.8.1"; }
   ] else []);
 
   localdata = concatMapStrings (addr:
@@ -109,7 +110,7 @@ in
       "149.112.112.112@853" # quad9.net secondary
       "1.0.0.1@853"         # cloudflare secondary
     ] else [
-      "192.168.2.1"
+      #"192.168.2.1"
       "8.8.8.8"              # Google Public DNS
       "74.82.42.42"          # Hurricane Electric
       "2001:4860:4860::8888" # Google Public DNS

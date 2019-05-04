@@ -70,6 +70,8 @@ let
     { hostName = "worklaptop";    ethernetAddress = "00:28:f8:73:bc:25"; }
     { hostName = "workairbook";   ethernetAddress = "4c:8d:79:f2:28:38"; }
 
+    { hostName = "demianthink";   ethernetAddress = "a4:4e:31:b6:c3:d8"; }
+
     { hostName = "tp-central";    ethernetAddress = "0C:80:63:1E:87:A1"; ipAddress = "192.168.1.245"; noroute = true; }
     { hostName = "tp-office";     ethernetAddress = "60:e3:27:26:00:c4"; ipAddress = "192.168.1.246"; noroute = true; }
     { hostName = "EAP115-1";      ethernetAddress = "0C:80:63:66:10:2B"; ipAddress = "192.168.1.248"; noroute = true; }

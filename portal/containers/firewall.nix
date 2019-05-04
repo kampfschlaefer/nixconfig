@@ -24,7 +24,7 @@ in
 
       networking.domain = "arnoldarts.de";
 
-      networking.defaultGateway = "192.168.2.1";
+      networking.defaultGateway = "192.168.8.1";
 
       networking.interfaces = {
         "${lanIf}" = {
@@ -35,7 +35,10 @@ in
         "${dmzIf}" = {
           useDHCP = false;
           #ip6 = [{ address = "2001:470:1f0b:1033:6669:7265:7761:6c6c"; prefixLength = 64; }];
-          ipv4.addresses = [{ address = "192.168.2.220"; prefixLength = 24; }];
+          ipv4.addresses = [
+            /* { address = "192.168.2.220"; prefixLength = 24; } */
+            { address = "192.168.8.220"; prefixLength = 24; }
+            ];
         };
       };
 
@@ -43,7 +46,7 @@ in
         enable = true;
         externalInterface = dmzIf;
         internalIPs = [ "192.168.1.0/24" ];
-        externalIP = "192.168.2.220";
+        externalIP = "192.168.8.220";
       };
 
       networking.myfirewall = {

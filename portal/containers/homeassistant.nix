@@ -38,6 +38,12 @@ in
     "container@firewall.service"
   ];
 
+  fileSystems = {
+    "/var/lib/containers/homeassistant/var/lib/homeassistant" = {
+      device = "/dev/portalgroup/homeassistant";
+    };
+  };
+
   containers.homeassistant = {
     autoStart = lib.mkOverride 100 true;
 
@@ -82,7 +88,12 @@ in
         };
       };
       networking.firewall.enable = true;
-      networking.firewall.allowedTCPPorts = [ 80 443 1883 ];
+      networking.firewall.allowedTCPPorts = [
+        80    # https-redirect
+        443   # https
+        1883  # mqtt
+        42000 # homematic callback
+      ];
       /*networking.firewall.allowedTCPPorts = [ 8123 ];*/
 
       security.acme.validMin = 864000;

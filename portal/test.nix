@@ -4,16 +4,18 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_gitolite = true;
     run_homeassistant = true;
     run_influxdb = false;
+    run_lldp = true;
     run_mqtt = true;
+    run_netdata = true;
     run_ntp = true;
     run_postgres = true;
     run_selfoss = true;
     run_startpage = true;
     run_syncthing = true;
+    run_syslog = true;
     run_torproxy = true;
     run_unbound = true;
-    run_ups = false;
-    run_syslog = true;
+    run_ups = true;
 
     debug_unbound = false;
 
@@ -22,7 +24,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
     debug = false;
 
-    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt || run_syncthing || run_syslog;
+    inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt || run_syncthing || run_syslog || run_lldp;
     outside_needed = run_firewall || run_torproxy || run_selfoss;
 
     mqtt_client = pkgs.callPackage ../lib/software/mqtt_client { inherit pkgs; };
@@ -58,7 +60,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
             };
             interfaces.eth1 = {
               useDHCP = false;
-              ipv4.addresses = [ { address = "192.168.2.10"; prefixLength = 32; } ];
+              ipv4.addresses = [ { address = "192.168.8.1"; prefixLength = 24; } ];
             };
 
             firewall.enable = false;
@@ -101,6 +103,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
             };
             inherit extraHosts;
           };
+
+          services.lldpd.enable = run_lldp;
 
           environment.systemPackages = [
             pkgs.git
@@ -275,26 +279,36 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         };''
       }
 
+      ${lib.optionalString run_lldp
+        ''subtest "check lldp", sub {
+          $portal->execute("lldpcli update");
+          $inside->execute("lldpcli update");
+          $inside->succeed("lldpcli show neighbors >&2");
+          $inside->succeed("lldpcli show neighbors |grep portal >&2");
+          $portal->succeed("lldpcli show neighbors |grep inside >&2");
+        };''
+      }
+
       ${lib.optionalString run_firewall
         ''subtest "check outside connectivity", sub {
           $portal->waitForUnit("container\@firewall");
 
           $portal->execute("ip link >&2");
-          $portal->succeed("ping -4 -n -c 1 -w 2 outside >&2");
+          #$portal->succeed("ping -4 -n -c 1 -w 2 outside >&2");
           $portal->succeed("ping -4 -n -c 1 -w 2 outsideweb >&2");
           $portal->succeed("curl --connect-timeout 1 -s -f http://outsideweb >&2");
 
           $outside->execute("ip link >&2");
           $outside->execute("ip -4 a >&2");
-          $outside->succeed("ping -4 -n -c 1 -w 2 192.168.2.220 >&2");
+          $outside->succeed("ping -4 -n -c 1 -w 2 192.168.8.220 >&2");
 
           $portal->execute("nixos-container run firewall -- ip link >&2");
           $portal->execute("nixos-container run firewall -- ip -4 a >&2");
-          $portal->fail("nixos-container run firewall -- ping -4 -n -c 1 -w 2 192.168.2.10 >&2");
+          $portal->fail("nixos-container run firewall -- ping -4 -n -c 1 -w 2 192.168.8.1 >&2");
 
           $inside->execute("ip -4 a >&2");
           $inside->execute("ip -4 r >&2");
-          $inside->succeed("ip r get 192.168.2.10 >&2");
+          $inside->succeed("ip r get 192.168.8.1 >&2");
 
           $inside->execute("cat /etc/resolv.conf >&2");
           $inside->execute("host -v -t any outsideweb.arnoldarts.de >&2");
@@ -333,9 +347,9 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->succeed("nmap -4 --open -n -p 9050 torproxy -oG - |grep -e \"Ports\" |grep -e \"9050\" >&2");
           #$portal->succeed("nmap -4 --open -n -p 9063 torproxy -oG - |grep -e \"Ports\" |grep -e \"9063\" >&2");
           #$portal->succeed("nmap -4 --open -n -p 8118 torproxy -oG - |grep -e \"Ports\" |grep -e \"8118\"");
-          $outside->fail("nmap -4 --open -n -p 9050 192.168.2.225 -oG - |grep -e \"Ports\" |grep -e \"9050\" >&2");
-          $outside->fail("nmap -4 --open -n -p 9063 192.168.2.225 -oG - |grep -e \"Ports\" |grep -e \"9063\" >&2");
-          $outside->fail("nmap -4 --open -n -p 8118 192.168.2.225 -oG - |grep -e \"Ports\" |grep -e \"8118\" >&2");
+          $outside->fail("nmap -4 --open -n -p 9050 192.168.8.225 -oG - |grep -e \"Ports\" |grep -e \"9050\" >&2");
+          $outside->fail("nmap -4 --open -n -p 9063 192.168.8.225 -oG - |grep -e \"Ports\" |grep -e \"9063\" >&2");
+          $outside->fail("nmap -4 --open -n -p 8118 192.168.8.225 -oG - |grep -e \"Ports\" |grep -e \"8118\" >&2");
           ''
         }
       };
@@ -350,6 +364,17 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       ${lib.optionalString run_startpage
         ''subtest "Check startpage", sub {
           $portal->succeed("curl --connect-timeout 1 --insecure -f https://startpage.arnoldarts.de/ >&2");
+        };''
+      }
+
+      ${lib.optionalString run_netdata
+        ''subtest "Check for netdata behind proxy", sub {
+          #$portal->execute("systemctl status nginx -l >&2");
+          #$portal->execute("systemctl status netdata -l >&2");
+          $inside->succeed("curl -4 --connect-timeout 1 --insecure -s -f https://netdata.arnoldarts.de/ >&2");
+          $inside->succeed("curl -6 --connect-timeout 1 --insecure -s -f https://netdata.arnoldarts.de/ >&2");
+          $inside->fail("curl --connect-timeout 1 -f http://netdata.arnoldarts.de:19999 >&2");
+          $inside->fail("curl -6 --connect-timeout 1 -f http://netdata.arnoldarts.de:19999 >&2");
         };''
       }
 
@@ -401,7 +426,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           # Preparation
           $portal->succeed("ping -4 -n -c 1 -w 2 outsideweb >&2");
           $outside->succeed("systemctl status -l -n 40 nginx >&2");
-          $portal->succeed("nixos-container run selfoss -- ip r get 192.168.2.10 >&2");
+          $portal->succeed("nixos-container run selfoss -- ip r get 192.168.8.1 >&2");
           $portal->succeed("nixos-container run selfoss -- ping -4 -n -c 1 -w 2 outsideweb >&2");
           $portal->succeed("nixos-container run selfoss -- curl --connect-timeout 1 -s -f http://outsideweb >&2");
           $portal->succeed("nixos-container run selfoss -- curl --connect-timeout 1 -s -f http://outsideweb/feed.atom >&2");
