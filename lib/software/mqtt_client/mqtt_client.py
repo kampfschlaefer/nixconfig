@@ -142,3 +142,5 @@ print("Should loop until %i" % till)
 while run and till > time.time():
     # print("loop")
     client.loop(timeout=1.)
+
+client.disconnect()
