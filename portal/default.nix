@@ -223,6 +223,10 @@ in {
           /* "bind to" = "unix:/run/netdata.sock"; */
           "bind to" = "127.0.0.1:19999";
         };
+        registry = {
+          enabled = "yes";
+          "registry to announce" = "https://netdata.arnoldarts.de/";
+        };
       };
     };
 
