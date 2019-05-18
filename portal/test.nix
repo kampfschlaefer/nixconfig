@@ -258,6 +258,11 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl is-active upsmon");
           $portal->succeed("upsc -l >&2");
           $portal->succeed("upsc eaton >&2");
+
+          $portal->execute("rm -f /tmp/upsmon_id.txt");
+          $portal->succeed("upsmon -c fsd >&2");
+          $portal->waitUntilSucceeds("grep root /tmp/upsmon_id.txt >&2");
+          $portal->fail("journalctl --boot |grep \"Unable to call\" >&2");
         };''
       }
 
