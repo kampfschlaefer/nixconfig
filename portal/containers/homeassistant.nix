@@ -4,7 +4,7 @@ let
   dash_button_pkg = import ../../lib/software/dash_button { inherit lib pkgs; };
   secrets = import ./homeassistant_secrets.nix {};
   mqtt_users = if config.testdata then {
-    testclient = { acl = []; password = "password"; };
+    testclient = { acl = [ "pattern readwrite #" ]; password = "password"; };
   } else import ./mqtt_secrets.nix {};
 
 
