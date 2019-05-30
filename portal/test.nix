@@ -28,13 +28,14 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     inside_needed = run_firewall || run_selfoss || run_gitolite || run_ntp || run_mqtt || run_syncthing || run_syslog || run_lldp;
     outside_needed = run_firewall || run_torproxy || run_selfoss;
 
+    mqtt_client = pkgs.callPackage ../lib/software/mqtt_client { inherit pkgs; };
     testspkg = import ../lib/tests/default.nix {
       stdenv = pkgs.stdenv;
       bats = pkgs.bats;
       curl = pkgs.curl;
       git = pkgs.git;
       jq = pkgs.jq;
-      mqtt_client = pkgs.callPackage ../lib/software/mqtt_client { inherit pkgs; };
+      inherit mqtt_client;
     };
 
     extraHosts = ''
@@ -112,6 +113,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
             pkgs.openssh
             testspkg
             pkgs.ntp
+            mqtt_client
           ];
         };
     } else {};
@@ -258,6 +260,11 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("systemctl is-active upsmon");
           $portal->succeed("upsc -l >&2");
           $portal->succeed("upsc eaton >&2");
+
+          $portal->execute("rm -f /tmp/upsmon_id.txt");
+          $portal->succeed("upsmon -c fsd >&2");
+          $portal->waitUntilSucceeds("grep root /tmp/upsmon_id.txt >&2");
+          $portal->fail("journalctl --boot |grep \"Unable to call\" >&2");
         };''
       }
 
