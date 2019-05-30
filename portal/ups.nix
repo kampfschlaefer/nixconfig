@@ -39,6 +39,7 @@ in {
     {
       text = if config.testdata then ''
       MONITOR eaton 1 monmaster password master
+      SHUTDOWNCMD "id > /tmp/upsmon_id.txt"
       '' else secrets.upsmon_conf;
       target = "nut/upsmon.conf";
       mode = "0600";
@@ -47,7 +48,7 @@ in {
     {
       source = pkgs.writeText "dummy-ups.txt" ''
       ups.status: 0L
-      TIMER 60
+      TIMER 1
       '';
       target = "nut/dummy-ups.txt";
       mode = "0600";
