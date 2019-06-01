@@ -118,6 +118,18 @@ let
       };
     };
 
+    "paho-mqtt" = python.mkDerivation {
+      name = "paho-mqtt-1.3.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/2a/5f/cf14b8f9f8ed1891cda893a2a7d1d6fa23de2a9fb4832f05cef02b79d01f/paho-mqtt-1.3.1.tar.gz"; sha256 = "31911f6031de306c27ed79dc77b690d7c55b0dcb0f0434ca34ec6361d0371122"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = "License :: OSI Approved";
+        description = "MQTT version 3.1.1 client class";
+      };
+    };
 
 
     "requests" = python.mkDerivation {

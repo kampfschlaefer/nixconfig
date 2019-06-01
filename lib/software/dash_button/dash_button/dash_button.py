@@ -3,64 +3,46 @@ import argparse
 import configparser
 import json
 import logging
-import requests
 import time
 from scapy.all import *
+import paho.mqtt.client as mqtt
 
 last_trigger = 0
+blackout_time = 0
 session = None
 config = None
-
-
-def build_url(config, endpoint):
-    return "%s://%s:%s/%s" % (
-        {'True': 'https', 'False': 'http'}[
-            str(config.getboolean('DEFAULT', 'use_ssl'))
-        ],
-        config.get('DEFAULT', 'host'),
-        config.get('DEFAULT', 'port'),
-        endpoint,
-    )
-
-
-def arp_handle(pkt):
-    global last_trigger
-    global session
-    global config
-    if (
-        ARP in pkt and pkt[ARP].op == 1 and  # who-has (request)
-        abs(time.time() - last_trigger) > blackout_time
-    ):
-        mac = pkt[ARP].hwsrc.lower()
-        logger.debug("Found ARP request")
-        if mac in config.sections():
-            if (
-                config.has_option(mac, 'domain') and
-                config.has_option(mac, 'action')
-            ):
-                domain = config.get(mac, 'domain')
-                action = config.get(mac, 'action')
-                data = json.loads(config.get(mac, 'data', fallback=''))
-                logger.info(
-                    "Found Button %s, will execute %s.%s with data %s",
-                    mac, domain, action, data
-                )
-                session.post(
-                    build_url(config, 'api/services/%s/%s' % (domain, action)),
-                    json=data,
-                )
-            else:
-                logger.info(
-                    "Found Button %s, will fire event for that mac", mac
-                )
-                session.post(
-                    build_url(config, 'api/events/dash_button_pressed'),
-                    json={'mac': mac}
-                )
-                last_trigger = time.time()
+logger = None
 
 
 def run():
+
+    def arp_handle(pkt):
+        global last_trigger
+        global blackout_time
+        if (
+            ARP in pkt and pkt[ARP].op == 1 and  # who-has (request)
+            abs(time.time() - last_trigger) > blackout_time
+        ):
+            mac = pkt[ARP].hwsrc.lower()
+            logger.debug("Found ARP request")
+            if mac in config.sections():
+                if (
+                    config.has_option(mac, 'domain') and
+                    config.has_option(mac, 'action')
+                ):
+                    domain = config.get(mac, 'domain')
+                    action = config.get(mac, 'action')
+                    data = json.loads(config.get(mac, 'data', fallback=''))
+                    logger.info(
+                        "Found Button %s, will execute %s.%s with data %s",
+                        mac, domain, action, data
+                    )
+                else:
+                    logger.info(
+                        "Found Button %s, will fire event for that mac", mac
+                    )
+                    last_trigger = time.time()
+
     logger = logging.getLogger()
 
     logging.basicConfig(level=logging.DEBUG)
@@ -77,11 +59,12 @@ def run():
     config.read_dict({
         'DEFAULT': {
             'interface': 'lo',
-            'host': 'hass.io',
-            'port': 8123,
-            'use_ssl': False,
+            'server': 'mqtt',
+            'port': 1883,
+            'user': '',
+            'password': '',
+            'client_id': 'dash_button_daemon',
             'blackout_time': 10,
-            'api_password': None
         }
     })
     logger.debug(
@@ -102,38 +85,18 @@ def run():
 
     blackout_time = config.getint('DEFAULT', 'blackout_time')
 
-    logger.debug("1: try to validate api")
-    i = 20
-    api_reachable = False
-
-    session = requests.Session()
-    session.headers['x-ha-access'] = config.get('DEFAULT', 'api_password')
-
-    while not api_reachable and i > 0:
-        time.sleep(2)
-        i -= 1
-        response = session.get(
-            build_url(config, 'api/')
-        )
-        api_reachable = (
-            response.status_code == 200 and
-            response.json()['message'] == 'API running.'
-        )
-        if api_reachable:
-            response = session.get(
-                build_url(config, 'api/discovery_info'),
-            )
-            api_reachable = (
-                response.status_code == 200 and
-                'version' in response.json()
-            )
-        if not api_reachable:
-            logger.debug("2: failed to validate api, %i remaining tries", i)
-
-    if not api_reachable:
-        logger.error("API not reachable with the given parameters:")
-        logger.error(config.items('DEFAULT'))
-        sys.exit(2)
+    client = mqtt.Client(
+        client_id=config.get('DEFAULT', 'client_id'),
+        clean_session=True
+    )
+    client.username_pw_set(
+        username=config.get('DEFAULT', 'user'),
+        password=config.get('DEFAULT', 'password')
+    )
+    client.connect(
+        config.get('DEFAULT', 'server'),
+        config.getint('DEFAULT', 'port')
+    )
 
     logger.info("Dashbutton Daemon ready for action")
 

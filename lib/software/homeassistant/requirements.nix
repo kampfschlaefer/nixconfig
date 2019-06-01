@@ -2,7 +2,7 @@
 # See more at: https://github.com/garbas/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -r requirements.txt -V 3 -I /home/arnold/programme/nixconfig/ -E libffi openssl
+#   pypi2nix -r requirements.txt -V 3 -I /home/arnold/programme/nixconfig/ -E libffi openssl --cache-dir __cache__/
 #
 
 { pkgs ? import <nixpkgs> {}
@@ -76,8 +76,8 @@ let
   generated = self: {
 
     "Jinja2" = python.mkDerivation {
-      name = "Jinja2-2.10";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/56/e6/332789f295cf22308386cf5bbd1f4e00ed11484299c5d7383378cf48ba47/Jinja2-2.10.tar.gz"; sha256 = "f84be1bb0040caca4cea721fcbbbbd61f9be9464ca236387158b0feea01914a4"; };
+      name = "Jinja2-2.10.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/93/ea/d884a06f8c7f9b7afbc8138b762e80479fb17aedbbe2b06515a12de9378d/Jinja2-2.10.1.tar.gz"; sha256 = "065c4f02ebe7f7cf559e49ee5a95fb800a9e4528727aec6f24402a5374c65013"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -93,13 +93,13 @@ let
 
 
     "MarkupSafe" = python.mkDerivation {
-      name = "MarkupSafe-1.1.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ac/7e/1b4c2e05809a4414ebce0892fe1e32c14ace86ca7d50c70f00979ca9b3a3/MarkupSafe-1.1.0.tar.gz"; sha256 = "4e97332c9ce444b0c2c38dd22ddc61c743eb208d916e4265a2a3b575bdccb1d3"; };
+      name = "MarkupSafe-1.1.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b9/2e/64db92e53b86efccfaea71321f597fa2e1b2bd3853d8ce658568f7a13094/MarkupSafe-1.1.1.tar.gz"; sha256 = "29872e92839765e546828bb7754a68c418d927cd064fd4708fab9fe9c8bb116b"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "https://www.palletsprojects.com/p/markupsafe/";
+        homepage = "https://palletsprojects.com/p/markupsafe/";
         license = licenses.bsdOriginal;
         description = "Safely add untrusted strings to HTML/XML markup.";
       };
@@ -108,8 +108,8 @@ let
 
 
     "PyJWT" = python.mkDerivation {
-      name = "PyJWT-1.6.4";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/00/5e/b358c9bb24421e6155799d995b4aa3aa3307ffc7ecae4ad9d29fd7e07a73/PyJWT-1.6.4.tar.gz"; sha256 = "4ee413b357d53fd3fb44704577afac88e72e878716116270d722723d65b42176"; };
+      name = "PyJWT-1.7.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/2f/38/ff37a24c0243c5f45f5798bd120c0f873eeed073994133c084e1cf13b95c/PyJWT-1.7.1.tar.gz"; sha256 = "8d59a976fb773f3e6a39c85636357c4f0e242707394cadadd9814f5cbaa20e96"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -155,8 +155,8 @@ let
 
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.17";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c6/52/73d1c92944cd294a5b165097038418abb6a235f5956d43d06f97254f73bf/SQLAlchemy-1.2.17.tar.gz"; sha256 = "52a42dbf02d0562d6e90e7af59f177f1cc027e72833cc29c3a821eefa009c71d"; };
+      name = "SQLAlchemy-1.3.4";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ba/37/094ecf4b218f20572986dc90fe8c6aed32e2a711bcd02ce8ef251fde2011/SQLAlchemy-1.3.4.tar.gz"; sha256 = "c7fef198b43ef31dfd783d094fd5ee435ce8717592e6784c45ba337254998017"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -225,8 +225,8 @@ let
 
 
     "aiohue" = python.mkDerivation {
-      name = "aiohue-1.9.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7c/c4/6b8844c7625dc36033b326868891b6f1996cc44af8d20e85518e95585f51/aiohue-1.9.0.tar.gz"; sha256 = "3b6cb87652cf1ffc904443b9c5514873c331e159953f2ebf77a051444b350594"; };
+      name = "aiohue-1.9.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/02/5e/3a0e5a2824ac58bad818a61d86bc4a5b399b60eb282c9e43e2bd799173f9/aiohue-1.9.1.tar.gz"; sha256 = "3c23aed8e82f398b732279f5f7ee7ed00949ff2db7009f7a2dc705f7c2d16783"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -257,16 +257,17 @@ let
 
 
     "astral" = python.mkDerivation {
-      name = "astral-1.8";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/42/cb/6c5e5f6bca97a72002677166f3a0b98f7a45a6349f7db050e8fb38f2efce/astral-1.8.tar.gz"; sha256 = "7d624ccd09c591e56103f077733bc36194940076939875d84909d5086afd99c8"; };
+      name = "astral-1.10.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/86/05/25c772065bb6384789ca0f6ecc9d0bdd0bc210064e5c78453ee15124082e/astral-1.10.1.tar.gz"; sha256 = "d2a67243c4503131c856cafb1b1276de52a86e5b8a1d507b7e08bee51cb67bf1"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."pytz"
+      self."requests"
     ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/sffjunkie/astral";
-        license = "Apache-2.0";
+        license = "License :: OSI Approved :: Apache Software License";
         description = "Calculations for the position of the sun and moon.";
       };
     };
@@ -289,8 +290,8 @@ let
 
 
     "attrs" = python.mkDerivation {
-      name = "attrs-18.2.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/0f/9e/26b1d194aab960063b266170e53c39f73ea0d0d3f5ce23313e0ec8ee9bdf/attrs-18.2.0.tar.gz"; sha256 = "10cbf6e27dbce8c30807caf056c8eb50917e0eaafe86347671b57254006c3e69"; };
+      name = "attrs-19.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/cc/d9/931a24cc5394f19383fbbe3e1147a0291276afa43a0dc3ed0d6cd9fda813/attrs-19.1.0.tar.gz"; sha256 = "f0b870f674851ecbfbbbd364d6b5cbdff9dcedbc7f3f5e18a6891057f21fe399"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -306,8 +307,8 @@ let
 
 
     "bcrypt" = python.mkDerivation {
-      name = "bcrypt-3.1.5";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/91/a5/fd19eac0252e56b4ce65ced937ae40024782c21108da7d830003b7f76cdb/bcrypt-3.1.5.tar.gz"; sha256 = "136243dc44e5bab9b61206bd46fff3018bd80980b1a1dfbab64a22ff5745957f"; };
+      name = "bcrypt-3.1.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ce/3a/3d540b9f5ee8d92ce757eebacf167b9deedb8e30aedec69a2a072b2399bb/bcrypt-3.1.6.tar.gz"; sha256 = "44636759d222baa62806bbceb20e96f75a015a6381690d1bc2eda91c01ec02ea"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -324,8 +325,8 @@ let
 
 
     "certifi" = python.mkDerivation {
-      name = "certifi-2018.11.29";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/55/54/3ce77783acba5979ce16674fc98b1920d00b01d337cfaaf5db22543505ed/certifi-2018.11.29.tar.gz"; sha256 = "47f9c83ef4c0c621eaef743f133f09fa8a74a9b75f037e8624f83bd1b6626cb7"; };
+      name = "certifi-2019.3.9";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/06/b8/d1ea38513c22e8c906275d135818fee16ad8495985956a9b7e2bb21942a1/certifi-2019.3.9.tar.gz"; sha256 = "b26104d6835d1f5e49452a26eb2ff87fe7090b89dfcaee5ea2212697e1e1d7ae"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -339,8 +340,8 @@ let
 
 
     "cffi" = python.mkDerivation {
-      name = "cffi-1.11.5";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e7/a7/4cd50e57cc6f436f1cc3a7e8fa700ff9b8b4d471620629074913e3735fb2/cffi-1.11.5.tar.gz"; sha256 = "e90f17980e6ab0f3c2f3730e56d1fe9bcba1891eeea58966e89d352492cc74f4"; };
+      name = "cffi-1.12.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/93/1a/ab8c62b5838722f29f3daffcc8d4bd61844aa9b5f437341cc890ceee483b/cffi-1.12.3.tar.gz"; sha256 = "041c81822e9f84b1d9c401182e174996f0bae9991f33725d059b771744290774"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -386,8 +387,8 @@ let
 
 
     "cryptography" = python.mkDerivation {
-      name = "cryptography-2.3.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/22/21/233e38f74188db94e8451ef6385754a98f3cad9b59bedf3a8e8b14988be4/cryptography-2.3.1.tar.gz"; sha256 = "8d10113ca826a4c29d5b85b2c4e045ffa8bad74fb525ee0eceb1d38d4c70dfd6"; };
+      name = "cryptography-2.6.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/07/ca/bc827c5e55918ad223d59d299fff92f3563476c3b00d0a9157d9c0217449/cryptography-2.6.1.tar.gz"; sha256 = "26c821cbeb683facb966045e2064303029d572a87ee69ca5a1bf54bf55f93ca6"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -454,8 +455,8 @@ let
 
 
     "holidays" = python.mkDerivation {
-      name = "holidays-0.9.9";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/40/b0/3dfe3d3ed79087848a22de46d379462e371517571ee64668791f3d49ea29/holidays-0.9.9.tar.gz"; sha256 = "b38e11736e2fad04c51e6d8d38ff66b483905d9448ba0291640cda5889687baa"; };
+      name = "holidays-0.9.10";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/16/09/c882bee98acfa310933b654697405260ec7657c78430a14e785ef0f1314b/holidays-0.9.10.tar.gz"; sha256 = "9f06d143eb708e8732230260636938f2f57114e94defd8fa2082408e0d422d6f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -472,13 +473,11 @@ let
 
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20190203.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/dc/0a/fcc854654f94463f2f88f8044c1c364df1b0642afe188837aca83a3bf06d/home-assistant-frontend-20190203.0.tar.gz"; sha256 = "8f71a63e1c35ec088ed46e4529b30df7dd44f4968d84068306718c912d3a1410"; };
+      name = "home-assistant-frontend-20190530.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/5c/62/19ccaa554aabe57a63b3e321c1e7981dc80a017e003e5f480ab5a928c788/home-assistant-frontend-20190530.0.tar.gz"; sha256 = "ab9ade4756ea2e244b412908fec6fc060491073a2f24cfb2183b3c26f871ed2d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."user-agents"
-    ];
+      propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/home-assistant/home-assistant-polymer";
         license = licenses.asl20;
@@ -489,8 +488,8 @@ let
 
 
     "homeassistant" = python.mkDerivation {
-      name = "homeassistant-0.87.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/26/2b/429a250b3b9bafa8f5e65d526c50c7ef867cb33abef5c303e2a945e72e26/homeassistant-0.87.1.tar.gz"; sha256 = "f2ada4f0fe17587070cf4bf945e91f3c653501f11e94ea2b6ca2502d0d0b9a51"; };
+      name = "homeassistant-0.93.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ac/ae/d30a53cf42f94d5f4e5c83dc7e1c88c0d8f22397667212785593dfd7e289/homeassistant-0.93.2.tar.gz"; sha256 = "34c5f13c644debfaf87ad4b5b8ff9922f0b867c4463d80dd7eb2282fa54ea98f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -585,8 +584,8 @@ let
 
 
     "influxdb" = python.mkDerivation {
-      name = "influxdb-5.2.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/0a/a9/9dc769bf971ce8b1daf653a3c90339dbbd4d3c23fca57ac48ede26592b5d/influxdb-5.2.1.tar.gz"; sha256 = "75d96de25d0d4e9e66e155f64dc9dc2a48de74ac4e77e3a46ad881fba772e3b6"; };
+      name = "influxdb-5.2.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/03/5e/d528d463bca6ff7fb9441df22d65890e39ebbb503e550c1030eef0863e52/influxdb-5.2.2.tar.gz"; sha256 = "afeff28953a91b4ea1aebf9b5b8258a4488d0e49e2471db15ea43fd2c8533143"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -638,8 +637,8 @@ let
 
 
     "netdisco" = python.mkDerivation {
-      name = "netdisco-2.3.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/51/a2/46b1b4e969ebd824cc55200e75b091faa19df2d5c378851122980a9fae71/netdisco-2.3.0.tar.gz"; sha256 = "2571fc094f3bf8c60be211e90474515f565f3ef1c92e857176daab8577493a3b"; };
+      name = "netdisco-2.6.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ae/73/2a60ac3292203ac75528b1ae9a475fac6fff690e906cbc13e744701b2436/netdisco-2.6.0.tar.gz"; sha256 = "2b3aca14a1807712a053f11fd80dc251dd821ee4899aefece515287981817762"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -686,8 +685,8 @@ let
 
 
     "pyhomematic" = python.mkDerivation {
-      name = "pyhomematic-0.1.56";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/99/f0/e0c75cd322721eb3c44af33b1407ab2b083708a379bfd3ad0ed0c5500c27/pyhomematic-0.1.56.tar.gz"; sha256 = "ca9f222b99d80be4b7ef8a4427ab55368d14914a0516623e66d1da7563919169"; };
+      name = "pyhomematic-0.1.59";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/70/12/47d628be93a20cd4d89d4e9b868fcee46873068b77a6ff662d4c3a5879fe/pyhomematic-0.1.59.tar.gz"; sha256 = "4406d9bf49d570ef0ba80be9cf8eb4bd75c08a2909369ebd90b8e94ff07f116e"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -738,14 +737,14 @@ let
 
 
     "pyotp" = python.mkDerivation {
-      name = "pyotp-2.2.6";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/67/69/131f5ad63de40c30f3be88d891e4a2ea1b69398528db99bc1e5c543422fa/pyotp-2.2.6.tar.gz"; sha256 = "dd9130dd91a0340d89a0f06f887dbd76dd07fb95a8886dc4bc401239f2eebd69"; };
+      name = "pyotp-2.2.7";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b1/ab/477cda97b6ca7baced5106471cb1ac1fe698d1b035983b9f8ee3422989eb/pyotp-2.2.7.tar.gz"; sha256 = "be0ffeabddaa5ee53e7204e7740da842d070cf69168247a3d0c08541b84de602"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/pyotp/pyotp";
-        license = licenses.bsdOriginal;
+        license = licenses.mit;
         description = "Python One Time Password Library";
       };
     };
@@ -788,12 +787,13 @@ let
 
 
     "python-slugify" = python.mkDerivation {
-      name = "python-slugify-1.2.6";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/00/ad/c778a6df614b6217c30fe80045b365bfa08b5dd3cb02e8b37a6d25126781/python-slugify-1.2.6.tar.gz"; sha256 = "7723daf30996db26573176bddcdf5fcb98f66dc70df05c9cb29f2c79b8193245"; };
+      name = "python-slugify-3.0.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c1/19/c3cf1dc65e89aa999f85a4a3a4924ccac765a6964b405d487b7b7c8bb39f/python-slugify-3.0.2.tar.gz"; sha256 = "57163ffb345c7e26063435a27add1feae67fa821f1ef4b2f292c25847575d758"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."Unidecode"
+      self."text-unidecode"
     ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/un33k/python-slugify";
@@ -805,8 +805,8 @@ let
 
 
     "pytz" = python.mkDerivation {
-      name = "pytz-2018.9";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/af/be/6c59e30e208a5f28da85751b93ec7b97e4612268bb054d0dff396e758a90/pytz-2018.9.tar.gz"; sha256 = "d5f05e487007e29e03409f9398d074e158d920d36eb82eaf66fb1136b0c5374c"; };
+      name = "pytz-2019.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/df/d5/3e3ff673e8f3096921b3f1b79ce04b832e0100b4741573154b72b756a681/pytz-2019.1.tar.gz"; sha256 = "d747dd3d23d77ef44c6a3526e274af6efeb0a6f1afd5a69ba4d5be4098c8e141"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -841,8 +841,8 @@ let
 
 
     "ruamel.yaml" = python.mkDerivation {
-      name = "ruamel.yaml-0.15.85";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/77/73/d7aa12dba105a2a6d18c2dfb18e643c259dfe2b9301b95079d823f6428ba/ruamel.yaml-0.15.85.tar.gz"; sha256 = "34af6e2f9787acd3937b55c0279f46adff43124c5d72dced84aab6c89d1a960f"; };
+      name = "ruamel.yaml-0.15.94";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/24/f1/1adcf396711d3c9c30b67a5c850cfb64afbccd41d7d85adf87732e4b156f/ruamel.yaml-0.15.94.tar.gz"; sha256 = "0939bcb399ad037ef903d74ccf2f8a074f06683bc89133ad19305067d34487c8"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -865,6 +865,21 @@ let
         homepage = "https://github.com/benjaminp/six";
         license = licenses.mit;
         description = "Python 2 and 3 compatibility utilities";
+      };
+    };
+
+
+
+    "text-unidecode" = python.mkDerivation {
+      name = "text-unidecode-1.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/f0/a2/40adaae7cbdd007fb12777e550b5ce344b56189921b9f70f37084c021ca4/text-unidecode-1.2.tar.gz"; sha256 = "5a1375bb2ba7968740508ae38d92e1f889a0832913cb1c447d5e2046061a396d"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/kmike/text-unidecode/";
+        license = licenses.artistic2;
+        description = "The most basic Text::Unidecode port";
       };
     };
 
@@ -901,8 +916,8 @@ let
 
 
     "urllib3" = python.mkDerivation {
-      name = "urllib3-1.24.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b1/53/37d82ab391393565f2f831b8eedbffd57db5a718216f82f1a8b4d381a1c1/urllib3-1.24.1.tar.gz"; sha256 = "de9529817c93f27c8ccbfead6985011db27bd0ddfcdb2d86f3f663385c6a9c22"; };
+      name = "urllib3-1.24.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8a/3c/1bb7ef6c435dea026f06ed9f3ba16aa93f9f4f5d3857a51a35dfa00882f1/urllib3-1.24.3.tar.gz"; sha256 = "2393a695cd12afedd0dcb26fe5d50d0cf248e5a66f75dbd89a3d4eb333a61af4"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -920,8 +935,8 @@ let
 
 
     "user-agents" = python.mkDerivation {
-      name = "user-agents-1.1.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/be/ff/886a1e2570784ee63b1c4b0fd77037b84087ffe7b7b45f9751285418be34/user-agents-1.1.0.tar.gz"; sha256 = "643d16772280052b546d956971d719989ef6dc9b17d9ff0386aa21391a038039"; };
+      name = "user-agents-2.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ef/b4/3ae0f6baeddc7264a3de3ebca9fe381d09ebed4ac14fb8510ac4b3d70197/user-agents-2.0.tar.gz"; sha256 = "792869b990a244f71efea1cb410ecaba99a270a64c5ac37d365bde5d70d6a2fa"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -952,8 +967,8 @@ let
 
 
     "voluptuous-serialize" = python.mkDerivation {
-      name = "voluptuous-serialize-2.0.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/66/fd/c3e522ce5645686b9712d230e3599fca12bdf5f76b8176da26d19c3852db/voluptuous-serialize-2.0.0.tar.gz"; sha256 = "44be04d87aec34bd7d31ab539341fadc505205f2299031ed9be985112c21aa41"; };
+      name = "voluptuous-serialize-2.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/62/fb/ee79dabf3b425ac6b8efcef455f64ba29acd981bb286452feda46f3b87b5/voluptuous-serialize-2.1.0.tar.gz"; sha256 = "d30fef4f1aba251414ec0b315df81a06da7bf35201dcfb1f6db5253d738a154f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -1002,8 +1017,8 @@ let
 
 
     "zeroconf" = python.mkDerivation {
-      name = "zeroconf-0.21.3";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9a/a3/9e4bb6a8e5f807c1a817168c9985f9d3975725a71ae77eb47ce1db66ada7/zeroconf-0.21.3.tar.gz"; sha256 = "5b52dfdf4e665d98a17bf9aa50dea7a8c98e25f972d9c1d7660e2b978a1f5713"; };
+      name = "zeroconf-0.22.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/1c/90/551d561824e0bb53ca190debe71b74a1034a3ad23471f2e47553e0730e8c/zeroconf-0.22.0.tar.gz"; sha256 = "fe66582c7b3ecc229ea4555b6d9da9bc26fc70134811e980b4fbd033e472b825"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
