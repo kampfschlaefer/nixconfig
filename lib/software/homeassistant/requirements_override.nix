@@ -13,7 +13,6 @@ self: super: with pkgs.python36Packages; {
     ];
     patches = [
       ./scan_interval.patch
-      ./pytz_dependency.patch
     ];
   });
   "home-assistant-frontend" = python.overrideDerivation super."home-assistant-frontend" (old: {
@@ -22,9 +21,4 @@ self: super: with pkgs.python36Packages; {
   "ua-parser" = python.overrideDerivation super."ua-parser" (old: {
     propagatedBuildInputs = old.propagatedBuildInputs ++ [ super."PyYAML" ];
   });
-  "certifi" = certifi;
-  "pytz" = pytz;
-  "six" = six;
-  "idna" = idna;
-  "chardet" = chardet;
 }

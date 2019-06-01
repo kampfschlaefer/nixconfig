@@ -3,3 +3,5 @@
 /result
 /nixpkgs/result*
 /outputs
+
+__cache__
