@@ -76,6 +76,7 @@ let
     { hostName = "tp-central";    ethernetAddress = "0C:80:63:1E:87:A1"; ipAddress = "192.168.1.245"; noroute = true; }
     { hostName = "tp-office";     ethernetAddress = "60:e3:27:26:00:c4"; ipAddress = "192.168.1.246"; noroute = true; }
     { hostName = "EAP115-1";      ethernetAddress = "0C:80:63:66:10:2B"; ipAddress = "192.168.1.248"; noroute = true; }
+    { hostName = "EAP115-2";      ethernetAddress = "D8:0D:17:E5:F4:08"; ipAddress = "192.168.1.249"; noroute = true; }
     /* { hostName = "EAP110-1";      ethernetAddress = "0C:80:63:8D:B9:2B"; ipAddress = "192.168.1.249"; noroute = true; } */
 
   ] ++ (if config.testdata then [
