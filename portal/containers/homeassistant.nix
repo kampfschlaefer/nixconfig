@@ -138,7 +138,7 @@ in
       };
 
       systemd.services."dash_button_daemon" = {
-        enable = true;
+        enable = false;
         script = "${dash_button_pkg}/bin/dash_button_daemon --config ${dash_button_config}";
         after = [ "homeassistant.service" ];
         wants = [ "homeassistant.service" ];
