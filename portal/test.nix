@@ -3,7 +3,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
     run_firewall = true;
     run_gitolite = true;
     run_homeassistant = true;
-    run_dashbuttondaemon = true;
+    run_dashbuttondaemon = false;
     run_influxdb = false;
     run_lldp = true;
     run_mqtt = true;
