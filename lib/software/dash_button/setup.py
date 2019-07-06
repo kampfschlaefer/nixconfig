@@ -17,6 +17,7 @@ setup(
     },
     install_requires=[
         'scapy==2.4.0rc4',
+        'paho-mqtt==1.3.1',
     ],
     zip_safe=False
 )
