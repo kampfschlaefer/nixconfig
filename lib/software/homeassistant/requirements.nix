@@ -184,6 +184,25 @@ let
 
 
 
+    "aioesphomeapi" = python.mkDerivation {
+      name = "aioesphomeapi-2.2.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ab/be/11f1d78b7a086798eb2c75b5587bcbb212ff5583da2b53218f292e9c3284/aioesphomeapi-2.2.0.tar.gz"; sha256 = "c5f2caa5734bcb9c1268140da467fcff74c5f48ce00fba10638a981461a0ca7e"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."attrs"
+      self."protobuf"
+      self."zeroconf"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://esphome.io/";
+        license = "";
+        description = "UNKNOWN";
+      };
+    };
+
+
+
     "aiohttp" = python.mkDerivation {
       name = "aiohttp-3.5.4";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/0f/58/c8b83f999da3b13e66249ea32f325be923791c0c10aee6cf16002a3effc1/aiohttp-3.5.4.tar.gz"; sha256 = "9c4c83f4fa1938377da32bc2d59379025ceeee8e24b89f72fcbccd8ca22dc9bf"; };
@@ -664,6 +683,23 @@ let
         homepage = "http://eclipse.org/paho";
         license = "License :: OSI Approved";
         description = "MQTT version 3.1.1 client class";
+      };
+    };
+
+
+
+    "protobuf" = python.mkDerivation {
+      name = "protobuf-3.6.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/1b/90/f531329e628ff34aee79b0b9523196eb7b5b6b398f112bb0c03b24ab1973/protobuf-3.6.1.tar.gz"; sha256 = "1489b376b0f364bcc6f89519718c057eb191d7ad6f1b395ffd93d1aa45587811"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."six"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://developers.google.com/protocol-buffers/";
+        license = "3-Clause BSD License";
+        description = "Protocol Buffers";
       };
     };
 
