@@ -175,6 +175,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         $portal->start();
 
         $portal->waitForUnit("default.target");
+        $portal->succeed("sed -i '/192.168.1.[0-9]/d' /etc/hosts");
+
         ${lib.optionalString run_torproxy
           ''$portal->waitForUnit("container\@torproxy");''
         }
@@ -234,10 +236,16 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           ''$inside->start();''
         }
         ${lib.optionalString outside_needed
-          ''$outside->waitForUnit("default.target");''
+          ''
+            $outside->waitForUnit("default.target");
+            $outside->succeed("sed -i '/192.168.1.[0-9]/d' /etc/hosts");
+          ''
         }
         ${lib.optionalString inside_needed
-          ''$inside->waitForUnit("default.target");''
+          ''
+            $inside->waitForUnit("default.target");
+            $inside->succeed("sed -i '/192.168.1.[0-9]/d' /etc/hosts");
+          ''
         }
       };
 
