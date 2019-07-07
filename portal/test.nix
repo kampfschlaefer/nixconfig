@@ -155,7 +155,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           containers.firewall.autoStart = lib.mkOverride 10 (run_firewall || run_selfoss);
           containers.gitolite.autoStart = lib.mkOverride 10 run_gitolite;
-          containers.homeassistant.autoStart = lib.mkOverride 10 (run_homeassistant || run_mqtt);
+          containers.hass.autoStart = lib.mkOverride 10 (run_homeassistant || run_mqtt);
           /* containers.influxdb.autoStart = lib.mkOverride 10 run_influxdb; */
           /* containers.mpd.autoStart = lib.mkOverride 10 run_mpd; */
           containers.postgres.autoStart = lib.mkOverride 10 (run_postgres || run_selfoss);
@@ -515,16 +515,17 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->succeed("host -t aaaa homeassistant >&2");
           $portal->succeed("ping -4 -n -c 1 homeassistant >&2");
           $portal->succeed("ping -6 -n -c 1 homeassistant >&2");
-          $portal->waitUntilSucceeds("nixos-container run homeassistant -- netstat -l -nv |grep 8123 ");
-          $portal->waitUntilSucceeds("test -f /var/lib/containers/homeassistant/root/.homeassistant/configuration.yaml");
-          $portal->execute("cat /var/lib/containers/homeassistant/root/.homeassistant/configuration.yaml >&2");
-          $portal->execute("nixos-container run homeassistant -- systemctl -l status homeassistant >&2");
-          #$portal->execute("nixos-container run homeassistant -- journalctl -u homeassistant >&2");
-          $portal->execute("nixos-container run homeassistant -- systemctl -l status nginx >&2");
-          $portal->succeed("nixos-container run homeassistant -- curl -4 -s -f --max-time 5 http://localhost:8123 >&2");
+          $portal->succeed("ip link |grep backendha |grep \"master backend\" >&2");
+          $portal->waitUntilSucceeds("nixos-container run hass -- netstat -l -nv |grep 8123 ");
+          $portal->waitUntilSucceeds("test -f /var/lib/containers/hass/root/.homeassistant/configuration.yaml");
+          $portal->execute("cat /var/lib/containers/hass/root/.homeassistant/configuration.yaml >&2");
+          $portal->execute("nixos-container run hass -- systemctl -l status homeassistant >&2");
+          #$portal->execute("nixos-container run hass -- journalctl -u homeassistant >&2");
+          $portal->execute("nixos-container run hass -- systemctl -l status nginx >&2");
+          $portal->succeed("nixos-container run hass -- curl -4 -s -f --max-time 5 http://localhost:8123 >&2");
           $portal->fail("curl -4 -s -f --max-time 5 http://homeassistant:8123 >&2");
           $portal->fail("curl -6 -s -f --max-time 5 http://homeassistant:8123 >&2");
-          $portal->execute("curl --insecure -s -f https://homeassistant/ || journalctl -M homeassistant -u homeassistant >&2");
+          $portal->execute("curl --insecure -s -f https://homeassistant/ || journalctl -M hass -u homeassistant >&2");
           $portal->succeed("curl --insecure -s -f https://homeassistant/ >&2");
           $portal->succeed("curl -4 --insecure --include --max-time 5 https://homeassistant/api/ |grep \" 401 \" >&2");
           $portal->succeed("curl -6 --insecure --include --max-time 5 https://homeassistant/api/ |grep \" 401 \" >&2");
@@ -532,24 +533,24 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       }
       ${lib.optionalString run_dashbuttondaemon
         ''subtest "dash_button_daemon", sub{
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u dash_button_daemon --boot |grep \"ready for action\"");
-          $portal->succeed("systemctl -M homeassistant is-active dash_button_daemon || journalctl -M homeassistant -u dash_button_daemon --boot >&2");
-          #$portal->fail("systemctl -M homeassistant is-active dash_button_daemon >&2");
+          $portal->waitUntilSucceeds("journalctl -M hass -u dash_button_daemon --boot |grep \"ready for action\"");
+          $portal->succeed("systemctl -M hass is-active dash_button_daemon || journalctl -M hass -u dash_button_daemon --boot >&2");
+          #$portal->fail("systemctl -M hass is-active dash_button_daemon >&2");
 
-          $portal->succeed("nixos-container run homeassistant -- dash_button_test >&2");
-          $portal->succeed("nixos-container run homeassistant -- dash_button_test event >&2");
-          $portal->execute("journalctl -M homeassistant -u dash_button_daemon --boot >&2");
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u dash_button_daemon --boot |grep \"will fire event\" >&2");
-          $portal->waitUntilSucceeds("journalctl -M homeassistant -u dash_button_daemon --boot |grep \"will execute\" >&2");
-          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep light.benachrichtigung >&2");
-          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed >&2");
-          #$portal->waitUntilSucceeds("journalctl -M homeassistant -u homeassistant |grep dash_button_pressed |grep ac:63:be:be:01:95 >&2");
+          $portal->succeed("nixos-container run hass -- dash_button_test >&2");
+          $portal->succeed("nixos-container run hass -- dash_button_test event >&2");
+          $portal->execute("journalctl -M hass -u dash_button_daemon --boot >&2");
+          $portal->waitUntilSucceeds("journalctl -M hass -u dash_button_daemon --boot |grep \"will fire event\" >&2");
+          $portal->waitUntilSucceeds("journalctl -M hass -u dash_button_daemon --boot |grep \"will execute\" >&2");
+          #$portal->waitUntilSucceeds("journalctl -M hass -u homeassistant |grep light.benachrichtigung >&2");
+          #$portal->waitUntilSucceeds("journalctl -M hass -u homeassistant |grep dash_button_pressed >&2");
+          #$portal->waitUntilSucceeds("journalctl -M hass -u homeassistant |grep dash_button_pressed |grep ac:63:be:be:01:95 >&2");
         };''
       }
 
       ${lib.optionalString run_mqtt
         ''subtest "mqtt testing", sub {
-          $portal->succeed("systemctl -M homeassistant status mosquitto >&2");
+          $portal->succeed("systemctl -M hass status mosquitto >&2");
           $portal->succeed("host -t a mqtt >&2");
           $portal->succeed("host -t aaaa mqtt >&2");
           $portal->succeed("ping -4 -n -c 1 mqtt >&2");
@@ -558,7 +559,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           #$portal->execute("nmap -4 mqtt -n -p 1883 >&2");
           #$portal->succeed("nmap -4 mqtt -n -p 1883 |grep filtered >&2");
 
-          $portal->succeed("[ -d /var/lib/containers/homeassistant/var/lib/mosquitto ]");
+          $portal->succeed("[ -d /var/lib/containers/hass/var/lib/mosquitto ]");
 
           $inside->succeed("test_mqtt >&2");
         };''
@@ -590,7 +591,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
       }
       ${lib.optionalString (run_influxdb && run_homeassistant)
         ''subtest "homeassistant access to influxdb", sub {
-          $portal->succeed("nixos-container run homeassistant -- curl -4 http://192.168.6.17:8086 >&2");
+          $portal->succeed("nixos-container run hass -- curl -4 http://192.168.6.17:8086 >&2");
         };''
       }
 
