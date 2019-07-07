@@ -299,6 +299,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
           $portal->waitForUnit("container\@firewall");
 
           $portal->execute("ip link >&2");
+          $portal->succeed("ip link |grep dmzfw |grep \"master dmz\" >&2");
+
           #$portal->succeed("ping -4 -n -c 1 -w 2 outside >&2");
           $portal->succeed("ping -4 -n -c 1 -w 2 outsideweb >&2");
           $portal->succeed("curl --connect-timeout 1 -s -f http://outsideweb >&2");
@@ -338,6 +340,8 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
         }
         ${lib.optionalString run_torproxy
           ''$portal->execute("journalctl -M torproxy -u tor >&2");
+
+          $portal->succeed("ip link |grep dmztor |grep \"master dmz\" >&2");
 
           # $portal->succeed("nixos-container run torproxy -- ip a >&2");
           # $portal->execute("nixos-container run torproxy -- iptables -L -nv >&2");
@@ -438,6 +442,7 @@ import ../nixpkgs/nixos/tests/make-test.nix ({ pkgs, lib, ... }:
 
           # Services
           $portal->waitForUnit("container\@selfoss");
+          $portal->succeed("ip link |grep backendpg |grep \"master backend\" >&2");
           $portal->succeed("ping -4 -n -c 1 selfoss >&2");
           $portal->succeed("nixos-container run selfoss -- ping -4 -n -c 2 192.168.6.1 >&2");
           $portal->succeed("nixos-container run selfoss -- netstat -l -nv >&2");

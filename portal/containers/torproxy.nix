@@ -6,6 +6,8 @@ let
 in
 {
   systemd.services."container@torproxy".after = [ "container@firewall.service" ];
+  # To lazy to debug nixos containers
+  systemd.services."container@torproxy".postStart = "ip link set dev dmztor master dmz up";
 
   containers.torproxy = {
     autoStart = lib.mkOverride 100 true;
