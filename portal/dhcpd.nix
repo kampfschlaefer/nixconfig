@@ -70,6 +70,7 @@ let
     { hostName = "worklaptopeth"; ethernetAddress = "80:fa:5b:43:56:fe"; }
     { hostName = "worklaptop";    ethernetAddress = "00:28:f8:73:bc:25"; }
     { hostName = "workairbook";   ethernetAddress = "4c:8d:79:f2:28:38"; }
+    { hostName = "genutop";       ethernetAddress = "d8:f2:ca:ee:60:4c"; }
 
     { hostName = "demianthink";   ethernetAddress = "a4:4e:31:b6:c3:d8"; }
 
