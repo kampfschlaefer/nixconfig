@@ -2,16 +2,10 @@
 
 self: super: with pkgs.python36Packages; {
   "homeassistant" = python.overrideDerivation super."homeassistant" (old: {
-    propagatedBuildInputs = old.propagatedBuildInputs ++ [
-      super.distro
-      super.paho-mqtt
-      super.aiohue
-      super.home-assistant-frontend
-      super.colorlog
-      super.luftdaten
-      super.pyotp
-    ];
+    /* propagatedBuildInputs = old.propagatedBuildInputs ++ [
+    ]; */
     patches = [
+      ./pytz_dependency.patch
       ./scan_interval.patch
     ];
   });
