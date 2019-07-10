@@ -70,6 +70,9 @@ in {
       options kvm_intel nested=y
     '';
     boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "uhci_hcd" "xhci_pci" "usbhid" "usb_storage" ];
+    boot.postBootCommands = ''
+      lvm vgchange -ay
+    '';
 
     fileSystems = {
       "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
