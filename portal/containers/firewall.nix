@@ -5,6 +5,9 @@ let
   lanIf = "eth0";
 in
 {
+  # To lazy to debug nixos containers
+  systemd.services."container@firewall".postStart = "ip link set dev dmzfw master dmz up";
+
   containers.firewall = {
     autoStart = lib.mkOverride 100 true;
 
