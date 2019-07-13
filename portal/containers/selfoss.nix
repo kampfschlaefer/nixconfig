@@ -7,6 +7,8 @@ let
 in
 {
   systemd.services."container@selfoss".after = [ "container@postgres.service" "container@firewall.service" ];
+  # To lazy to debug nixos containers
+  systemd.services."container@selfoss".postStart = "ip link set dev backendpg master backend up";
 
   containers.selfoss = {
     autoStart = lib.mkOverride 100 true;

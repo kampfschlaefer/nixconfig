@@ -33,18 +33,20 @@ let
 
 in
 {
-  systemd.services."container@homeassistant".after = [
+  systemd.services."container@hass".after = [
     "container@mqtt.service"
     "container@firewall.service"
   ];
+  # To lazy to debug nixos containers
+  systemd.services."container@hass".postStart = "ip link set dev backendha master backend up";
 
   fileSystems = {
-    "/var/lib/containers/homeassistant/var/lib/homeassistant" = {
+    "/var/lib/containers/hass/root" = {
       device = "/dev/portalgroup/homeassistant";
     };
   };
 
-  containers.homeassistant = {
+  containers.hass = {
     autoStart = lib.mkOverride 100 true;
 
     privateNetwork = true;
@@ -61,7 +63,7 @@ in
       ];
 
       time.timeZone = "Europe/Berlin";
-
+      networking.hostName = "homeassistant";
       networking.domain = "arnoldarts.de";
       networking.defaultGateway = "192.168.1.220";
       networking.defaultGateway6 = "2001:470:1f0b:1033:6669:7265:7761:6c6c";
@@ -138,7 +140,7 @@ in
       };
 
       systemd.services."dash_button_daemon" = {
-        enable = true;
+        enable = false;
         script = "${dash_button_pkg}/bin/dash_button_daemon --config ${dash_button_config}";
         after = [ "homeassistant.service" ];
         wants = [ "homeassistant.service" ];

@@ -70,6 +70,9 @@ in {
       options kvm_intel nested=y
     '';
     boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "uhci_hcd" "xhci_pci" "usbhid" "usb_storage" ];
+    boot.postBootCommands = ''
+      lvm vgchange -ay
+    '';
 
     fileSystems = {
       "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; };
@@ -82,6 +85,14 @@ in {
         }
       ) vgfilesystems
     );
+
+    nix = {
+      binaryCachePublicKeys = [
+        "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
+        "xingu-cache:gJguqnATlVzt+D38pocdSRHNoqSfV8qi9tkcR+Iu+nw="
+      ];
+      binaryCaches = [ "https://cache.nixos.org/" "http://xingu:5000" ];
+    };
 
     services.hostapd.enable = false;
 
