@@ -1176,10 +1176,10 @@ let
     };
 
     "zipp" = python.mkDerivation {
-      name = "zipp-0.5.1";
+      name = "zipp-0.5.2";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/f9/c4/15a1260171956ed4f8190962b1771c7dbca4a39360c15f9c2b77e667a489/zipp-0.5.1.tar.gz";
-        sha256 = "ca943a7e809cc12257001ccfb99e3563da9af99d52f261725e96dfe0f9275bc3";
+        url = "https://files.pythonhosted.org/packages/66/ae/1d6693cde3b3e3c14e95cf3408f24d0e869ead42a79993b611d8817d929a/zipp-0.5.2.tar.gz";
+        sha256 = "4970c3758f4e89a7857a973b1e2a5d75bcdc47794442f2e2dd4fe8e0466e809a";
 };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
