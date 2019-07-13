@@ -144,6 +144,9 @@ in
 
       local-data: "nfs.arnoldarts.de. IN CNAME portal.arnoldarts.de."
 
+      local-zone: "dualstack.v2.shared.global.fastly.net." transparent
+      local-data: "dualstack.v2.shared.global.fastly.net. A 151.101.14.217"
+
       remote-control:
         control-enable: yes
         control-use-cert: no
