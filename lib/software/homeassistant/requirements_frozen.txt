@@ -34,7 +34,7 @@ geojson==2.4.1
 
 holidays==0.9.10
 
-home-assistant-frontend==20190705.0
+home-assistant-frontend==20190712.0
 
 homeassistant==0.95.4
 
