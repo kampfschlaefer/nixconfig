@@ -146,6 +146,10 @@ in
 
       local-zone: "dualstack.v2.shared.global.fastly.net." transparent
       local-data: "dualstack.v2.shared.global.fastly.net. A 151.101.14.217"
+      local-data: "dualstack.v2.shared.global.fastly.net. A 151.101.2.217"
+      local-data: "dualstack.v2.shared.global.fastly.net. A 151.101.66.217"
+      local-data: "dualstack.v2.shared.global.fastly.net. A 151.101.130.217"
+      local-data: "dualstack.v2.shared.global.fastly.net. A 151.101.194.217"
 
       remote-control:
         control-enable: yes
