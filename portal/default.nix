@@ -76,15 +76,10 @@ in {
       "xhci_pci"
       "usbhid"
       "usb_storage"
-      #"dm_mirror"
-      #"dm_snapshot"
-      #"dm_raid"
-      #"raid1"
     ];
-    boot.postBootCommands = ''
-      ${pkgs.lvm2}/bin/lvs -v > /dev/kmsg
-      #${pkgs.lvm2}/bin/vgchange -ay
-    '';
+    #boot.postBootCommands = ''
+    #  ${pkgs.lvm2}/bin/lvs -v > /dev/kmsg
+    #'';
 
     fileSystems = {
     } // builtins.listToAttrs(
