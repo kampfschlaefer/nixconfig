@@ -81,9 +81,10 @@ in {
       #"dm_raid"
       #"raid1"
     ];
-    #boot.postBootCommands = ''
-    #  ${pkgs.lvm2}/bin/vgchange -ay
-    #'';
+    boot.postBootCommands = ''
+      ${pkgs.lvm2}/bin/lvs -v > /dev/kmsg
+      #${pkgs.lvm2}/bin/vgchange -ay
+    '';
 
     fileSystems = {
     } // builtins.listToAttrs(
