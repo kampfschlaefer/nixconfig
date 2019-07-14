@@ -2,7 +2,7 @@
 # See more at: https://github.com/garbas/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -r requirements.txt -V 3.6 -I /home/arnold/programme/nixconfig/ -E 'libffi openssl' --cache-dir __cache__/
+#   pypi2nix -v -r requirements.txt -V 3.6 -I /home/arnold/programme/nixconfig/ -E 'libffi openssl' --cache-dir __cache__/
 #
 
 { pkgs ? import <nixpkgs> {},
@@ -529,10 +529,10 @@ let
     };
 
     "home-assistant-frontend" = python.mkDerivation {
-      name = "home-assistant-frontend-20190705.0";
+      name = "home-assistant-frontend-20190712.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/8e/1d/301707510838e64939f9b8dd6c27595828837029e0d23fe3d74878beaf58/home-assistant-frontend-20190705.0.tar.gz";
-        sha256 = "5d8373227814c1db5b1be072dee1af4606ea44db213204b6406af281030f1c9e";
+        url = "https://files.pythonhosted.org/packages/57/e2/a83f9c5e1f7a4c7f60f674746842145d8079eab5a6d8cc88a2432c425c69/home-assistant-frontend-20190712.0.tar.gz";
+        sha256 = "6a44172ab08236c76b5b036602f5e231ba89e88329c2121f4c83c8a6e36ad2f1";
 };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
@@ -1176,10 +1176,10 @@ let
     };
 
     "zipp" = python.mkDerivation {
-      name = "zipp-0.5.1";
+      name = "zipp-0.5.2";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/f9/c4/15a1260171956ed4f8190962b1771c7dbca4a39360c15f9c2b77e667a489/zipp-0.5.1.tar.gz";
-        sha256 = "ca943a7e809cc12257001ccfb99e3563da9af99d52f261725e96dfe0f9275bc3";
+        url = "https://files.pythonhosted.org/packages/66/ae/1d6693cde3b3e3c14e95cf3408f24d0e869ead42a79993b611d8817d929a/zipp-0.5.2.tar.gz";
+        sha256 = "4970c3758f4e89a7857a973b1e2a5d75bcdc47794442f2e2dd4fe8e0466e809a";
 };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];

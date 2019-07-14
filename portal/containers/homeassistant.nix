@@ -41,7 +41,7 @@ in
   systemd.services."container@hass".postStart = "ip link set dev backendha master backend up";
 
   fileSystems = {
-    "/var/lib/containers/hass/var/lib/homeassistant" = {
+    "/var/lib/containers/hass/root" = {
       device = "/dev/portalgroup/homeassistant";
     };
   };
