@@ -71,7 +71,7 @@ in {
     '';
     boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "uhci_hcd" "xhci_pci" "usbhid" "usb_storage" ];
     boot.postBootCommands = ''
-      lvm vgchange -ay
+      ${pkgs.lvm2}/bin/vgchange -ay
     '';
 
     fileSystems = {
