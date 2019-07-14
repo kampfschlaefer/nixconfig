@@ -2,6 +2,8 @@
 
 {
   fileSystems = {
+    "/media/duplycache" = { device = "/dev/portalgroup/duplycache"; neededForBoot = true; };
+    "/media/backup" = { device = "/dev/portalgroup/backup"; options = ["defaults" "noauto"]; };
     "/media/duplydisk" = {
       device = "/dev/disk/by-uuid/4bff6ea6-a6f4-4163-9a7e-1703c84cb769";
       options = ["noauto"];
