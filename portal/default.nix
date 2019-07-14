@@ -69,7 +69,7 @@ in {
     boot.extraModprobeConfig = ''
       options kvm_intel nested=y
     '';
-    boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "uhci_hcd" "xhci_pci" "usbhid" "usb_storage" ];
+    boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "uhci_hcd" "xhci_pci" "usbhid" "usb_storage" "dm_mirror" "dm_snapshot" "dm_raid" "raid1" ];
     boot.postBootCommands = ''
       ${pkgs.lvm2}/bin/vgchange -ay
     '';
