@@ -109,7 +109,7 @@ in
         package = pkgs.nginxMainline;
         #sslCiphers = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:!RSA+AES:!aNULL:!MD5:!DSS";
         recommendedTlsSettings = true;
-        recommendedProxySettings = false;
+        recommendedProxySettings = true;
         virtualHosts = {
           "homeassistant" = {
             serverName = "homeassistant.arnoldarts.de";
