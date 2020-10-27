@@ -24,7 +24,7 @@ chardet==3.0.4
 
 colorlog==4.0.2
 
-cryptography==2.6.1
+cryptography==3.2
 
 denonavr==0.7.9
 
