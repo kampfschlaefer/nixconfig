@@ -42,7 +42,7 @@ PyQRCode
 python-dateutil
 python-slugify
 pytz
-PyYAML==5.1
+PyYAML==5.4
 requests
 ruamel.yaml==0.15.97
 setuptools-scm==3.3.3
