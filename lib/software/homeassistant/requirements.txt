@@ -30,7 +30,7 @@ MarkupSafe
 multidict
 netdisco
 paho-mqtt
-protobuf==3.6.1
+protobuf==3.15.0
 pycparser
 pyhomematic
 pyiss
