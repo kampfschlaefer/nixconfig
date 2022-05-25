@@ -70,7 +70,7 @@ pyhomematic==0.1.59
 
 pyiss==1.0.1
 
-PyJWT==1.7.1
+PyJWT==2.4.0
 
 pylaunches==0.2.0
 
