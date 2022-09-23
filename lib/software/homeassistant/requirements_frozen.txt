@@ -62,7 +62,7 @@ netdisco==2.6.0
 
 paho-mqtt==1.4.0
 
-protobuf==3.6.1
+protobuf==3.18.3
 
 pycparser==2.19
 
